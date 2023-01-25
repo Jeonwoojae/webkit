@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>오징어</li>
+        <li>꼴뚜기</li>
+        <li>대구</li>
+        <li>명태</li>
+        <li>거북이</li>
+    </ul>
+
+    <script>
+        // js는 char 타입이 없다.
+        // 홀따옴표, 쌍따옴표 모두 문자열로 사용됨.
+        var colors = ['red','green','blue','orange','pink'];
+        var lis = document.getElementsByTagName("ul")[0].getElementsByTagName("li");
+        console.dir(lis);
+        for(var i=0;i<lis.length;i++) {
+            // var colorName = colors[i];
+            // lis[i].style.backgroundColor = colorName;
+            
+            //클릭 했을 때 변경되도록
+            lis[i].i=i;
+            lis[i].onclick = function(event) {
+                console.log(this);
+
+                // 아래 두 객체를 찾지 못함.
+                console.log(lis[i]);
+                console.log(colors[i]);
+
+                this.style.backgroundColor = colors[this.i];
+            }
+        }
+        // 이미 i는 0~5까지 증가.
+        // 자바스크립트 객체는 캡슐화 안됨.
+    </script>
+</body>
+</html>

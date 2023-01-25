@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            color: white;
+            background: black;
+        }
+
+        /* id 속성 */
+        #heading {
+            color: #ffff00;
+        }
+
+        /* 클래스 속성 */
+        .welcome {
+            color: green;
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="heading">Hello World</h1>
+    <h3 class="welcome">환영합니다.</h3>
+    
+    <script>
+        //DOM - Document Object Model(문서 객체 모델)
+        var tagH1 = document.getElementById("heading");
+        console.log(tagH1);
+        console.dir(tagH1);
+    </script>
+</body>
+</html>
