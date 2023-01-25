@@ -29,27 +29,28 @@
     <div id="box">Box</div>
 
     <script>
+        var colors=['Red','Blue','Green','Black']
         var playBtn = document.getElementById("playBtn");
         var box = document.getElementById("box");
         playBtn1.onclick = function(event) {
             box.style.left= "0px";
             box.style.top="0px";
-            box.style.backgroundColor="Red";
+            box.style.backgroundColor=colors[0];
         }
         playBtn2.onclick = function(event) {
             box.style.left= "0px";
             box.style.top="300px";
-            box.style.backgroundColor="Blue";
+            box.style.backgroundColor=colors[1];
         }
         playBtn3.onclick = function(event) {
             box.style.left= "300px";
             box.style.top="0px";
-            box.style.backgroundColor="Green";
+            box.style.backgroundColor=colors[2];
         }
         playBtn4.onclick = function(event) {
             box.style.left= "300px";
             box.style.top="300px";
-            box.style.backgroundColor="Black";
+            box.style.backgroundColor=colors[3];
         }
     </script>
 </body>
