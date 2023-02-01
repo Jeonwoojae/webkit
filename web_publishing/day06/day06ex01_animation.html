@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* @keyframes box {
+            from {background-color: red;}
+            to {background-color: yellow;}
+        } */
+        @keyframes box {
+            0% {
+                background-color: red;
+            }
+            25% {
+                background-color: green; 
+                width: 200px;
+            }
+            50% {
+                background-color: blue; 
+                height: 100px;
+            }
+            75% {
+                background-color: yellow; 
+                left: 100px;
+            }
+            
+        }
+
+        div#box{
+            /* left를 사용하려면 position을 relative로 변경 필요 */
+            position: relative; 
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            animation: box;
+            animation-duration: 4s;
+            /* animation-direction: alternate-reverse; 한번 끝나면 반대로 돌아감 */
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS3 애니메이션 실습</h1>
+    <div id="box">BOX</div>
+</body>
+</html>
