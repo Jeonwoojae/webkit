@@ -1,77 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-        }
-        div.container div {
-            padding: 3px;
-            margin : 3px;
-            border: 1px solid red;
-            border-radius: 7px;
-            width: 900px;
-            overflow: hidden;
-        }
-        .header nav li {
-            float: left;
-            width: 150px;
-            height: 50px;
-            border: 1px solid gray;
-            list-style: none;
-        }
-        div.middle  div {
-            width: 150px;
-            float: left;
-            height: 200px;
-        }
-        div.middle div.center {
-            width: 550px;
-        }
-        div.footer {
-            clear: both;
-            height: 80px;
-        }
-        div.center > div {
-            height: 80px;
-            width: 260px;
-        }
-        div.center div:nth-child(1) {
-            width: 530px; 
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		div.container {
+			margin: 30px;
+		}
+
+		div.header {
+			margin-bottom: 20px;
+			padding: 15px;
+			border-radius: 5px;
+			background-color: #292c6d;
+			color: white;
+		}
+		div.header div#title {
+			padding-bottom: 0px;
+			font-size: 40px;
+		}
+		div.header div#subTitle {
+			padding-top: 0px;
+			font-size: 25px;
+		}
+
+		div.contents {
+			display:flex;
+		}
+		div.contents div {
+			float: left;
+		}
+		div.contents div.left {
+			margin: 0px;
+			padding: 0px;
+			display: flex;
+		}
+		div.contents div.center {
+			flex: 4; /*상위 요소의 display: flex + flex -> 꽉 체움*/
+			margin: 30px;
+			margin-top: 0px;
+			padding: 30px;
+			padding-top: 0px;
+		}
+		div.contents div.right {
+			background-color: #ec255a;
+			border-radius: 5px;
+      color: white;
+			flex: 1;
+		}
+		div.center > div.title {
+			padding-bottom: 15px;
+			font-size: 30px;
+		}
+		div.center > div.data {
+			padding-bottom: 15px;
+		}
+
+		div.right > div.title {
+			padding: 30px 10px;
+			font-size: 20px;
+		}
+		div.right > div.data {
+			padding: 30px 10px;
+			padding-top: 0px;
+		}
+
+		ul {
+			list-style: none;
+			padding: 0px;
+			overflow: hidden;
+			margin: 0px;
+		}
+		li[isSelected = true] {
+			background-color: #292c6d;
+			color: white;
+			border-radius: 5px;
+			width: 175px;
+			padding: 5px;
+			margin-bottom: 5px;
+		}
+		li[isSelected = false] {
+			background-color: lightgray;
+			color: black;
+			border-radius: 5px;
+			width: 175px;
+			padding: 5px;
+			margin-top: 5px;
+		}
+
+		div.footer {
+			margin-top: 15px;
+			background-color: lightgray;
+			padding: 5px;
+			border-radius: 5px;
+		}
+
+	</style>
+	<title>Document</title>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>길동이의 코딩교실</h1>
-            <nav>
-                <ul>
-                    <li>HOME</li>
-                    <li>PROFILE</li>
-                    <li>GALLERY</li>
-                    <li>LECTURE</li>
-                    <li>BOARD</li>
-                </ul>
-            </nav>
-        </div>
-        <div class="middle">
-            <div class="left"></div>
-            <div class="center">
-                <div>banner</div>
-                <div>section1</div>
-                <div>section2</div>
-            </div>
-            <div class="right"></div>
-        </div>
-        <div class="footer">
-
-        </div>
-    </div>
+	<div class="container">
+		<div class="header">
+			<div id="title">Welcome to My Homepage</div>
+			<div id="subTitle">Use the menu to select different Stylesheets</div>
+		</div>
+		<div class="contents">
+			<div class="left">
+				<nav>
+					<ul>
+						<li id="styles1" isSelected=true>Stylesheet 1</li>
+						<li id="styles2" isSelected=false>Stylesheet 2</li>
+						<li id="styles3" isSelected=false>Stylesheet 3</li>
+						<li id="styles4" isSelected=false>Stylesheet 4</li>
+						<li id="styles5" isSelected=false>Stylesheet 5</li>
+					</ul>
+				</nav>
+			</div>
+			<div class="center">
+				<div class="title">Same Page Different Stylessheets</div>
+				<div class="data">This is a demonstration of how different stylesheets can change the layout of your HTML page. you can chage the layout of this page by selecting different stylesheets in the menu or by selecting one of the following links: Stylesheet1, Stylesheet2, Stylesheet3, Stylesheet4</div>
+				<div class="title">No Styles</div>
+				<div class="data">This page uses DIV elemnts to group diffrent sections of the HTML page. Click here to see how the page looks like with no stylesheet: No Stylesheet</div>
+			</div>
+			<div class="right">
+				<div class="title">Side-Bar</div>
+				<div class="data">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos ipsum sed, possimus non, illum fugiat magni at deserunt enim aspernatur soluta perferendis beatae dolorum. Praesentium fuga laborum accusantium nihil deserunt?</div>
+			</div>
+		</div>
+		<div class="footer"></div>
+	</div>
 </body>
 </html>
