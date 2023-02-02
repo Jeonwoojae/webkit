@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var myObj = {
+            name: "홍길동",
+            email: "hong@saram.com",
+            showInfo: function(){
+                var a = "a변수 값";  // showInfo 함수 범위에서만 사용
+                let b = "b변수 값";  //  블럭 안에서만 사용 됨.
+                console.log(this.name, this.email);
+                // 여기서 this는 myObj 객체 자신
+                // a와 b는 객체에 포함되지 않는다
+                console.log(this)
+            }
+        }
+        myObj['showInfo']();
+        consoel.dir(window);
+    </script>
+</body>
+</html>
