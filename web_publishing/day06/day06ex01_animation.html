@@ -10,6 +10,7 @@
             from {background-color: red;}
             to {background-color: yellow;}
         } */
+        /* 키 프레임 단위로 색 지정이 가능하다. */
         @keyframes box {
             0% {
                 background-color: red;
@@ -37,7 +38,8 @@
             background-color: red;
             animation: box;
             animation-duration: 4s;
-            /* animation-direction: alternate-reverse; 한번 끝나면 반대로 돌아감 */
+            /* animation-direction: alternate-reverse; 한번 끝나면 반대로 돌아감
+            annimation을 지정하기 위해서도 position 필요 */
         }
     </style>
 </head>
