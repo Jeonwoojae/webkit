@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            border: 2px solid gray;
+            padding: 5px;
+        }
+        MyDiv {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">Box</div>
+
+    <script>
+        class MyDiv extends HTMLDivElement {
+            constructor() {
+                console.log("MyDiv 엘리먼트 생성");
+            }
+
+            testDiv() {
+                console.log("test div 메소드 호출");
+            }
+        }
+
+        // DOM 클래스의 상속
+        // Object > EventTarget > Node > Element > HTMLElement > HTMLDivElement
+        var box = document.getElementById("box");
+
+        var myDiv = document.createElement("MyDiv");
+        console.dir(window);
+        console.log(myDiv); // 호이스팅 적용.
+        myDiv.innerHTML = "MY Div 태그";
+        box.appendChild(myDiv);
+
+        a = "hello";
+        // 인터프리터 특징을 
+        aa();  // 아래에 선언된 함수 호출 가능(호이스팅)
+
+        function aa() {
+            console.log("aa호출", a);
+            // a는 undefined
+        }
+
+        var a = "world";
+    </script>
+</body>
+</html>
