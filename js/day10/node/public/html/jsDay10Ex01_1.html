@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Local Storage 실습</h1>
+    <script>
+        // 브라우저를 닫아도 데이터가 남아있다.
+        // localStorage에 배열도 저장 가능
+        localStorage.setItem("key","value");
+        
+        var value = localStorage.getItem("key");
+        document.write("<h2>value : ${value}</h2>")
+    </script>
+</body>
+</html>
