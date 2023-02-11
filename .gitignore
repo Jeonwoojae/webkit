@@ -1,0 +1,15 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+web_publishing/day04/nodejs/node_modules/
+/.idea/**
+/js/day10/node/node_modules/
+/react/node_modules
+/react/package-lock.json
+/react/server/package-lock.json
+/react/server/node_modules
