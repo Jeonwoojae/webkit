@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./App.css";
 
 function ItemRow({ item, removeItem, updateItem }) { // props로 받을수도 있음
   const [mode, setMode] = useState(false); // 수정모드인지
