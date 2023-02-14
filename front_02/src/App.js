@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from "react";
 
-function ItemRow({ item, removeItem, updateItem }) {
-  const [mode, setMode] = useState(false);
-  const [title, setTitle] = useState(item.title);
+function ItemRow({ item, removeItem, updateItem }) { // props로 받을수도 있음
+  const [mode, setMode] = useState(false); // 수정모드인지
+  const [title, setTitle] = useState(item.title); // 할일 내용
   return (
     <li>
       <p>
         <input
-          checked={item.done ? "checked" : ""}
+          checked={item.done ? "checked" : ""} // 저장된 item이 done인지에 따라 미리 체크
           type="checkbox"
           onChange={(e) => {
+            // 체크박스가 변하면 변하는 상태를 item의 done에 저장하고 
             item.done = e.target.checked;
+
+            // 기존에 있던 배열에 저장
             updateItem(item);
           }}
         />
         <input
+        // 할일 표시
           value={title}
+          // 수정 가능 시 변경내용 저장
           onChange={(e) => {
             setTitle(e.target.value);
           }}
@@ -31,6 +36,7 @@ function ItemRow({ item, removeItem, updateItem }) {
           삭제
         </button>
         <button
+        // 모드 변경(수정기능)
           onClick={(e) => {
             setMode(!mode);
             if (mode) {
@@ -99,17 +105,8 @@ function TodoList({ todoList, removeItem, updateItem }) {
 }
 
 function App(props) {
-  // 과제 1 : 취소선 기능 추가.
-  // 과제 2 : todoList 데이터를 localStorage에 저장.
-  // const [todoList, setTodoList] = useState([
-  //   { no: 1, title: "점심 먹기", done: false },
-  //   { no: 2, title: "산책 하기", done: false },
-  //   { no: 3, title: "배운 것 복습하기", done: false },
-  //   { no: 4, title: "내일 수업 예습하기", done: false },
-  // ]);
-  // const [noCount, setNoCount] = useState(5);
   const [todoList, setTodoList] = useState([]);
-  const [noCount, setNoCount] = useState(1);
+  const [noCount, setNoCount] = useState(1); // 카운트 갯수는 1부터 시작
 
   useEffect(() => {
     // localStorage에 데이터가 있으면 로드한다.
@@ -141,6 +138,7 @@ function App(props) {
     saveLocalStorage(newList, noCnt);
   }
   function removeItem(no) {
+    // 선택한 번호의 item을 제외하고 반환하여 저장
     var newList = todoList.filter((item, idx) => {
       return item.no != no;
     });
@@ -149,11 +147,12 @@ function App(props) {
   }
 
   function updateItem(item) {
-    //console.dir("updateItem: " + JSON.stringify(item)) ;
-    // const idx = todoList.findIndex((todo, idx) => {
-    //   return todo.no === item.no;
-    // });
-    // todoList[idx] = item;
+    // 수정한 item의 번호를 가지고 찾아서 수정후 저장
+    console.dir("updateItem: " + JSON.stringify(item)) ;
+    const idx = todoList.findIndex((todo, idx) => {
+      return todo.no === item.no;
+    });
+    todoList[idx] = item;
     const newList = [...todoList];
     setTodoList(newList);
     saveLocalStorage(newList, noCount);
