@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
-function ItemRow({ item, removeItem, updateItem }) { // props로 받을수도 있음
+function ItemRow({ item, removeItem, updateItem }) {
+  // props로 받을수도 있음
   const [mode, setMode] = useState(false); // 수정모드인지
   const [title, setTitle] = useState(item.title); // 할일 내용
   return (
@@ -11,7 +12,7 @@ function ItemRow({ item, removeItem, updateItem }) { // props로 받을수도 �
           checked={item.done ? "checked" : ""} // 저장된 item이 done인지에 따라 미리 체크
           type="checkbox"
           onChange={(e) => {
-            // 체크박스가 변하면 변하는 상태를 item의 done에 저장하고 
+            // 체크박스가 변하면 변하는 상태를 item의 done에 저장하고
             item.done = e.target.checked;
 
             // 기존에 있던 배열에 저장
@@ -19,14 +20,16 @@ function ItemRow({ item, removeItem, updateItem }) { // props로 받을수도 �
           }}
         />
         <input
-        // 할일 표시
+          // 할일 표시
           value={title}
           // 수정 가능 시 변경내용 저장
           onChange={(e) => {
             setTitle(e.target.value);
           }}
+          // done인지 not-done인지로 css에서 취소선을 그린다.
           className={item.done ? "done" : "not-done"}
           type="text"
+          // mode에 따라 글자를 수정할 수 있다
           disabled={mode ? "" : "disabled"}
         />
         <button
@@ -37,7 +40,7 @@ function ItemRow({ item, removeItem, updateItem }) { // props로 받을수도 �
           삭제
         </button>
         <button
-        // 모드 변경(수정기능)
+          // 모드 변경(수정기능)
           onClick={(e) => {
             setMode(!mode);
             if (mode) {
@@ -59,13 +62,15 @@ function InputItem({ appendItem }) {
   const [newWork, setNewWork] = useState("");
   return (
     <div>
-      할일 :
       <input
+        className="input-box"
+        placeholder="할 일을 입력하세요"
         type="text"
         value={newWork}
         onChange={(e) => {
           setNewWork(e.target.value);
         }}
+        // 엔터버튼을 눌럿을 때도 추가 처리
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             appendItem(newWork);
@@ -74,6 +79,7 @@ function InputItem({ appendItem }) {
         }}
       />
       <button
+        className="add-btn"
         onClick={(e) => {
           appendItem(newWork);
           setNewWork("");
@@ -90,6 +96,7 @@ function TodoList({ todoList, removeItem, updateItem }) {
   return (
     <div>
       <ol>
+        {/* array를 map으로 처리 */}
         {todoList.map((item, idx) => {
           return (
             <ItemRow
@@ -115,7 +122,7 @@ function App(props) {
     console.log(">>>>> useEffect ...");
     const localStorageData = localStorage.getItem("todoListData");
     if (localStorageData) {
-      let objData = JSON.parse(localStorageData);
+      let objData = JSON.parse(localStorageData); // 저장했던 문자열을 객체로
       setTodoList(objData.todoList);
       setNoCount(objData.noCount);
       console.log(">>>>> data load 완료");
@@ -149,7 +156,7 @@ function App(props) {
 
   function updateItem(item) {
     // 수정한 item의 번호를 가지고 찾아서 수정후 저장
-    console.dir("updateItem: " + JSON.stringify(item)) ;
+    console.dir("updateItem: " + JSON.stringify(item));
     const idx = todoList.findIndex((todo, idx) => {
       return todo.no === item.no;
     });
@@ -161,14 +168,18 @@ function App(props) {
 
   return (
     <>
-      <h1>Todo List</h1>
-      <InputItem appendItem={appendItem} />
+      <div>
+        <h1>Todo List</h1>
+        <InputItem appendItem={appendItem} />
+      </div>
       <hr />
-      <TodoList
-        todoList={todoList}
-        removeItem={removeItem}
-        updateItem={updateItem}
-      />
+      <div>
+        <TodoList
+          todoList={todoList}
+          removeItem={removeItem}
+          updateItem={updateItem}
+        />
+      </div>
     </>
   );
 }

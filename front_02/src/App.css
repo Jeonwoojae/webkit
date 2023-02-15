@@ -1,3 +1,45 @@
-.done{
-    text-decoration: line-through;
+.done {
+  text-decoration: line-through;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  background-color: #f5f5f5;
+  min-height: 100%;
+}
+
+h1 {
+  padding: 2rem;
+  text-align: center;
+  color: burlywood;
+  font-size: 5rem;
+}
+
+.input-box {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  width: 75%;
+  padding: 10px;
+  float: left;
+  font-size: 16px;
+}
+
+.add-btn {
+  padding: 8px;
+  width: 25%;
+  background: #d9d9d9;
+  color: #555;
+  float: left;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 0;
 }
