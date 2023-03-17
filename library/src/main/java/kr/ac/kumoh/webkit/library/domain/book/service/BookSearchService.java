@@ -16,24 +16,32 @@ public class BookSearchService {
     final private BookRepository bookRepository;
 
     public List<Book> getLeastBooks() {
-        return null;
+        List<Book> bookList = bookRepository.findTop5ByOrderByIdDesc();
 
+        return bookList;
     }
 
-    public List<Book> findBooksByTitle(){
-        return null;
+    public List<Book> findBooksByTitle(String title){
+        List<Book> bookList = bookRepository.findBooksByTitle(title);
+
+        return bookList;
 
     }
-    public List<Book> findBooksByCategory(){
-        return null;
+    public List<Book> findBooksByCategory(String category){
+        List<Book> bookList = bookRepository.findBooksByCategory(category);
 
+        return bookList;
     }
-    public List<Book> findBooksByPrice(){
-        return null;
+    public List<Book> findBooksByPrice(int start, int end){
+        List<Book> bookList = bookRepository.findBooksByPriceBetween(start,end);
+
+        return bookList;
     }
 
-    public List<Book> findBooksByGenre() {
-        return null;
+    public List<Book> findBooksByGenre(String genre) {
+        List<Book> bookList = bookRepository.findBooksByGenre(genre);
+
+        return bookList;
     }
 
     public Book findOne(Long id){
