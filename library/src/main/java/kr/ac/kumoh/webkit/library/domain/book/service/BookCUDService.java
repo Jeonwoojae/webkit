@@ -31,7 +31,7 @@ public class BookCUDService {
     }
 
     public Book updateBook(final Long id, final UpdateBook dto) {
-        Book oldBook = bookRepository.findById(id).orElseThrow(()->new NoSuchElementException("해당 게시글이 없습니다."));
+        Book oldBook = bookRepository.findById(id).orElseThrow(()->new NoSuchElementException("해당 책이 없습니다."));
 
         oldBook.update(
                 dto.getTitle(),
@@ -44,4 +44,11 @@ public class BookCUDService {
         return oldBook;
     }
 
+    public Book deleteBook(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(()->new NoSuchElementException("해당 책이 없습니다."));
+
+        bookRepository.delete(book);
+
+        return book;
+    }
 }

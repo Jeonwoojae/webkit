@@ -31,4 +31,11 @@ public class BookApi {
         return ResponseEntity.status(HttpStatus.OK).body(updatedBook);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Book> deleteBook(@PathVariable("id") Long id){
+        final Book deleteddBook = bookCUDService.deleteBook(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(deleteddBook);
+    }
+
 }

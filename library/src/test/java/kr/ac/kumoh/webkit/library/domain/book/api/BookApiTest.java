@@ -19,8 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -38,6 +40,36 @@ class BookApiTest {
     @AfterEach
     public void tearDown() throws Exception {
         bookRepository.deleteAll();
+    }
+
+    @Test
+    public void book_삭제된다() throws Exception {
+        // given
+        String title = "훈민정음";
+        String category = "국내만화";
+        String nation = "대한민국";
+        String genre = "일상";
+        int price = 3_000;
+
+        Book oldBook = bookRepository.save(Book.builder()
+                .title(title)
+                .category(category)
+                .nation(nation)
+                .genre(genre)
+                .price(price)
+                .build());
+        Long deleteId = oldBook.getId();
+
+        String url = "http://localhost:" + port + "/book/" + deleteId;
+
+        // when
+        ResponseEntity<Book> responseEntity = restTemplate
+                .exchange(url, HttpMethod.DELETE,
+                        null,Book.class);
+
+        // then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(bookRepository.findById(deleteId)).isEmpty();
     }
 
     @Test
