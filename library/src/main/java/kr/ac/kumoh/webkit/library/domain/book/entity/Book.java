@@ -33,4 +33,12 @@ public class Book extends BaseEntity {
         this.genre = genre;
         this.price = price;
     }
+
+    public void update(String title, String category, String nation, String genre, int price){
+        this.title = title;
+        this.category = category;
+        this.nation = nation;
+        this.genre = genre;
+        this.price = price;
+    }
 }

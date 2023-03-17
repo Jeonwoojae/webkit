@@ -1,27 +1,34 @@
 package kr.ac.kumoh.webkit.library.domain.book.api;
 
 import kr.ac.kumoh.webkit.library.domain.book.dto.AddBook;
+import kr.ac.kumoh.webkit.library.domain.book.dto.UpdateBook;
 import kr.ac.kumoh.webkit.library.domain.book.entity.Book;
-import kr.ac.kumoh.webkit.library.domain.book.service.BookAddService;
+import kr.ac.kumoh.webkit.library.domain.book.service.BookCUDService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/book")
 @RequiredArgsConstructor
 public class BookApi {
-    private final BookAddService bookAddService;
+    private final BookCUDService bookCUDService;
 
     @PostMapping("")
     public ResponseEntity<Book> addBook(@RequestBody AddBook dto) {
-        final Book book =bookAddService.addBook(dto);
+        final Book book = bookCUDService.addBook(dto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(book);
+        // TODO entity 객체 그대로가 아닌 필요한 정보만 노출되도록 변경 필요
+        return ResponseEntity.status(HttpStatus.CREATED).body(book);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable("id") Long id,
+                                           @RequestBody UpdateBook updateBookInfo){
+        final Book updatedBook = bookCUDService.updateBook(id, updateBookInfo);
+
+        return ResponseEntity.status(HttpStatus.OK).body(updatedBook);
+    }
+
 }

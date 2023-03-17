@@ -1,17 +1,19 @@
 package kr.ac.kumoh.webkit.library.domain.book.service;
 
 import kr.ac.kumoh.webkit.library.domain.book.dto.AddBook;
+import kr.ac.kumoh.webkit.library.domain.book.dto.UpdateBook;
 import kr.ac.kumoh.webkit.library.domain.book.entity.Book;
 import kr.ac.kumoh.webkit.library.domain.book.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BookAddService {
+public class BookCUDService {
     private final BookRepository bookRepository;
 
     public Book addBook(final AddBook dto) {
@@ -26,6 +28,20 @@ public class BookAddService {
         bookRepository.save(newBook);
 
         return newBook;
+    }
+
+    public Book updateBook(final Long id, final UpdateBook dto) {
+        Book oldBook = bookRepository.findById(id).orElseThrow(()->new NoSuchElementException("해당 게시글이 없습니다."));
+
+        oldBook.update(
+                dto.getTitle(),
+                dto.getCategory(),
+                dto.getNation(),
+                dto.getGenre(),
+                dto.getPrice()
+        );
+
+        return oldBook;
     }
 
 }
