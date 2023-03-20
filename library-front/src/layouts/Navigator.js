@@ -1,14 +1,18 @@
-import React from 'react'
+import React from "react";
+import "./Navigator.css";
 
 function Navigator() {
   return (
-    <ul>
-        <li>HOME</li>
-        <li>국내 만화</li>
-        <li>일본 만화</li>
-        <li>미국 만화</li>
-    </ul>
-  )
+    <>
+      <ul className="navi__list">
+        <li className="navi__item">HOME</li>
+        <li className="navi__item">국내 만화</li>
+        <li className="navi__item">일본 만화</li>
+        <li className="navi__item">미국 만화</li>
+      </ul>
+      <div class="division-line"></div>
+    </>
+  );
 }
 
-export default Navigator
+export default Navigator;
