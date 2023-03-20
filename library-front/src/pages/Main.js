@@ -1,8 +1,9 @@
 import React from "react";
 import RecommendSlide from "../components/slide/RecommendSlide";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import "./Main.css"
+import "./Main.css";
 import SearchBox from "../components/search/SearchBox";
+import Tabel from "../components/table/Tabel";
 
 function Main() {
   return (
@@ -15,7 +16,7 @@ function Main() {
       <SearchBox />
       <div>선택한 메뉴를 표시</div>
       <div className="division-line"></div>
-      <div>최근 추가된 책 목록</div>
+      <Tabel />
       <div className="division-line"></div>
     </div>
   );
