@@ -1,6 +1,12 @@
+.navi{
+    background-color: white;
+    
+}
+
 .navi__list {
     list-style-type: none;
     padding: 0;
+    display: inline-block;
 }
 
 .navi__item{

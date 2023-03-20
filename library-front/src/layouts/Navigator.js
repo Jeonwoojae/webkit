@@ -3,7 +3,7 @@ import "./Navigator.css";
 
 function Navigator() {
   return (
-    <>
+    <div className="navi">
       <ul className="navi__list">
         <li className="navi__item">HOME</li>
         <li className="navi__item">국내 만화</li>
@@ -11,7 +11,7 @@ function Navigator() {
         <li className="navi__item">미국 만화</li>
       </ul>
       <div className="division-line"></div>
-    </>
+    </div>
   );
 }
 
