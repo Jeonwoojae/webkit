@@ -1,7 +1,7 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React from "react";
 
-function Dropdown() {
+function Dropdown(props) {
   const searchTerms = [
     { id:1, name: "책 제목", value: "title" },
     { id:2, name: "카테고리", value: "category" },
@@ -12,7 +12,7 @@ function Dropdown() {
 
   const handleChange = (event) => {
     setTerms(event.target.value);
-    console.log(terms);
+    props.setCondition(event.target.value);
   };
 
   return (
