@@ -1,4 +1,5 @@
 import React from 'react'
+import RecommendSlide from '../components/RecommendSlide'
 
 function Main() {
   return (
@@ -6,9 +7,7 @@ function Main() {
       <div>
         추천 도서
       </div>
-      <div>
-        슬라이드 구역
-      </div>
+      <RecommendSlide />
       <div>
         검색창 구역
       </div>
