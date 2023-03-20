@@ -10,7 +10,7 @@ function Navigator() {
         <li className="navi__item">일본 만화</li>
         <li className="navi__item">미국 만화</li>
       </ul>
-      <div class="division-line"></div>
+      <div className="division-line"></div>
     </>
   );
 }
