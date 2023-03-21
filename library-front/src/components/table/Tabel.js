@@ -1,19 +1,21 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import './Table.css';
 
-function createData(name, category, price) {
-  return { name, category, price };
+function createData(id, name, category, price) {
+  return { id, name, category, price };
 }
 
-const rows = [
-  createData('이토 준지 걸작집 11 궤담', '공포', 10000),
-  createData('신의 지문 1~4(완)', '판타지', 9000),
-  createData('슬램덩크 오리지널8', '스포츠', 16000),
-  createData('심야식당 26권', "일상", 3710),
-];
 
-function Tabel() {
+function Tabel(props) {
+  const rows = props.books.map((book) => (createData(book.id, book.title, book.category, book.price)))
+  const navigate = useNavigate();
+
+  const onClickHandler = ({row}) => {
+    navigate(`/book/${row.id}`);
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -26,8 +28,9 @@ function Tabel() {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow
-              key={row.name}
+            <TableRow className='table-row'
+              onClick={()=>onClickHandler({row})}
+              key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
