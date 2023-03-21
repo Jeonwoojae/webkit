@@ -13,6 +13,7 @@ function Dropdown(props) {
   const handleChange = (event) => {
     setTerms(event.target.value);
     props.setCondition(event.target.value);
+    console.log(event.target.value)
   };
 
   return (
@@ -28,7 +29,7 @@ function Dropdown(props) {
         size="small"
       >
         {searchTerms.map((item) => (
-          <MenuItem name={item.name} key={item.id} value={item.name}>
+          <MenuItem name={item.name} key={item.id} value={item.value}>
             {item.name}
           </MenuItem>
         ))}

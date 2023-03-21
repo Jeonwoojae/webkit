@@ -1,0 +1,9 @@
+.result-box {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.search-division-line {
+    border-top: 1px solid black;
+    transform: translateY(12px)
+  }

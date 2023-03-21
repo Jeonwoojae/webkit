@@ -70,17 +70,24 @@ public class BookApi {
         return ResponseEntity.status(HttpStatus.OK).body(bookList);
     }
 
-    @GetMapping("/search/genre/{genre}")
-    public ResponseEntity<List<Book>> findByGenre(@PathVariable("genre")String genre){
-        final List<Book> bookList = bookSearchService.findBooksByGenre(genre);
+    @GetMapping("/search/nation/{nation}/genre/{genre}")
+    public ResponseEntity<List<Book>> findByGenreAndNation(@PathVariable("nation")String nation,
+                                                           @PathVariable("genre")String genre){
+        final List<Book> bookList = bookSearchService.findBooksByNationAndGenre(nation, genre);
 
         return ResponseEntity.status(HttpStatus.OK).body(bookList);
     }
 
-    @GetMapping("/search/price/{start}/{end}")
-    public ResponseEntity<List<Book>> findByPrice(@PathVariable("start")Integer start,
-                                                  @PathVariable("end")Integer end){
-        final List<Book> bookList = bookSearchService.findBooksByPrice(start,end);
+    @GetMapping("/search/nation/{nation}")
+    public ResponseEntity<List<Book>> findByNation(@PathVariable("nation")String nation){
+        final List<Book> bookList = bookSearchService.findBooksByNation(nation);
+
+        return ResponseEntity.status(HttpStatus.OK).body(bookList);
+    }
+
+    @GetMapping("/search/price/{value}")
+    public ResponseEntity<List<Book>> findByPrice(@PathVariable("value")Integer value){
+        final List<Book> bookList = bookSearchService.findBooksByUnderPrice(value);
 
         return ResponseEntity.status(HttpStatus.OK).body(bookList);
     }

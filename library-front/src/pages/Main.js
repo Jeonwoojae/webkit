@@ -25,19 +25,18 @@ function Main() {
 
   return (
     <div>
-      <div className="recommend-book-text">
+      <div className="main-text">
         <ArrowRightIcon fontSize="30px" />
         추천 도서
       </div>
       <RecommendSlide />
-      <SearchBox />
-      <div>
+      <SearchBox/>
+      <div className="main-text">
         <ArrowRightIcon fontSize="30px" />
         HOME
       </div>
       <div className="division-line"></div>
       <Tabel books={recentBooks} />
-      <div className="division-line"></div>
     </div>
   );
 }

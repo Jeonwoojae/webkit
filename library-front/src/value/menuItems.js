@@ -31,7 +31,7 @@ export const menuItems = [
     },
     {
       title: '일본 만화',
-      url: '/book/search?nation=일본&genre=순정만화',
+      url: '/book/search?nation=일본',
       submenu: [
         {
           title: '순정만화',

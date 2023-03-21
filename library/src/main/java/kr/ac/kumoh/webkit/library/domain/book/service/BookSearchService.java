@@ -32,14 +32,21 @@ public class BookSearchService {
 
         return bookList;
     }
-    public List<Book> findBooksByPrice(int start, int end){
-        List<Book> bookList = bookRepository.findBooksByPriceBetween(start,end);
+    public List<Book> findBooksByUnderPrice(int value){
+        List<Book> bookList = bookRepository.findBooksByPriceIsLessThan(value);
 
         return bookList;
     }
 
-    public List<Book> findBooksByGenre(String genre) {
-        List<Book> bookList = bookRepository.findBooksByGenre(genre);
+    public List<Book> findBooksByNationAndGenre(String nation,
+                                                String genre) {
+        List<Book> bookList = bookRepository.findBooksByNationAndGenre(nation, genre);
+
+        return bookList;
+    }
+
+    public List<Book> findBooksByNation(String nation) {
+        List<Book> bookList = bookRepository.findBooksByNation(nation);
 
         return bookList;
     }
