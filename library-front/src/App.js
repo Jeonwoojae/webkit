@@ -15,7 +15,9 @@ function App() {
       <BrowserRouter>
         <div className="sticky">
           <Header />
-          <Navigator />
+          <div className="nav-area">
+            <Navigator />
+          </div>
         </div>
         <Routes>
           <Route path="/" element={<Main />} />

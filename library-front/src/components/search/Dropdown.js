@@ -16,7 +16,7 @@ function Dropdown(props) {
   };
 
   return (
-    <FormControl className="dropdown" sx={{ m: 1, minWidth: 110 }}>
+    <FormControl sx={{ m: 1, minWidth: 110 }}>
       <InputLabel id="select-label" style={{ color: "black" }}>
         검색 조건
       </InputLabel>

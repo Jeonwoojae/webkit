@@ -1,17 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
+import MenuItems from "../components/navi/MenuItems";
+import { menuItems } from "../value/menuItems";
 import "./Navigator.css";
 
 function Navigator() {
   return (
-    <div className="navi">
-      <ul className="navi__list">
-        <li className="navi__item">HOME</li>
-        <li className="navi__item">국내 만화</li>
-        <li className="navi__item">일본 만화</li>
-        <li className="navi__item">미국 만화</li>
+    <>
+    <nav className="navi">
+      <ul className="menus">
+        {menuItems.map((menu, index) => {
+          const depthLevel = 0;
+          return (
+            <MenuItems
+              items={menu}
+              key={index}
+              depthLevel={depthLevel}
+            />
+          );
+        })}
       </ul>
-      <div className="division-line"></div>
-    </div>
+      <div className="nav-division-line"></div>
+    </nav>
+
+    </>
   );
 }
 
