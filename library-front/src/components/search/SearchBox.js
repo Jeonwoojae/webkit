@@ -12,19 +12,21 @@ function SearchBox() {
   };
 
   return (
-    <div className="Box">
+    <div align="right" className="box">
       <Dropdown setCondition={setCondition} />
-      <Input onChange={onChange} placeholder="Placeholder" />
-      <Link to={`/book/search?q=${text}&c=${condition}`}>
-        <Button className="searchbox-button" variant="outlined" size="medium">
-          검색
-        </Button>
-      </Link>
-      <Link to={"/book"}>
-      <Button className="searchbox-button" variant="outlined" size="medium">
-        추가
-      </Button>
-      </Link>
+      <span className="input-box">
+        <Input onChange={onChange} placeholder="검색할 내용을 입력하세요" />
+        <Link to={`/book/search?q=${text}&c=${condition}`}>
+          <Button className="searchbox-button" variant="outlined" size="medium">
+            검색
+          </Button>
+        </Link>
+        <Link to={"/book"}>
+          <Button className="searchbox-button" variant="outlined" size="medium">
+            추가
+          </Button>
+        </Link>
+      </span>
     </div>
   );
 }

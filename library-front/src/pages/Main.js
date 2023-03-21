@@ -14,7 +14,7 @@ function Main() {
       </div>
       <RecommendSlide />
       <SearchBox />
-      <div>선택한 메뉴를 표시</div>
+      <div><ArrowRightIcon fontSize="30px" />HOME</div>
       <div className="division-line"></div>
       <Tabel />
       <div className="division-line"></div>

@@ -25,6 +25,7 @@ function Dropdown(props) {
         label="search"
         onChange={handleChange}
         style={{ color: "black" }}
+        size="small"
       >
         {searchTerms.map((item) => (
           <MenuItem name={item.name} key={item.id} value={item.name}>
