@@ -44,7 +44,7 @@ export default function ResultTable(props) {
   };
 
   const onClickHandler = ({row}) => {
-    navigate(`/book/${row.id}`);
+    navigate(`/book/?id=${row.id}`);
   }
 
   return (

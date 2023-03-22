@@ -13,7 +13,7 @@ function Tabel(props) {
   const navigate = useNavigate();
 
   const onClickHandler = ({row}) => {
-    navigate(`/book/${row.id}`);
+    navigate(`/book/?id=${row.id}`);
   }
 
   return (
