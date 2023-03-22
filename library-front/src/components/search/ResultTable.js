@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
   { id: 'name', label: '제목', minWidth: 170 },
@@ -30,6 +31,7 @@ export default function ResultTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const rows = props.books.map((book) => (createData(book.id, book.title, book.category, book.price)))
+  const navigate = useNavigate();
 
 
   const handleChangePage = (event, newPage) => {
@@ -40,6 +42,10 @@ export default function ResultTable(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const onClickHandler = ({row}) => {
+    navigate(`/book/${row.id}`);
+  }
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -63,7 +69,7 @@ export default function ResultTable(props) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow onClick={()=>onClickHandler({row})} hover role="checkbox" tabIndex={-1} key={row.code}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
