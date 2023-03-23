@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { MenuValue } from "./MenuValue";
 import axios from "axios";
-import "./DetailBook.css"
+import "./DetailBook.css";
 
 function AccessBook(props) {
   const bookInfo = props.bookInfo;
@@ -14,8 +14,6 @@ function AccessBook(props) {
     genre: bookInfo.genre,
     price: bookInfo.price,
   });
-
-
 
   function findGenre(element) {
     if (element.nation === inputs.nation) return true;
@@ -52,6 +50,10 @@ function AccessBook(props) {
 
   const onSubmitHandler = () => {
     console.log(inputs);
+    if(inputs.nation == undefined || inputs.genre == undefined){
+      alert("선택하지 않은 항목이있습니다");
+      return 
+    }
     if (bookInfo.id == null) {
       axios
         .post(`http://localhost:8080/book`, {
@@ -97,19 +99,35 @@ function AccessBook(props) {
             <tr>
               <td className="detail-table-td-first">제목</td>
               <td className="detail-table-td-second">
-                <input className="detail-input" name="title" onChange={onChange} value={title} />
+                <input
+                  className="detail-input"
+                  name="title"
+                  onChange={onChange}
+                  value={title}
+                />
               </td>
             </tr>
             <tr>
               <td className="detail-table-td-first">카테고리</td>
               <td className="detail-table-td-second">
-                <input className="detail-input" name="category" onChange={onChange} value={category} />
+                <input
+                  className="detail-input"
+                  name="category"
+                  onChange={onChange}
+                  value={category}
+                />
               </td>
             </tr>
             <tr>
               <td className="detail-table-td-first">국가</td>
               <td className="detail-table-td-second">
-                <select onChange={onChange} name="nation">
+                <select
+                  onChange={onChange}
+                  name="nation"
+                >
+                  <option value="" disabled selected>
+                    국가를 선택하세요
+                  </option>
                   {MenuValue.map((item) => (
                     <option key={item.nation} value={item.nation}>
                       {item.nation}
@@ -122,6 +140,9 @@ function AccessBook(props) {
               <td className="detail-table-td-first">장르</td>
               <td className="detail-table-td-second">
                 <select onChange={onChange} name="genre">
+                <option value="" disabled selected>
+                    장르를 선택하세요
+                  </option>
                   {genreList.map((item) => (
                     <option key={item.genre} value={item.genre}>
                       {item.genre}
@@ -133,13 +154,20 @@ function AccessBook(props) {
             <tr>
               <td className="detail-table-td-first">가격</td>
               <td className="detail-table-td-second">
-                <input className="detail-input" name="price" onChange={onPriceChange} value={price} />
+                <input
+                  className="detail-input"
+                  name="price"
+                  onChange={onPriceChange}
+                  value={price}
+                />
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <button className="detail-button" onClick={onSubmitHandler}>저장</button>
+      <button className="detail-button" onClick={onSubmitHandler}>
+        저장
+      </button>
     </div>
   );
 }
