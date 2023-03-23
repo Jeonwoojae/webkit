@@ -26,16 +26,16 @@ function RecommendSlide() {
   return (
     <div>
       <Slider {...settings} ref={slickRef}>
-        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/github.png`} />
-        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/github.png`} />
-        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/github.png`} />
-        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/github.png`} />
-        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/github.png`} />
-        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/github.png`} />
-        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/github.png`} />
-        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/github.png`} />
-        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/github.png`} />
-        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/github.png`} />
+        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/1.jpg`} />
+        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/2.jpg`} />
+        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/3.jpg`} />
+        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/4.jpg`} />
+        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/5.jpg`} />
+        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/6.jpg`} />
+        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/7.jpg`} />
+        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/8.jpg`} />
+        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/9.jpg`} />
+        <img className="banner-items" src={`${process.env.PUBLIC_URL}/assets/10.jpg`} />
       </Slider>
 
       {/* <div>
