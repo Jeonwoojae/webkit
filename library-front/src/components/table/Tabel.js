@@ -22,8 +22,8 @@ function Tabel(props) {
         <TableHead className='table-header'>
           <TableRow>
             <TableCell align="center">제목</TableCell>
-            <TableCell align="center">카테고리</TableCell>
-            <TableCell align="center">가격</TableCell>
+            <TableCell className='table-category' align="center">카테고리</TableCell>
+            <TableCell className='table-price' align="center">가격</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -36,8 +36,8 @@ function Tabel(props) {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.category}</TableCell>
-              <TableCell align="right">{row.price}</TableCell>
+              <TableCell className='table-category' align="right">{row.category}</TableCell>
+              <TableCell className='table-price' align="right">{row.price}</TableCell>
             </TableRow>
           ))}
         </TableBody>
