@@ -10,24 +10,21 @@ function Search() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   var isCondition;
+  var rows;
 
   var condition = params.get("c");
   var query = params.get("q");
 
-  var nation = null;
-  var genre = null;
+  var nation = params.get("nation");
+  var genre = params.get("genre");
 
-  if (condition == null) {
-    nation = params.get("nation");
-    genre = params.get("genre");
-    isCondition = false;
-  } else {
-    isCondition = true;
+  function createData(id, name, code, population) {
+    return {id, name, code, population};
   }
 
 
   useEffect(() => {
-    if(isCondition)
+    if(condition!=null && genre ==null && nation == null)
     {axios.get(`http://localhost:8080/book/search/${condition}/${query}`)
       .then((res) => {
         if(res!=null)
@@ -42,7 +39,7 @@ function Search() {
       }).catch((err) => {
         alert("찾을 수 없습니다");
       });}
-      else if(genre == null){axios.get(`http://localhost:8080/book/search/nation/${nation}`)
+      else if(condition!=null && nation != null && genre == null){axios.get(`http://localhost:8080/book/search/nation/${nation}/${condition}/${query}`)
       .then((res) => {
         setSearchBooks(
           res.data.map((book) => ({
@@ -55,7 +52,7 @@ function Search() {
       }).catch((err) => {
         alert("찾을 수 없습니다");
       });}
-      else {axios.get(`http://localhost:8080/book/search/nation/${nation}/genre/${genre}`)
+      else if(condition!=null && nation != null && genre != null){axios.get(`http://localhost:8080/book/search/nation/${nation}/genre/${genre}/${condition}/${query}`)
       .then((res) => {
         setSearchBooks(
           res.data.map((book) => ({
@@ -68,13 +65,41 @@ function Search() {
       }).catch((err) => {
         alert("찾을 수 없습니다");
       });}
+      else if(condition==null && genre == null && nation != null){axios.get(`http://localhost:8080/book/search/nation/${nation}`)
+      .then((res) => {
+        setSearchBooks(
+          res.data.map((book) => ({
+            id: book.id,
+            title: book.title,
+            category: book.category,
+            price: book.price,
+          }))
+        );
+      }).catch((err) => {
+        alert("찾을 수 없습니다");
+      });}
+      else if(condition==null && genre != null && nation != null) {axios.get(`http://localhost:8080/book/search/nation/${nation}/genre/${genre}`)
+      .then((res) => {
+        setSearchBooks(
+          res.data.map((book) => ({
+            id: book.id,
+            title: book.title,
+            category: book.category,
+            price: book.price,
+          }))
+        );
+      }).catch((err) => {
+        alert("찾을 수 없습니다");
+      });}
+      console.log(searchBooks);
+    
   }, [condition, genre, isCondition, query, nation]);
 
-  console.log(searchBooks);
+  
 
   return (
     <div className="result-box">
-      <SearchBox />
+      <SearchBox  nation={nation} genre={genre} />
       <div className="result-text">
         {isCondition ? (
           <>
@@ -88,7 +113,7 @@ function Search() {
       </div>
       <p />
       <div className="nav-division-line"></div>
-      <ResultTable books={searchBooks} />
+      <ResultTable books={searchBooks}/>
     </div>
   );
 }

@@ -56,4 +56,40 @@ public class BookSearchService {
 
         return book;
     }
+
+    public List<Book> findBooksByNationAndTitle(String nation, String title) {
+        List<Book> bookList = bookRepository.findBooksByNationAndTitle(nation,title);
+
+        return bookList;
+    }
+
+    public List<Book> findBooksByNationAndCategory(String nation, String category) {
+        List<Book> bookList = bookRepository.findBooksByNationAndCategory(nation,category);
+
+        return bookList;
+    }
+
+    public List<Book> findBooksByNationAndUnderPrice(String nation, int value) {
+        List<Book> bookList = bookRepository.findBooksByNationAndPriceIsLessThan(nation,value);
+
+        return bookList;
+    }
+
+    public List<Book> findBooksByNationAndGenreAndTitle(String nation, String genre, String title) {
+        List<Book> bookList = bookRepository.findBooksByNationAndGenreAndTitle(nation,genre,title);
+
+        return bookList;
+    }
+
+    public List<Book> findBooksByNationAndGenreAndCategory(String nation, String genre, String category) {
+        List<Book> bookList = bookRepository.findBooksByNationAndGenreAndCategory(nation,genre,category);
+
+        return bookList;
+    }
+
+    public List<Book> findBooksByNationAndGenreAndUnderPrice(String nation, String genre, int value) {
+        List<Book> bookList = bookRepository.findBooksByNationAndGenreAndPriceIsLessThan(nation,genre,value);
+
+        return bookList;
+    }
 }

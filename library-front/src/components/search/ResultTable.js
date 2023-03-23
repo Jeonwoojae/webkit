@@ -30,7 +30,8 @@ function createData(id, name, code, population) {
 export default function ResultTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const rows = props.books.map((book) => (createData(book.id, book.title, book.category, book.price)))
+  const rows = props.books.map((book) => (createData(book.id, book.title, book.category, book.price)));
+  
   const navigate = useNavigate();
 
 
@@ -69,7 +70,7 @@ export default function ResultTable(props) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow onClick={()=>onClickHandler({row})} hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow onClick={()=>onClickHandler({row})} hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
