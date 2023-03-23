@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { MenuValue } from "./MenuValue";
 import axios from "axios";
+import "./DetailBook.css"
 
 function AccessBook(props) {
   const bookInfo = props.bookInfo;
@@ -91,23 +92,23 @@ function AccessBook(props) {
       <ArrowRightIcon fontSize="30px" />
       {bookInfo.id == null ? <>책 생성</> : <>책 수정</>}
       <div>
-        <table>
+        <table className="detail-table">
           <tbody>
             <tr>
-              <td>제목</td>
-              <td>
-                <input name="title" onChange={onChange} value={title} />
+              <td className="detail-table-td-first">제목</td>
+              <td className="detail-table-td-second">
+                <input className="detail-input" name="title" onChange={onChange} value={title} />
               </td>
             </tr>
             <tr>
-              <td>카테고리</td>
-              <td>
-                <input name="category" onChange={onChange} value={category} />
+              <td className="detail-table-td-first">카테고리</td>
+              <td className="detail-table-td-second">
+                <input className="detail-input" name="category" onChange={onChange} value={category} />
               </td>
             </tr>
             <tr>
-              <td>국가</td>
-              <td>
+              <td className="detail-table-td-first">국가</td>
+              <td className="detail-table-td-second">
                 <select onChange={onChange} name="nation">
                   {MenuValue.map((item) => (
                     <option key={item.nation} value={item.nation}>
@@ -118,8 +119,8 @@ function AccessBook(props) {
               </td>
             </tr>
             <tr>
-              <td>장르</td>
-              <td>
+              <td className="detail-table-td-first">장르</td>
+              <td className="detail-table-td-second">
                 <select onChange={onChange} name="genre">
                   {genreList.map((item) => (
                     <option key={item.genre} value={item.genre}>
@@ -130,15 +131,15 @@ function AccessBook(props) {
               </td>
             </tr>
             <tr>
-              <td>가격</td>
-              <td>
-                <input name="price" onChange={onPriceChange} value={price} />
+              <td className="detail-table-td-first">가격</td>
+              <td className="detail-table-td-second">
+                <input className="detail-input" name="price" onChange={onPriceChange} value={price} />
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <button onClick={onSubmitHandler}>저장</button>
+      <button className="detail-button" onClick={onSubmitHandler}>저장</button>
     </div>
   );
 }

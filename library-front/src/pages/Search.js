@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import ResultTable from "../components/search/ResultTable";
 import SearchBox from "../components/search/SearchBox";
+import "./Search.css"
 
 function Search() {
   const [searchBooks, setSearchBooks] = useState([]);

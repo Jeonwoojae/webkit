@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import axios from "axios";
+import "./DetailBook.css"
 
 function DetailBook(props) {
   var data = [
@@ -8,7 +9,7 @@ function DetailBook(props) {
     { index: "카테고리", value: props.bookInfo.category },
     { index: "국가", value: props.bookInfo.nation },
     { index: "장르", value: props.bookInfo.genre },
-    { index: "가격", value: props.bookInfo.price },
+    { index: "가격", value: props.bookInfo.price+"원" },
     { index: "입력일", value: props.bookInfo.createdAt },
   ];
 
@@ -33,20 +34,20 @@ function DetailBook(props) {
     <div>
       <ArrowRightIcon fontSize="30px" />책 상세
       <div>
-        <table>
+        <table className="detail-table">
           <tbody>
             {data.map((item) => {
               return (
                 <tr>
-                  <td>{item.index}</td>
-                  <td>{item.value}</td>
+                  <td className="detail-table-td-first">{item.index}</td>
+                  <td className="detail-table-td-second">{item.value}</td>
                 </tr>
               );
             })}
           </tbody>
         </table>
-        <button onClick={() => props.setAccessMode(true)}>수정</button>
-        <button onClick={() => deleteHandler(props.bookInfo.id)}>삭제</button>
+        <button className="detail-button" onClick={() => deleteHandler(props.bookInfo.id)}>삭제</button>
+        <button className="detail-button" onClick={() => props.setAccessMode(true)}>수정</button>
       </div>
     </div>
   );
