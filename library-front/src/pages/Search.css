@@ -1,0 +1,7 @@
+.result-text{
+    clear: both;
+}
+.search-division-line {
+    border-top: 1px solid black;
+    transform: translateY(12px)
+  }

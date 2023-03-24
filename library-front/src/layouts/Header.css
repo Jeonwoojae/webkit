@@ -1,0 +1,35 @@
+.header {
+  background: white;
+  color: gray;
+  padding-left: 32px;
+  padding-right: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__list {
+  list-style-type: none;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .header__list {
+    display: none;
+  }
+  .header{
+    justify-content: center;
+  }
+}
+
+.header__item {
+  display: inline-block;
+  margin-left: 16px;
+  font-size: 13px;
+}
+
+.header__logo {
+  font-weight: bold;
+  font-size: 32px;
+  color: blueviolet;
+}

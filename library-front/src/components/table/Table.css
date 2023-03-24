@@ -1,0 +1,18 @@
+.table-header {
+  background-color: green;
+  color: white;
+  font-weight: bold;
+}
+
+.table-row {
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .table-cateogry {
+    display: none;
+  }
+  .table-price {
+    display: none;
+  }
+}

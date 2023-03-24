@@ -1,0 +1,15 @@
+.menus {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+}
+.navi {
+  width: 100%;
+}
+
+.nav-division-line {
+  border-top: 1px solid black;
+  margin: 10px 0px;
+  transform: translateY(-12px)
+}
