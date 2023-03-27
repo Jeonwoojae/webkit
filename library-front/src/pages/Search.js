@@ -25,7 +25,7 @@ function Search() {
 
   useEffect(() => {
     if(condition!=null && genre ==null && nation == null)
-    {axios.get(`http://localhost:8080/book/search/${condition}/${query}`)
+    {axios.get(`http://localhost:8080/book/search?${condition}=${query}`)
       .then((res) => {
         if(res!=null)
         {setSearchBooks(
@@ -39,7 +39,7 @@ function Search() {
       }).catch((err) => {
         alert("찾을 수 없습니다");
       });}
-      else if(condition!=null && nation != null && genre == null){axios.get(`http://localhost:8080/book/search/nation/${nation}/${condition}/${query}`)
+      else if(condition!=null && nation != null && genre == null){axios.get(`http://localhost:8080/book/search?nation=${nation}&${condition}=${query}`)
       .then((res) => {
         setSearchBooks(
           res.data.map((book) => ({
@@ -52,7 +52,7 @@ function Search() {
       }).catch((err) => {
         alert("찾을 수 없습니다");
       });}
-      else if(condition!=null && nation != null && genre != null){axios.get(`http://localhost:8080/book/search/nation/${nation}/genre/${genre}/${condition}/${query}`)
+      else if(condition!=null && nation != null && genre != null){axios.get(`http://localhost:8080/book/search?nation=${nation}&genre=${genre}&${condition}=${query}`)
       .then((res) => {
         setSearchBooks(
           res.data.map((book) => ({
@@ -65,7 +65,7 @@ function Search() {
       }).catch((err) => {
         alert("찾을 수 없습니다");
       });}
-      else if(condition==null && genre == null && nation != null){axios.get(`http://localhost:8080/book/search/nation/${nation}`)
+      else if(condition==null && genre == null && nation != null){axios.get(`http://localhost:8080/book/search?nation=${nation}`)
       .then((res) => {
         setSearchBooks(
           res.data.map((book) => ({
@@ -78,7 +78,7 @@ function Search() {
       }).catch((err) => {
         alert("찾을 수 없습니다");
       });}
-      else if(condition==null && genre != null && nation != null) {axios.get(`http://localhost:8080/book/search/nation/${nation}/genre/${genre}`)
+      else if(condition==null && genre != null && nation != null) {axios.get(`http://localhost:8080/book/search?nation=${nation}&genre=${genre}`)
       .then((res) => {
         setSearchBooks(
           res.data.map((book) => ({
