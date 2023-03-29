@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -56,91 +57,55 @@ public class BookApi {
         return ResponseEntity.status(HttpStatus.OK).body(bookList);
     }
 
-    @GetMapping("/search/title/{title}")
-    public ResponseEntity<List<Book>> findByTitle(@PathVariable("title")String title){
-        final List<Book> bookList = bookSearchService.findBooksByTitle(title);
+    @GetMapping("/v1/search")
+    public ResponseEntity<List<Book>> getBooksByCondition(@RequestParam(name = "nation", required = false)String nation,
+            @RequestParam(name = "genre", required = false)String genre,
+            @RequestParam(name = "title", required = false)String title,
+            @RequestParam(name = "category", required = false)String category,
+            @RequestParam(name = "price", required = false)Integer value){
+        List<Book> bookList = new ArrayList<>();
+            if (nation != null){
+                if (genre == null){
+                    if (title != null){
+                        bookList = bookSearchService.findBooksByNationAndTitle(nation,title);
+                    } else if (category != null){
+                        bookList = bookSearchService.findBooksByNationAndCategory(nation, category);
+                    } else if (value != null){
+                        bookList = bookSearchService.findBooksByNationAndUnderPrice(nation, value);
+                    } else{
+                        bookList = bookSearchService.findBooksByNation(nation);
+                    }
+                } else {
+                    if (title != null){
+                        bookList = bookSearchService.findBooksByNationAndGenreAndTitle(nation, genre, title);
+                    } else if (category != null){
+                        bookList = bookSearchService.findBooksByNationAndGenreAndCategory(nation, genre, category);
+                    } else if (value != null){
+                        bookList = bookSearchService.findBooksByNationAndGenreAndUnderPrice(nation, genre, value);
+                    } else{
+                        bookList = bookSearchService.findBooksByNationAndGenre(nation, genre);
+                    }
+                }
+            } else {
+                if (title != null){
+                    bookList = bookSearchService.findBooksByTitle(title);
+                } else if (category != null){
+                    bookList = bookSearchService.findBooksByCategory(category);
+                } else if (value != null){
+                    bookList = bookSearchService.findBooksByUnderPrice(value);
+                }
+            }
 
         return ResponseEntity.status(HttpStatus.OK).body(bookList);
     }
 
-    @GetMapping("/search/category/{category}")
-    public ResponseEntity<List<Book>> findByCategory(@PathVariable("category")String category){
-        final List<Book> bookList = bookSearchService.findBooksByCategory(category);
-
+    @GetMapping("/search")
+    public ResponseEntity<List<Book>> getBooksDynamic(@RequestParam(name = "nation", required = false)String nation,
+                                                          @RequestParam(name = "genre", required = false)String genre,
+                                                          @RequestParam(name = "title", required = false)String title,
+                                                          @RequestParam(name = "category", required = false)String category,
+                                                          @RequestParam(name = "price", defaultValue = "999999")Integer value) {
+        List<Book> bookList = bookSearchService.getBookDynamic(nation,genre,title,category,value);
         return ResponseEntity.status(HttpStatus.OK).body(bookList);
     }
-
-    @GetMapping("/search/nation/{nation}/genre/{genre}")
-    public ResponseEntity<List<Book>> findByGenreAndNation(@PathVariable("nation")String nation,
-                                                           @PathVariable("genre")String genre){
-        final List<Book> bookList = bookSearchService.findBooksByNationAndGenre(nation, genre);
-
-        return ResponseEntity.status(HttpStatus.OK).body(bookList);
-    }
-
-    @GetMapping("/search/nation/{nation}")
-    public ResponseEntity<List<Book>> findByNation(@PathVariable("nation")String nation){
-        final List<Book> bookList = bookSearchService.findBooksByNation(nation);
-
-        return ResponseEntity.status(HttpStatus.OK).body(bookList);
-    }
-
-    @GetMapping("/search/price/{value}")
-    public ResponseEntity<List<Book>> findByPrice(@PathVariable("value")Integer value){
-        final List<Book> bookList = bookSearchService.findBooksByUnderPrice(value);
-
-        return ResponseEntity.status(HttpStatus.OK).body(bookList);
-    }
-
-    @GetMapping("/search/nation/{nation}/title/{title}")
-    public ResponseEntity<List<Book>> findByTitleAndNation(@PathVariable("title")String title,
-                                                           @PathVariable("nation")String nation){
-        final List<Book> bookList = bookSearchService.findBooksByNationAndTitle(nation, title);
-
-        return ResponseEntity.status(HttpStatus.OK).body(bookList);
-    }
-
-    @GetMapping("/search/nation/{nation}/category/{category}")
-    public ResponseEntity<List<Book>> findByCategoryAndNation(@PathVariable("category")String category,
-                                                              @PathVariable("nation")String nation){
-        final List<Book> bookList = bookSearchService.findBooksByNationAndCategory(nation, category);
-
-        return ResponseEntity.status(HttpStatus.OK).body(bookList);
-    }
-
-    @GetMapping("/search/nation/{nation}/price/{value}")
-    public ResponseEntity<List<Book>> findByPriceAndNation(@PathVariable("value")Integer value,
-                                                           @PathVariable("nation")String nation){
-        final List<Book> bookList = bookSearchService.findBooksByNationAndUnderPrice(nation, value);
-
-        return ResponseEntity.status(HttpStatus.OK).body(bookList);
-    }
-
-    @GetMapping("/search/nation/{nation}/genre/{genre}/title/{title}")
-    public ResponseEntity<List<Book>> findByTitleAndNation(@PathVariable("title")String title,
-                                                           @PathVariable("nation")String nation,
-                                                           @PathVariable("genre")String genre){
-        final List<Book> bookList = bookSearchService.findBooksByNationAndGenreAndTitle(nation,genre, title);
-
-        return ResponseEntity.status(HttpStatus.OK).body(bookList);
-    }
-
-    @GetMapping("/search/nation/{nation}/genre/{genre}/category/{category}")
-    public ResponseEntity<List<Book>> findByCategoryAndNation(@PathVariable("category")String category,
-                                                              @PathVariable("nation")String nation,
-                                                              @PathVariable("genre")String genre){
-        final List<Book> bookList = bookSearchService.findBooksByNationAndGenreAndCategory(nation,genre, category);
-
-        return ResponseEntity.status(HttpStatus.OK).body(bookList);
-    }
-
-    @GetMapping("/search/nation/{nation}/genre/{genre}/price/{value}")
-    public ResponseEntity<List<Book>> findByPriceAndNation(@PathVariable("value")Integer value,
-                                                           @PathVariable("nation")String nation,
-                                                           @PathVariable("genre")String genre){
-        final List<Book> bookList = bookSearchService.findBooksByNationAndGenreAndUnderPrice(nation,genre, value);
-
-        return ResponseEntity.status(HttpStatus.OK).body(bookList);
-    }
-
 }

@@ -2,6 +2,7 @@ package kr.ac.kumoh.webkit.library.domain.book.service;
 
 import kr.ac.kumoh.webkit.library.domain.book.entity.Book;
 import kr.ac.kumoh.webkit.library.domain.book.repository.BookRepository;
+import kr.ac.kumoh.webkit.library.domain.book.repository.BookRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.NoSuchElementException;
 @Transactional
 public class BookSearchService {
     final private BookRepository bookRepository;
+    final private BookRepositoryImpl bookRepositoryDsl;
 
     public List<Book> getLeastBooks() {
         List<Book> bookList = bookRepository.findTop5ByOrderByIdDesc();
@@ -89,6 +91,12 @@ public class BookSearchService {
 
     public List<Book> findBooksByNationAndGenreAndUnderPrice(String nation, String genre, int value) {
         List<Book> bookList = bookRepository.findBooksByNationAndGenreAndPriceIsLessThan(nation,genre,value);
+
+        return bookList;
+    }
+
+    public List<Book> getBookDynamic(String nation, String genre, String title, String category, int value){
+        List<Book> bookList = bookRepositoryDsl.findDynamicQueryAdvance(nation,genre,title,category,value);
 
         return bookList;
     }

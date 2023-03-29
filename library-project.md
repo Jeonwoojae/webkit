@@ -1,5 +1,10 @@
-### 도서 쇼핑몰 클론 코딩
+## 도서 쇼핑몰 클론 코딩
 - 참고한 주소 https://www.sigongsa.com/comics/comicsMain.php
+- ### 주요 목표
+  - react, spring boot, jpa, mariaDB를 사용
+  - 책 데이터 CRUD
+  - 조건별 책 search
+  - 요구사항에 따라 화면 구현
 
 ### 주요 기능
 - 추천 도서 슬라이딩
