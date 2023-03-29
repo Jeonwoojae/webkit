@@ -57,7 +57,7 @@ public class BookApi {
         return ResponseEntity.status(HttpStatus.OK).body(bookList);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/v1/search")
     public ResponseEntity<List<Book>> getBooksByCondition(@RequestParam(name = "nation", required = false)String nation,
             @RequestParam(name = "genre", required = false)String genre,
             @RequestParam(name = "title", required = false)String title,
@@ -96,6 +96,16 @@ public class BookApi {
                 }
             }
 
+        return ResponseEntity.status(HttpStatus.OK).body(bookList);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Book>> getBooksDynamic(@RequestParam(name = "nation", required = false)String nation,
+                                                          @RequestParam(name = "genre", required = false)String genre,
+                                                          @RequestParam(name = "title", required = false)String title,
+                                                          @RequestParam(name = "category", required = false)String category,
+                                                          @RequestParam(name = "price", defaultValue = "999999")Integer value) {
+        List<Book> bookList = bookSearchService.getBookDynamic(nation,genre,title,category,value);
         return ResponseEntity.status(HttpStatus.OK).body(bookList);
     }
 }

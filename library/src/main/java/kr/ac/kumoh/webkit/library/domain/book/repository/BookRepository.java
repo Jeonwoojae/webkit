@@ -2,10 +2,11 @@ package kr.ac.kumoh.webkit.library.domain.book.repository;
 
 import kr.ac.kumoh.webkit.library.domain.book.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
     List<Book> findTop5ByOrderByIdDesc();
     List<Book> findBooksByTitle(String title);
 
