@@ -1,0 +1,18 @@
+.box{
+    float: right;
+    display: inline-flex;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    margin-right: 10px;
+}
+
+.main-text{
+    clear: both;
+}
+
+.input-box {
+    margin-top: 10px;
+}
+.input-form{
+    height: 30px;
+}

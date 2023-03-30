@@ -1,0 +1,9 @@
+.main-text{
+    margin-left: 5px;
+}
+
+.division-line{
+    clear: both;
+    border-top: 1px solid black;
+    margin: 10px 0px;
+}

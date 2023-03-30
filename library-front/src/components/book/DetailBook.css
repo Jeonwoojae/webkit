@@ -1,0 +1,29 @@
+.detail-table {
+    width:100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.detail-table-td-first{
+    border-bottom: 1px solid black;
+    border-left: none;
+    padding: 15px;
+    background-color: darkgrey;
+    text-align: right;
+}
+
+.detail-table-td-second{
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: none;
+    padding: 15px;
+}
+
+.detail-button{
+    float: right;
+    margin: 10px;
+}
+
+.detail-input{
+    display: flex;
+}
