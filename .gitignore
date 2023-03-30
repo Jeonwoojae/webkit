@@ -1,0 +1,4 @@
+library-front/node_modules/*
+library-front/package-lock.json
+library
+todo-react-app/package-lock.json
