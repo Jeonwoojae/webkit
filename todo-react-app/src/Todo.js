@@ -38,7 +38,7 @@ export default class Todo extends Component {
     const item = this.state.item;
     return (
       <ListItem>
-        <Checkbox checked={item.done} />
+        <Checkbox checked={item.done} onClick={this.checkboxEventHandler} />
         <ListItemText>
           <InputBase
             inputProps={{ "aria-label": "naked" }}
