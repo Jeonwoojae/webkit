@@ -5,7 +5,8 @@ import lombok.*;
 import java.util.List;
 
 @Builder
-@AllArgsConstructor
+//Builder를 사용하면 생성자가 없을시 AllArgs생성자(accesslevel=PACKAGE) 어노테이션 사용
+//@AllArgsConstructor
 //@NoArgsConstructor
 //@Data
 @Getter
