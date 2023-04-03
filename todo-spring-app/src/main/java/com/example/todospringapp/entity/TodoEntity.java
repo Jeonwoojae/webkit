@@ -14,9 +14,6 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "Todo")
-// TodoRepository 클래스의 searchByUserId 메소드가 실행할 SQL을 쿼리로 지정한다.
-@NamedQuery(name = "TodoRepository.searchByUserId",
-query = "select t from TodoEntity t where t.userId = ?1")
 public class TodoEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
