@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Builder
 @NoArgsConstructor
@@ -17,6 +14,9 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "Todo")
+// TodoRepository 클래스의 searchByUserId 메소드가 실행할 SQL을 쿼리로 지정한다.
+@NamedQuery(name = "TodoRepository.searchByUserId",
+query = "select t from TodoEntity t where t.userId = ?1")
 public class TodoEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
