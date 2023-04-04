@@ -64,7 +64,14 @@ public class TodoService {
         return todoRepository.findById(todoEntity.getId());
     }
 
-    private void validate(TodoEntity entity) {
+    public String delete(final String id){
+        if(todoRepository.existsById(id)) todoRepository.deleteById(id);
+        else throw new RuntimeException("id does not exist");
+
+        return "Deleted";
+    }
+
+    public void validate(TodoEntity entity) {
         if(entity == null) {
             log.warn("Entity cannot be null");
             throw new RuntimeException("Entity cannot be null");

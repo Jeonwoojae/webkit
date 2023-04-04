@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -138,6 +139,22 @@ public class TodoController {
             String error = e.getMessage();
             ResponseDto<TodoDto> responseDto = ResponseDto.<TodoDto>builder().error(error).build();
 
+            return ResponseEntity.badRequest().body(responseDto);
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> delete(@RequestBody TodoDto dto){
+        try{
+            List<String> message = new ArrayList<>();
+            String msg = todoService.delete(dto.getId());
+            message.add(msg);
+//            ResponseDto를 생성한다.
+            ResponseDto<String> responseDto = ResponseDto.<String>builder().data(message).build();
+            return ResponseEntity.ok().body(responseDto);
+        }catch (Exception e){
+            String error = e.getMessage();
+            ResponseDto<TodoDto> responseDto = ResponseDto.<TodoDto>builder().error(error).build();
             return ResponseEntity.badRequest().body(responseDto);
         }
     }
