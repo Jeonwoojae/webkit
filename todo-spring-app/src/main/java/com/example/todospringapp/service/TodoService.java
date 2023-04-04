@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,11 +65,15 @@ public class TodoService {
         return todoRepository.findById(todoEntity.getId());
     }
 
-    public String delete(final String id){
-        if(todoRepository.existsById(id)) todoRepository.deleteById(id);
+    public List<TodoEntity> delete(final TodoEntity entity){
+        List<TodoEntity> list = new ArrayList<>();
+        if(todoRepository.existsById(entity.getId())) {
+            todoRepository.deleteById(entity.getId());
+            list.add(entity);
+        }
         else throw new RuntimeException("id does not exist");
 
-        return "Deleted";
+        return list;
     }
 
     public void validate(TodoEntity entity) {
