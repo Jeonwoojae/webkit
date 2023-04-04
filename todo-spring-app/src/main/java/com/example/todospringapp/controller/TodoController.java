@@ -155,14 +155,20 @@ public class TodoController {
 
     @DeleteMapping
     public ResponseEntity<?> delete(@AuthenticationPrincipal String userId,
-                                    @RequestBody TodoDto dto){
+                                    @RequestBody TodoDto dto,
+                                    @RequestParam("done") String done){
         try{
             TodoEntity entity = TodoDto.toEntity(dto);
 
             // entity userId를 임시로 지정한다.
             entity.setUserId(userId);
 
-            List<TodoEntity> entities = todoService.delete(entity);
+            List<TodoEntity> entities;
+            if (done.equals("ok")){
+                entities = todoService.deleteTodoIsDone();
+            } else{
+                entities = todoService.delete(entity);
+            }
 
             // entities를 dtos로 스트림 변환한다.
             List<TodoDto> dtos = entities.stream().map(TodoDto::new).collect(Collectors.toList());
@@ -176,4 +182,5 @@ public class TodoController {
             return ResponseEntity.badRequest().body(responseDto);
         }
     }
+
 }

@@ -76,6 +76,15 @@ public class TodoService {
         return list;
     }
 
+    public List<TodoEntity> deleteTodoIsDone(){
+        List<TodoEntity> list = new ArrayList<>();
+        list = todoRepository.findAllByDone(true);
+        if (!list.isEmpty())
+            list.stream().forEach(todoEntity -> {todoRepository.delete(todoEntity);});
+
+        return list;
+    }
+
     public void validate(TodoEntity entity) {
         if(entity == null) {
             log.warn("Entity cannot be null");
