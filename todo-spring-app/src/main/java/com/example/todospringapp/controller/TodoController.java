@@ -84,4 +84,61 @@ public class TodoController {
 //        HTTP Status 200 상태로 response를 전송한다.
         return ResponseEntity.ok().body(response);
     }
+
+    @GetMapping("/update")
+    public ResponseEntity<?> update(@RequestBody TodoDto dto) {
+        try {
+//        dto를 이용해 테이블에 저장하기 위한 entity를 생성한다.
+            TodoEntity entity = TodoDto.toEntity(dto);
+
+//        entity userId를 임시로 지정한다.
+            entity.setUserId("temporary-userid");
+
+//        service.create를 통해 repository에 entity를 저장한다.
+//        이때 넘어오는 값이 없을 수도 있으므로 List가 아닌 Optional로 한다.
+            Optional<TodoEntity> entities = todoService.update(entity);
+
+//        entities를 dtos로 스트림 변환한다.
+            List<TodoDto> dtos = entities.stream().map(TodoDto::new).collect(Collectors.toList());
+
+//        Response Dto를 생성한다.
+            ResponseDto<TodoDto> responseDto = ResponseDto.<TodoDto>builder().data(dtos).build();
+
+//        HTTP Status 200 상태로 response를 전송한다.
+            return ResponseEntity.ok().body(responseDto);
+        }catch (Exception e) {
+            String error = e.getMessage();
+            ResponseDto<TodoDto> responseDto = ResponseDto.<TodoDto>builder().error(error).build();
+
+            return ResponseEntity.badRequest().body(responseDto);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?>updateTodo(@RequestBody TodoDto dto) {
+        try{
+            //        dto를 이용해 테이블에 저장하기 위한 entity를 생성한다.
+            TodoEntity entity = TodoDto.toEntity(dto);
+
+            //        entity userId를 임시로 지정한다.
+            entity.setUserId("temporary-userid");
+
+            //        service.create를 통해 repository에 entity를 저장한다.
+//        이때 넘어오는 값이 없을 수도 있으므로 List가 아닌 Optional로 한다.
+            Optional<TodoEntity> entities = todoService.updateTodo(entity);
+
+            //        entities를 dtos로 스트림 변환한다.
+            List<TodoDto> dtos = entities.stream().map(TodoDto::new).collect(Collectors.toList());
+
+            //        Response Dto를 생성한다.
+            ResponseDto<TodoDto> responseDto = ResponseDto.<TodoDto>builder().data(dtos).build();
+//        HTTP Status 200 상태로 response를 전송한다.
+            return ResponseEntity.ok().body(responseDto);
+        }catch (Exception e) {
+            String error = e.getMessage();
+            ResponseDto<TodoDto> responseDto = ResponseDto.<TodoDto>builder().error(error).build();
+
+            return ResponseEntity.badRequest().body(responseDto);
+        }
+    }
 }

@@ -27,6 +27,43 @@ public class TodoService {
         return todoRepository.findByUserId(userId);
     }
 
+    public Optional<TodoEntity> update(final TodoEntity todoEntity) {
+//        Validations
+        validate(todoEntity);
+        if (todoRepository.existsById(todoEntity.getId())){
+            todoRepository.save(todoEntity);
+        } else{
+            throw new RuntimeException("Unknown id");
+        }
+
+        return todoRepository.findById(todoEntity.getId());
+    }
+
+    public Optional<TodoEntity> updateTodo(final TodoEntity todoEntity){
+//        Validation
+        validate(todoEntity);
+
+//        테이블에서 id에 해당하는 데이터셋을 가져온다.
+        final Optional<TodoEntity> original = todoRepository.findById(todoEntity.getId());
+
+//        original에 담겨진 내용을 todo에 할당하고 title, done 값을 변경한다.
+        original.ifPresent(todo->{
+            todo.setTitle(todoEntity.getTitle());
+            todo.setDone(todoEntity.isDone());
+            todoRepository.save(todo);
+        });
+        /**
+         * 위의 람다식과 동일한 표현
+         * if(original.isPresent){
+         *             finl TodoEntity todo = original.get();
+         *             todo.setTitle(todoEntity.getTitle());
+         *             todo.setDone(todoEntity.isDone());
+         *             todoRepository.save(todo);
+         *         }
+         * */
+        return todoRepository.findById(todoEntity.getId());
+    }
+
     private void validate(TodoEntity entity) {
         if(entity == null) {
             log.warn("Entity cannot be null");
