@@ -22,6 +22,11 @@ import java.util.stream.Collectors;
 public class TodoController {
     final private TodoService todoService;
 
+
+    /** @AuthenticationPrincipal이란?
+     * 세션 정보 UserDetails에 접근할 수 있는 어노테이션
+     *
+     * */
     @PostMapping
     public ResponseEntity<?> createTodo(@AuthenticationPrincipal String userId,
             @RequestBody TodoDto dto){

@@ -50,6 +50,7 @@ public class UserController {
         UserEntity user = userSerivce.getByCredentials(userDto.getEmail(), userDto.getPassword());
 
         if(user != null){
+            // 로그인한 사용자 정보로 토큰 생성
             final String token = tokenProvider.create(user);
             final UserDto responseUserDto = UserDto.builder()
                     .email(user.getEmail())

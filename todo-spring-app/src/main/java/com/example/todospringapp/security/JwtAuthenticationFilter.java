@@ -22,6 +22,12 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    /**
+     * SecurityConfig에서의 설정에 따라 특정 url은 로그인 확인을 한다.
+     * `Authentication` 자체는 인증된 정보이기에 `SecurityContextHolder`가 가지고 있는 값을 통해
+     * 인증이 되었는지 아닌지 확인할 수 있다. [ Authentication.isAuthenticated(); ]
+     *
+     * Holder는 쓰레드가 달라지면 인증 정보를 알 수 없는 상황에  런타임 중 static 등으로 context를 쓰레드에 연결시켜준다.*/
     final private TokenProvider tokenProvider;
 
 
@@ -34,6 +40,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if(token != null && !token.equalsIgnoreCase("null")){
                 String userId = tokenProvider.validateAndGetUserId(token);
                 log.info("Authenticated user ID : " + userId);
+
+                /**
+                 * 여기서 저장한 userId는 컨트롤러에 @AuthenticationPrincipal로 꺼내 쓸 수 있다.(이름 상관없이 형태만 맞추면 받아지는 듯..?)
+                 * */
                 AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, null, AuthorityUtils.NO_AUTHORITIES);
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();

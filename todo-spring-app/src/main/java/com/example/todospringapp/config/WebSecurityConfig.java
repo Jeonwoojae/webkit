@@ -21,8 +21,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
                 .and()
+                // csrf 공격 방지 기능 끄기
                 .csrf().disable()
                 .httpBasic().disable()
+                // 세션 관리 끄기
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
@@ -31,5 +33,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated();
 
         http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
+        /** CorsFilter가 어디?
+         * Security filter chain: [
+         *   WebAsyncManagerIntegrationFilter
+         *   SecurityContextPersistenceFilter
+         *   HeaderWriterFilter
+         *   CorsFilter
+         *   LogoutFilter
+         *   JwtAuthenticationFilter
+         *   RequestCacheAwareFilter
+         *   SecurityContextHolderAwareRequestFilter
+         *   AnonymousAuthenticationFilter
+         *   SessionManagementFilter
+         *   ExceptionTranslationFilter
+         *   FilterSecurityInterceptor
+         * ]
+         * */
     }
 }

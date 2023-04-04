@@ -15,6 +15,7 @@ import java.util.Date;
 @Slf4j
 @Service
 public class TokenProvider {
+    // HS512로 인코딩하기 위해서는 512바이트보다 커야한다는 에러로 수정
     private static final String SECRET_KEY = "dqdqqweqwewegw3rjkbjkbfjjlfabwjfablwfbjwkfbjwlbfwdqdqqweqwewegw3rjkbjkbfjjlfabwjfablwfbjwkfbjwlbfwdqdqqweqwewegw3rjkbjkbfjjlfabwjfablwfbjwkfbjwlbfwdqdqqweqwewegw3rjkbjkbfjjlfabwjfablwfbjwkfbjwlbfw";
 
     public String create(UserEntity userEntity) {
