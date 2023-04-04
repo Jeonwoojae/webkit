@@ -7,10 +7,7 @@ import com.example.todospringapp.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -74,5 +71,17 @@ public class TodoController {
             ResponseDto<TodoDto> response = ResponseDto.<TodoDto>builder().error(error).build();
             return ResponseEntity.badRequest().body("this is error");
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> retrieveTodoList() {
+        String temporaryUserId = "temporary-userid";
+        List<TodoEntity> entities = todoService.retrieve(temporaryUserId);
+        List<TodoDto> dtos = entities.stream().map(TodoDto::new).collect(Collectors.toList());
+
+        ResponseDto<TodoDto> response = ResponseDto.<TodoDto>builder().data(dtos).build();
+
+//        HTTP Status 200 상태로 response를 전송한다.
+        return ResponseEntity.ok().body(response);
     }
 }
