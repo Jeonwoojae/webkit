@@ -21,7 +21,14 @@ function call(api, method, request) {
     }
     return json;
   })
-  );
+  )
+  .catch((error) => {
+    console.log(error.status);
+    if(error.status === 403) {
+        window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  })
 }
 
 export default call

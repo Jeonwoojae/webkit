@@ -34,12 +34,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try{
+            // request에서 토큰 가져오기
             String token = parseBearerToken(request);
             log.info("Filter is running...");
 
+            // 토큰 검사하기. JWT이므로 인가 서버에 요청하지 않고도 검증 가능
             if(token != null && !token.equalsIgnoreCase("null")){
+                // userId가져오기 위조된 경우 예외처리된다.
                 String userId = tokenProvider.validateAndGetUserId(token);
                 log.info("Authenticated user ID : " + userId);
+                // 인증 완료 : SecurityContextHolder에 등록해야 인증된 사용자라고 생각한다.
 
                 /**
                  * 여기서 저장한 userId는 컨트롤러에 @AuthenticationPrincipal로 꺼내 쓸 수 있다.(이름 상관없이 형태만 맞추면 받아지는 듯..?)
