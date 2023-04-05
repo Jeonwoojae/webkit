@@ -88,7 +88,7 @@ export default class SignUp extends Component {
           </Grid>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link to="/login" variant="body2">
                 이미 계정이 있습니까? 로그인 하세요.
               </Link>
             </Grid>

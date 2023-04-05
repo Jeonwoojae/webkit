@@ -60,7 +60,7 @@ function App() {
 
   // navigationBar
   var navigationBar = (
-    <AppBar position="satatic">
+    <AppBar position="static">
       <Toolbar>
         <Grid justifyContent="space-between" container>
           <Grid item>
