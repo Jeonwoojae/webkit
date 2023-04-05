@@ -1,15 +1,24 @@
 import { render } from "react-dom";
 import Todo from "./Todo";
 import React, { useEffect, useState } from "react";
-import { Paper, List, Container } from "@material-ui/core";
+import {
+  Paper,
+  List,
+  Container,
+  AppBar,
+  Toolbar,
+  Grid,
+  Typography,
+  Button,
+} from "@material-ui/core";
 import AddTodo from "./AddTodo";
-import call from "./service/ApiService";
+import call, { signout } from "./service/ApiService";
 
 function App() {
   // 매개변수 props 생성자
   const [items, setItems] = useState([]);
   const [serverCall, setServerCall] = useState(false);
-  // item에 item.id, item.title, item.done 매개변수 이름과 값 할당
+  const [isLoading, setIsLoading] = useState(true);
 
   // (1) add 함수 추가
   const addItem = (item) => {
@@ -42,12 +51,30 @@ function App() {
     return () => {
       call("/todo", "GET", null).then((response) => {
         setItems(response.data); // update State
+        setIsLoading(false);
         console.log(response.data);
         console.log("get todo from server");
       });
     };
   }, [serverCall]);
 
+  // navigationBar
+  var navigationBar = (
+    <AppBar position="satatic">
+      <Toolbar>
+        <Grid justifyContent="space-between" container>
+          <Grid item>
+            <Typography variant="h6">오늘의 할일</Typography>
+          </Grid>
+          <Grid item>
+            <Button color="inherit" onClick={signout}>
+              logout
+            </Button>
+          </Grid>
+        </Grid>
+      </Toolbar>
+    </AppBar>
+  );
 
   // todoItems에 length가 0보다 크다면 true
   // 삼항연산자도 사용 가능하다
@@ -65,12 +92,21 @@ function App() {
   // 생성된 컴포넌트 JSX를 리턴한다.
   // (2) add 함수 연결
   return (
-    <div className="App">
-      <Container maxWidth="md">
-        <AddTodo add={addItem} />
-        <div className="TodoList">{todoItems}</div>
-      </Container>
-    </div>
+    <>
+      {isLoading ? (
+        // 로딩 중일 때
+        <h1>로딩중...</h1>
+      ) : (
+        // 로딩 중이 아닐 때
+        <div className="App">
+          {navigationBar}
+          <Container maxWidth="md">
+            <AddTodo add={addItem} />
+            <div className="TodoList">{todoItems}</div>
+          </Container>
+        </div>
+      )}
+    </>
   );
 }
 

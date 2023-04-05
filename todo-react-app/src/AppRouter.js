@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import App from './App'
 import Copyright from './Copyright'
 import Login from './Login'
+import SignUp from './SignUp'
 
 function AppRouter() {
   return (
@@ -11,6 +12,7 @@ function AppRouter() {
         <div>
             <Routes>
                 <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<SignUp />} />
                 <Route path='/' element={<App />} />
             </Routes>
         </div>
