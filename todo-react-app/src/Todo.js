@@ -11,9 +11,10 @@ import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 
 export default function Todo(props) {
   const [item, setItem] = useState(props.item);
-  const [readOnly, setReadOnly] = useState(true);
+  const [readOnly, setReadOnly] = useState(false);
   // 매개변수 item의 변수/값을 item에 대입
   const deleteItem = props.delete;
+  const updateItem = props.update;
 
   const deleteEventHandler = () => {
     deleteItem(item);
@@ -26,11 +27,17 @@ export default function Todo(props) {
   };
   const enterKeyEventHandler = (e) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       setReadOnly(true);
+      updateItem(item);
     }
   };
   const editEventHandler = (e) => {
-    setItem(e.target.value);
+    setItem((prevState)=>{
+      let newState = {...prevState};
+      newState.title = e.target.value;
+      return newState;
+    });
   };
   const checkboxEventHandler = (e) => {
     console.log("check box event call");
@@ -39,9 +46,11 @@ export default function Todo(props) {
     setItem((prevState)=>{
         let newState = {...prevState};
         newState.done = prevState.done ? false : true;
+        console.log(newState.done);
         return newState;
     });
     // console.log(item);
+    updateItem(item);
   };
   return (
     <ListItem>
