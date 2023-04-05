@@ -4,10 +4,12 @@ import com.example.todospringapp.dto.ResponseDto;
 import com.example.todospringapp.dto.UserDto;
 import com.example.todospringapp.model.UserEntity;
 import com.example.todospringapp.security.TokenProvider;
-import com.example.todospringapp.service.UserSerivce;
+import com.example.todospringapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 public class UserController {
-    final private UserSerivce userSerivce;
+    final private UserService userService;
     final private TokenProvider tokenProvider;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDto userDto){
@@ -27,14 +30,14 @@ public class UserController {
             UserEntity user = UserEntity.builder()
                     .email(userDto.getEmail())
                     .username(userDto.getUsername())
-                    .password(userDto.getPassword())
+                    .password(passwordEncoder.encode(userDto.getPassword()))
                     .build();
 
-            UserEntity registeredUsesr = userSerivce.create(user);
+            UserEntity registeredUser = userService.create(user);
             UserDto responseUserDto = UserDto.builder()
-                    .email(registeredUsesr.getEmail())
-                    .username(registeredUsesr.getUsername())
-                    .id(registeredUsesr.getId())
+                    .email(registeredUser.getEmail())
+                    .username(registeredUser.getUsername())
+                    .id(registeredUser.getId())
                     .build();
 
             return ResponseEntity.ok().body(responseUserDto);
@@ -47,7 +50,7 @@ public class UserController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDto userDto) {
-        UserEntity user = userSerivce.getByCredentials(userDto.getEmail(), userDto.getPassword());
+        UserEntity user = userService.getByCredentials(userDto.getEmail(), userDto.getPassword(), passwordEncoder);
 
         if(user != null){
             // 로그인한 사용자 정보로 토큰 생성
