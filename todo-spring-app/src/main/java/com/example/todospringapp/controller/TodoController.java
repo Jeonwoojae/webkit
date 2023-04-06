@@ -45,7 +45,7 @@ public class TodoController {
 
 //            entity userId를 임시로 지정한다.
             entity.setId(null);
-            entity.setUserId("temporary-userid");
+            entity.setUserId(userId);
 
 //            service.create를 통해 repository에 entity를 저장한다.
 //            이때 넘어오는 값이 없을 수도 있으므로 List가 아닌 Optional로 한다.
@@ -84,7 +84,7 @@ public class TodoController {
 
     @GetMapping
     public ResponseEntity<?> retrieveTodoList(@AuthenticationPrincipal String userId) {
-        String temporaryUserId = "temporary-userid";
+        String temporaryUserId = userId;
         List<TodoEntity> entities = todoService.retrieve(temporaryUserId);
         List<TodoDto> dtos = entities.stream().map(TodoDto::new).collect(Collectors.toList());
 
@@ -102,7 +102,7 @@ public class TodoController {
             TodoEntity entity = TodoDto.toEntity(dto);
 
 //        entity userId를 임시로 지정한다.
-            entity.setUserId("temporary-userid");
+            entity.setUserId(userId);
 
 //        service.create를 통해 repository에 entity를 저장한다.
 //        이때 넘어오는 값이 없을 수도 있으므로 List가 아닌 Optional로 한다.
@@ -132,7 +132,7 @@ public class TodoController {
             TodoEntity entity = TodoDto.toEntity(dto);
 
             //        entity userId를 임시로 지정한다.
-            entity.setUserId("temporary-userid");
+            entity.setUserId(userId);
 
             //        service.create를 통해 repository에 entity를 저장한다.
 //        이때 넘어오는 값이 없을 수도 있으므로 List가 아닌 Optional로 한다.
@@ -155,20 +155,21 @@ public class TodoController {
 
     @DeleteMapping
     public ResponseEntity<?> delete(@AuthenticationPrincipal String userId,
-                                    @RequestBody TodoDto dto,
+                                    @RequestBody(required = false) TodoDto dto,
                                     @RequestParam(value = "done", defaultValue = "false") String done){
         try{
-            TodoEntity entity = TodoDto.toEntity(dto);
-
-            // entity userId를 임시로 지정한다.
-            entity.setUserId("temporary-userid");
-
             List<TodoEntity> entities;
-            if (done.equals("ok")){
+            if (done.equals("ok") && dto==null){
                 entities = todoService.deleteTodoIsDone();
             } else{
+                TodoEntity entity = TodoDto.toEntity(dto);
+
+                // entity userId를 임시로 지정한다.
+                entity.setUserId(userId);
+
                 entities = todoService.delete(entity);
             }
+
 
             // entities를 dtos로 스트림 변환한다.
             List<TodoDto> dtos = entities.stream().map(TodoDto::new).collect(Collectors.toList());
