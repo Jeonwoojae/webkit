@@ -8,12 +8,10 @@ import com.example.todospringapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,6 +21,41 @@ public class UserController {
     final private UserService userService;
     final private TokenProvider tokenProvider;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal String userId){
+        try{
+            UserEntity registeredUser = userService.getInfo(userId);
+            UserDto responseUserDto = UserDto.builder()
+                    .email(registeredUser.getEmail())
+                    .username(registeredUser.getUsername())
+                    .build();
+
+            return ResponseEntity.ok().body(responseUserDto);
+        } catch (Exception e) {
+            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
+
+            return ResponseEntity.badRequest().body(responseDto);
+        }
+    }
+
+    @PatchMapping("/profile")
+    public ResponseEntity<?> updateUser(@AuthenticationPrincipal String userId,
+                                        @RequestBody UserDto dto){
+        try{
+            UserEntity registeredUser = userService.updateInfo(userId, dto);
+            UserDto responseUserDto = UserDto.builder()
+                    .email(registeredUser.getEmail())
+                    .username(registeredUser.getUsername())
+                    .build();
+
+            return ResponseEntity.ok().body(responseUserDto);
+        } catch (Exception e) {
+            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
+
+            return ResponseEntity.badRequest().body(responseDto);
+        }
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDto userDto){
