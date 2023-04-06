@@ -31,19 +31,19 @@ function Profile() {
 
       return newState;
     });
-    
   };
 
   const updateInfo = (item) => {
     console.log("profile update request", item);
-    call("/auth/profile", "PUT", item).then((response) => {
-      console.log("profile update success");
-      console.log("모드 변경");
-    setEditMode(false);
-    }).then(()=>{
+    call("/auth/profile", "PUT", item)
+      .then((response) => {
+        console.log("profile update success");
+        console.log("모드 변경");
+        setEditMode(false);
+      })
+      .then(() => {
         getInfo();
-    });
-    
+      });
   };
 
   const getInfo = () => {
@@ -132,8 +132,10 @@ function Profile() {
                   </Button>
                 ) : (
                   <button
-                  type="button"   
-                    onClick={()=>{setEditMode(true)}}
+                    type="button"
+                    onClick={() => {
+                      setEditMode(true);
+                    }}
                     fullWidth
                     variant="contained"
                     color="primary"

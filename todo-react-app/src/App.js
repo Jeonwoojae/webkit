@@ -15,10 +15,13 @@ import {
 import AddTodo from "./components/AddTodo";
 import call, { signout } from "./service/ApiService";
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
+import Paging from "./components/Paging";
 
 function App() {
   // 매개변수 props 생성자
   const [items, setItems] = useState([]);
+  const [page, setPage] = useState(1);
+  const [countItem, setCountItem] = useState(1);
   const [serverCall, setServerCall] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -58,8 +61,9 @@ function App() {
   };
 
   const componentDidmount = () => {
-    call("/todo", "GET", null).then((response) => {
+    call("/todo?page=" + page + "&size=4", "GET", null).then((response) => {
       setItems(response.data); // update State
+      setCountItem(response.error);
       setIsLoading(false);
       console.log(response.data);
       console.log("get todo from server");
@@ -68,7 +72,7 @@ function App() {
 
   useEffect(() => {
     componentDidmount();
-  }, [serverCall]);
+  }, [serverCall, page]);
 
   // todoItems에 length가 0보다 크다면 true
   // 삼항연산자도 사용 가능하다
@@ -80,6 +84,7 @@ function App() {
           <Todo item={item} key={item.id} delete={deleteItem} update={update} />
         ))}
       </List>
+      <Paging page={page} setPage={setPage} count={countItem} />
     </Paper>
   );
 
@@ -98,7 +103,7 @@ function App() {
             <div className="TodoList">{todoItems}</div>
           </Container>
           <div style={{ textAlign: "center" }}>
-            delete Completed Items
+            Delete Completed Items
             <IconButton aria-label="Delete" onClick={completeItem}>
               <DeleteOutlined />
             </IconButton>

@@ -4,6 +4,8 @@ import com.example.todospringapp.model.TodoEntity;
 import com.example.todospringapp.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +24,10 @@ public class TodoService {
         todoRepository.save(entity);
 
         return todoRepository.findById(entity.getId());
+    }
+
+    public Page<TodoEntity> getTodoPage(final String userId, Pageable pageable) {
+        return todoRepository.findAllByUserIdOrderById(userId, pageable);
     }
 
     public List<TodoEntity> retrieve(final String userId) {
