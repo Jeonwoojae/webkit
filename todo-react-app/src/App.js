@@ -20,6 +20,15 @@ function App() {
   const [serverCall, setServerCall] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // done = true인 todo들 삭제하기
+  const completeItem = () => {
+    console.log("delete request");
+    call("/todo?done=ok", "DELETE", null).then((response) => {
+      console.log("delete success");
+      setServerCall(!serverCall);
+    });
+  }
+
   // (1) add 함수 추가
   const addItem = (item) => {
     console.log("add request", item);
@@ -102,7 +111,7 @@ function App() {
         <div className="App">
           {navigationBar}
           <Container maxWidth="md">
-            <AddTodo add={addItem} />
+            <AddTodo add={addItem} deleteComplete={completeItem}/>
             <div className="TodoList">{todoItems}</div>
           </Container>
         </div>
