@@ -10,9 +10,11 @@ import {
   Grid,
   Typography,
   Button,
+  IconButton,
 } from "@material-ui/core";
 import AddTodo from "./components/AddTodo";
 import call, { signout } from "./service/ApiService";
+import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 
 function App() {
   // 매개변수 props 생성자
@@ -27,7 +29,7 @@ function App() {
       console.log("delete success");
       setServerCall(!serverCall);
     });
-  }
+  };
 
   // (1) add 함수 추가
   const addItem = (item) => {
@@ -62,29 +64,11 @@ function App() {
       console.log(response.data);
       console.log("get todo from server");
     });
-  }
+  };
 
   useEffect(() => {
     componentDidmount();
   }, [serverCall]);
-
-  // navigationBar
-  var navigationBar = (
-    <AppBar position="static">
-      <Toolbar>
-        <Grid justifyContent="space-between" container>
-          <Grid item>
-            <Typography variant="h6">오늘의 할일</Typography>
-          </Grid>
-          <Grid item>
-            <Button color="inherit" onClick={signout}>
-              logout
-            </Button>
-          </Grid>
-        </Grid>
-      </Toolbar>
-    </AppBar>
-  );
 
   // todoItems에 length가 0보다 크다면 true
   // 삼항연산자도 사용 가능하다
@@ -105,15 +89,20 @@ function App() {
     <>
       {isLoading ? (
         // 로딩 중일 때
-        <h1>로딩중...</h1>
+        <h1 style={{ textAlign: "center" }}>로딩중...</h1>
       ) : (
         // 로딩 중이 아닐 때
         <div className="App">
-          {navigationBar}
           <Container maxWidth="md">
-            <AddTodo add={addItem} deleteComplete={completeItem}/>
+            <AddTodo add={addItem} deleteComplete={completeItem} />
             <div className="TodoList">{todoItems}</div>
           </Container>
+          <div style={{ textAlign: "center" }}>
+            delete Completed Items
+            <IconButton aria-label="Delete" onClick={completeItem}>
+              <DeleteOutlined />
+            </IconButton>
+          </div>
         </div>
       )}
     </>

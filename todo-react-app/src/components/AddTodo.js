@@ -28,7 +28,7 @@ export default function AddTodo(props) {
     return (
       <Paper style={{ margin: 16, padding: 16 }}>
         <Grid container>
-          <Grid xs={10} md={10} item style={{ paddingRight: 16 }}>
+          <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
             <TextField
               placeholder="Add Todo here"
               fullWidth
@@ -40,11 +40,6 @@ export default function AddTodo(props) {
           <Grid xs={1} md={1} item>
             <Button fullWidth color="secondary" variant="outlined" onClick={onButtonClick}>
                 +
-            </Button>
-          </Grid>
-          <Grid xs={1} md={1} item>
-            <Button fullWidth  variant="secondary" onClick={completeItem}>
-                완료
             </Button>
           </Grid>
         </Grid>
