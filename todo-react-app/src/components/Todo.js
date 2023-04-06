@@ -46,11 +46,10 @@ export default function Todo(props) {
     setItem((prevState)=>{
         let newState = {...prevState};
         newState.done = prevState.done ? false : true;
-        console.log(newState.done);
+        //console.log(newState.done);
+        updateItem(newState);
         return newState;
     });
-    // console.log(item);
-    updateItem(item);
   };
   return (
     <ListItem>
