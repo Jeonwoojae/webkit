@@ -6,6 +6,8 @@ import com.example.todospringapp.model.TodoEntity;
 import com.example.todospringapp.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -83,12 +85,14 @@ public class TodoController {
     }
 
     @GetMapping
-    public ResponseEntity<?> retrieveTodoList(@AuthenticationPrincipal String userId) {
+    public ResponseEntity<?> retrieveTodoList(@AuthenticationPrincipal String userId,
+                                              Pageable pageable) {
         String temporaryUserId = userId;
-        List<TodoEntity> entities = todoService.retrieve(temporaryUserId);
-        List<TodoDto> dtos = entities.stream().map(TodoDto::new).collect(Collectors.toList());
+        Page<TodoEntity> entities = todoService.getTodoPage(temporaryUserId, pageable);
+        List<TodoDto> dtos = entities.getContent().stream().map(TodoDto::new).collect(Collectors.toList());
 
         ResponseDto<TodoDto> response = ResponseDto.<TodoDto>builder().data(dtos).build();
+        response.setError(String.valueOf(entities.getTotalElements()));
 
 //        HTTP Status 200 상태로 response를 전송한다.
         return ResponseEntity.ok().body(response);

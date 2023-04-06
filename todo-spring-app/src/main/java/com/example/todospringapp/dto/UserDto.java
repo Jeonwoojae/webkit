@@ -1,5 +1,7 @@
 package com.example.todospringapp.dto;
 
+import com.example.todospringapp.model.TodoEntity;
+import com.example.todospringapp.model.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

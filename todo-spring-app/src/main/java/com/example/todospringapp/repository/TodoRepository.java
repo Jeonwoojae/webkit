@@ -1,6 +1,8 @@
 package com.example.todospringapp.repository;
 
 import com.example.todospringapp.model.TodoEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -11,4 +13,6 @@ public interface TodoRepository extends JpaRepository<TodoEntity, String> {
     List<TodoEntity> findByUserId(String userId);
 
     List<TodoEntity> findAllByDone(boolean done);
+
+    Page<TodoEntity> findAllByUserIdOrderById(String userId, Pageable pageable);
 }
