@@ -39,7 +39,7 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/profile")
+    @PutMapping("/profile")
     public ResponseEntity<?> updateUser(@AuthenticationPrincipal String userId,
                                         @RequestBody UserDto dto){
         try{
