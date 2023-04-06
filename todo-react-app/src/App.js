@@ -46,16 +46,17 @@ function App() {
     });
   };
 
-  // 처음 실행 시 기존에 todo 불러오는 작업 필요
+  const componentDidmount = () => {
+    call("/todo", "GET", null).then((response) => {
+      setItems(response.data); // update State
+      setIsLoading(false);
+      console.log(response.data);
+      console.log("get todo from server");
+    });
+  }
+
   useEffect(() => {
-    return () => {
-      call("/todo", "GET", null).then((response) => {
-        setItems(response.data); // update State
-        setIsLoading(false);
-        console.log(response.data);
-        console.log("get todo from server");
-      });
-    };
+    componentDidmount();
   }, [serverCall]);
 
   // navigationBar
