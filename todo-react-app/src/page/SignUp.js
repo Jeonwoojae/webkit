@@ -8,7 +8,7 @@ import {
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { signup } from "./service/ApiService";
+import { signup } from "../service/ApiService";
 
 export default function SignUp() {
   // 폼을 만들기 위한 여러가지 요소 불러오기

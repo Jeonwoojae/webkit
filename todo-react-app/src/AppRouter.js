@@ -2,9 +2,9 @@ import { Box } from '@material-ui/core'
 import React from 'react'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import App from './App'
-import Copyright from './Copyright'
-import Login from './Login'
-import SignUp from './SignUp'
+import Copyright from './components/Copyright'
+import Login from './page/Login'
+import SignUp from './page/SignUp'
 
 function AppRouter() {
   return (

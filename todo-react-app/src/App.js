@@ -1,5 +1,5 @@
 import { render } from "react-dom";
-import Todo from "./Todo";
+import Todo from "./components/Todo";
 import React, { useEffect, useState } from "react";
 import {
   Paper,
@@ -11,7 +11,7 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import AddTodo from "./AddTodo";
+import AddTodo from "./components/AddTodo";
 import call, { signout } from "./service/ApiService";
 
 function App() {
