@@ -49,6 +49,7 @@ function App() {
     call("/todo", "DELETE", item).then((response) => {
       console.log("delete success");
       setServerCall(!serverCall);
+      setPage(1);
     });
   };
 
