@@ -16,7 +16,7 @@ class JasyptConfigAESTest {
         encryptor.setPassword("ghdfewh2r384rhgelfw98wefkjewb23f");
         encryptor.setAlgorithm("PBEWithSHA256And128BitAES-CBC-BC");
 
-        String plainText = "sa"; // 암호화 할 내용
+        String plainText = "G5H9MNDUTRP7"; // 암호화 할 내용
         String encryptedText = encryptor.encrypt(plainText); // 암호화
         String decryptedText = encryptor.decrypt(encryptedText); // 복호화
         System.out.println("Enc:"+encryptedText+", Dec:"+decryptedText);
