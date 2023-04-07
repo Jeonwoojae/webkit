@@ -27,7 +27,7 @@ public class TodoService {
     }
 
     public Page<TodoEntity> getTodoPage(final String userId, Pageable pageable) {
-        return todoRepository.findAllByUserIdOrderByDoneAsc(userId, pageable);
+        return todoRepository.findAllByUserIdOrderByDoneAscIdDesc(userId, pageable);
     }
 
     public List<TodoEntity> retrieve(final String userId) {
