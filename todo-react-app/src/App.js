@@ -61,12 +61,12 @@ function App() {
   };
 
   const componentDidmount = () => {
-    call("/todo?page=" + page + "&size=4", "GET", null).then((response) => {
+    call(`/todo?page=${page}&size=4`, "GET", null).then((response) => {
       setItems(response.data); // update State
-      setCountItem(response.error);
+      setCountItem(Number(response.error));
       setIsLoading(false);
       console.log(response.data);
-      console.log("get todo from server");
+      console.log("get todo from server ",`/todo?page=${page}&size=4`);
     });
   };
 

@@ -14,5 +14,5 @@ public interface TodoRepository extends JpaRepository<TodoEntity, String> {
 
     List<TodoEntity> findAllByDone(boolean done);
 
-    Page<TodoEntity> findAllByUserIdOrderById(String userId, Pageable pageable);
+    Page<TodoEntity> findAllByUserIdOrderByDoneAsc(String userId, Pageable pageable);
 }
