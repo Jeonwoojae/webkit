@@ -12,12 +12,15 @@ import {
 } from "@material-ui/core";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { signup } from "../service/ApiService";
+import { checkCertificateCode, sendEmail, signup } from "../service/ApiService";
+import "./SignUp.css"
 
 export default function SignUp() {
+  const [isChecked, setIsChecked] = useState(false);
+
   // 폼을 만들기 위한 여러가지 요소 불러오기
   const { register, handleSubmit, getValues } = useForm();
   
@@ -64,7 +67,8 @@ export default function SignUp() {
               {...register("username")}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid container spacing={12}>
+            <Grid item xs={10}>
             <TextField
               autoComplete="email"
               name="email"
@@ -76,6 +80,29 @@ export default function SignUp() {
               autoFocus
               {...register("email")}
             />
+            </Grid>
+            <Grid item xs={2}>
+            <div className="user-btn" type="button" onClick={()=>{const {email} = getValues(); sendEmail(email); } }>
+              코드전송
+            </div>
+            </Grid>
+          </Grid>
+          <Grid container spacing={12}>
+            <Grid item xs={10}>
+            <TextField
+              required
+              fullWidth
+              id="email"
+              label="인증 코드"
+              autoFocus
+              {...register("code")}
+            />
+            </Grid>
+            <Grid item xs={2}>
+            <div className="user-btn" type="button" onClick={()=>{const {code} = getValues(); checkCertificateCode(code).then(()=>setIsChecked(true));}} fullWidth>
+              확인
+            </div>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <FormControl {...register("password")} fullWidth sx={{ m: 1 }} variant="outlined">
@@ -99,7 +126,7 @@ export default function SignUp() {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <Button type="submit" fullWidth variant="contained" color="primary">
+            <Button disabled={isChecked? false : true} type="submit" fullWidth variant="contained" color="primary">
               계정생성
             </Button>
           </Grid>
