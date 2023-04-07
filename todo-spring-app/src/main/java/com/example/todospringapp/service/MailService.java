@@ -3,6 +3,7 @@ package com.example.todospringapp.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Random;
 public class MailService {
 
     private final JavaMailSender javaMailSender;
+    private final RedisService redisService;
 
     //인증번호 생성
     private final String certificateNumber = createKey();
@@ -68,11 +70,22 @@ public class MailService {
     public String sendSimpleMessage(String to)throws Exception {
         MimeMessage message = createMessage(to);
         try{
+            redisService.setDataExpire(certificateNumber, to, 60 * 10L); // 유효시간 10분
             javaMailSender.send(message); // 메일 발송
         }catch(MailException es){
             es.printStackTrace();
             throw new IllegalArgumentException();
         }
         return certificateNumber; // 메일로 보냈던 인증 코드를 서버로 리턴
+    }
+
+    public String verifyCode(String code) throws ChangeSetPersister.NotFoundException {
+        String memberEmail = redisService.getData(code);
+        if(memberEmail == null) {
+            throw new ChangeSetPersister.NotFoundException();
+        }
+        redisService.deleteData(code);
+
+        return certificateNumber;
     }
 }
