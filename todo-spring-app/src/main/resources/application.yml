@@ -1,13 +1,31 @@
 
 spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: ENC(cLCKOqMe9ppsanYddNRTcXN30dpRGKk42YUMZh3jmXGTZDyMws/OyJSxv1i95nye)
+    password: ENC(YCIUBoeyZYXbyS551Xy8JAhKYMtcTe4F1+LkabBbz0o=)
+    properties:
+      debug: true
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            trust: smtp.naver.com
+          starttls:
+            enable: true
   data:
     web:
       pageable:
         one-indexed-parameters: true
   datasource:
-    url: jdbc:h2:~/test
+    url: ENC(dsZ3coQelNu9GjYT8mbN+fv7Ucrt2xgwsCjQH3a+orI=)
     driver-class-name: org.h2.Driver
-    username: sa
+    username: ENC(V1/UzJx6/uvDS1xTyQSUG8CKnRfTuV9S2aeaxrjCLhs=)
     password:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -21,3 +39,7 @@ spring:
       settings:
         trace: false
         web-allow-others: false
+
+jasypt:
+  encryptor:
+    bean: jasyptEncryptor

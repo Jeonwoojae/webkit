@@ -76,4 +76,32 @@ export function signout() {
     window.location.href = "/";
 }
 
+// 인증코드 메일로 보내기
+export function sendEmail(email) {
+  console.log(`/mail/send?email=${email}`);
+  return call(`/mail/send?email=${email}`,"POST",null)
+    .then((response) => {
+        alert("메일로 전송했습니다. 메일함을 확인해주세요.")
+    })
+    .catch((error)=>{
+      alert("메일 보내기에 실패했습니다.");
+      console.log(error);
+    })
+}
+
+// 인증코드 검증하기
+export function checkCertificateCode(code) {
+  console.log(`/mail/check?code=${code}`);
+  return call(`/mail/check?code=${code}`, "GET", null)
+  .then((response) => {
+      console.log(response,"인증코드 확인 성공");
+  })
+  .catch((error) => {
+      console.log(error.status);
+      if(error.status === 400){
+          alert("인증코드 검증이 실패했습니다.");
+      }
+  });
+}
+
 export default call;
