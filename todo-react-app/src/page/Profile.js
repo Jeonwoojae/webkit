@@ -12,7 +12,7 @@ import call from "../service/ApiService";
 function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
-  const [profile, setProfile] = useState({ email: "", username: "" });
+  const [profile, setProfile] = useState();
 
   // 폼을 만들기 위한 여러가지 요소 불러오기
   const { register, handleSubmit, getValues } = useForm();
@@ -28,7 +28,7 @@ function Profile() {
       newState.email = email;
       //console.log(newState.done);
       updateInfo(newState);
-
+      getInfo();
       return newState;
     });
   };
@@ -40,10 +40,8 @@ function Profile() {
         console.log("profile update success");
         console.log("모드 변경");
         setEditMode(false);
-      })
-      .then(() => {
         getInfo();
-      });
+      })
   };
 
   const getInfo = () => {
@@ -84,6 +82,7 @@ function Profile() {
                     label="이메일 주소"
                     name="email"
                     autoComplete="email"
+                    defaultValue={profile.email}
                     {...register("email")}
                   />
                 ) : (
@@ -91,6 +90,7 @@ function Profile() {
                     id="email"
                     label="email"
                     defaultValue={profile.email}
+                    key={profile.email}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -107,12 +107,14 @@ function Profile() {
                     label="이름"
                     name="username"
                     autoComplete="username"
+                    defaultValue={profile.username}
                     {...register("username")}
                   />
                 ) : (
                   <TextField
                     id="username"
                     label="username"
+                    key={profile.username}
                     defaultValue={profile.username}
                     InputProps={{
                       readOnly: true,
