@@ -16,14 +16,14 @@ import React, { Component, useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { checkCertificateCode, sendEmail, signup } from "../service/ApiService";
-import "./SignUp.css"
+import "./SignUp.css";
 
 export default function SignUp() {
   const [isChecked, setIsChecked] = useState(false);
 
   // 폼을 만들기 위한 여러가지 요소 불러오기
   const { register, handleSubmit, getValues } = useForm();
-  
+
   // 비밀번호 박스 암호화
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -37,12 +37,16 @@ export default function SignUp() {
   const onValid = (data) => {
     console.log(data);
 
-    const { username, email, password } = getValues();
-    signup({ email: email, username: username, password: password }).then(
-      (respone) => {
-        window.location.href = "/login";
-      }
-    );
+    const { username, phoneNumber, password, address1, address2 } = getValues();
+    signup({
+      phoneNumber: phoneNumber,
+      username: username,
+      password: password,
+      address1: address1,
+      address2: address2,
+    }).then((respone) => {
+      window.location.href = "/login";
+    });
   };
 
   return (
@@ -69,44 +73,65 @@ export default function SignUp() {
           </Grid>
           <Grid container spacing={12}>
             <Grid item xs={10}>
-            <TextField
-              autoComplete="email"
-              name="email"
-              variant="outlined"
-              required
-              fullWidth
-              id="email"
-              label="이메일 주소"
-              autoFocus
-              {...register("email")}
-            />
+              <TextField
+                autoComplete="phoneNumber"
+                name="phoneNumber"
+                variant="outlined"
+                required
+                fullWidth
+                id="phoneNumber"
+                label="전화번호"
+                autoFocus
+                {...register("phoneNumber")}
+              />
             </Grid>
             <Grid item xs={2}>
-            <div className="user-btn" type="button" onClick={()=>{const {email} = getValues(); sendEmail(email); } }>
-              코드전송
-            </div>
+              <div
+                className="user-btn"
+                type="button"
+                onClick={() => {
+                  const { phoneNumber } = getValues();
+                  console.log(phoneNumber, "인증번호 전송");
+                }}
+              >
+                코드 전송
+              </div>
             </Grid>
           </Grid>
           <Grid container spacing={12}>
             <Grid item xs={10}>
-            <TextField
-              required
-              fullWidth
-              id="email"
-              label="인증 코드"
-              autoFocus
-              {...register("code")}
-            />
+              <TextField
+                required
+                fullWidth
+                id="phoneNumber"
+                label="인증 코드"
+                autoFocus
+                {...register("code")}
+              />
             </Grid>
             <Grid item xs={2}>
-            <div className="user-btn" type="button" onClick={()=>{const {code} = getValues(); checkCertificateCode(code).then(()=>setIsChecked(true));}} fullWidth>
-              확인
-            </div>
+              <div
+                className="user-btn"
+                type="button"
+                onClick={() => {
+                  const { code } = getValues();
+                  console.log("인증번호 확인");
+                  setIsChecked(true);
+                }}
+                fullWidth
+              >
+                확인
+              </div>
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <FormControl {...register("password")} fullWidth sx={{ m: 1 }} variant="outlined">
-              <InputLabel required >패스워드</InputLabel>
+            <FormControl
+              {...register("password")}
+              fullWidth
+              sx={{ m: 1 }}
+              variant="outlined"
+            >
+              <InputLabel required>패스워드</InputLabel>
               <OutlinedInput
                 type={showPassword ? "text" : "password"}
                 endAdornment={
@@ -125,17 +150,59 @@ export default function SignUp() {
               />
             </FormControl>
           </Grid>
+          <Grid container spacing={12}>
+            <Grid item xs={10}>
+              <TextField
+                required
+                fullWidth
+                id="address"
+                label="주소"
+                autoFocus
+                disabled
+                {...register("address1")}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <div
+                className="user-btn"
+                type="button"
+                onClick={console.log("검색 API로 검색")}
+                fullWidth
+              >
+                검색
+              </div>
+            </Grid>
+          </Grid>
           <Grid item xs={12}>
-            <Button disabled={isChecked? false : true} type="submit" fullWidth variant="contained" color="primary">
+            <TextField
+              autoComplete="address2"
+              name="address2"
+              variant="outlined"
+              required
+              fullWidth
+              id="address2"
+              label="상세 주소"
+              autoFocus
+              {...register("address2")}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              disabled={isChecked ? false : true}
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+            >
               계정생성
             </Button>
           </Grid>
         </Grid>
         <Grid container justifyContent="flex-end">
-          <Grid item>
-            <Link to="/login" variant="body2">
-              이미 계정이 있습니까? 로그인 하세요.
-            </Link>
+          <Grid item xs={12}>
+            <Button style={{marginTop: "5px"}} fullWidth variant="contained" color="secondary">
+              로그인으로 돌아가기
+            </Button>
           </Grid>
         </Grid>
       </form>

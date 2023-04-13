@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import call from "../service/ApiService";
 
 function Profile() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [profile, setProfile] = useState({ email: "", username: "" });
 
@@ -60,95 +60,88 @@ function Profile() {
   }, []);
 
   return (
-    <>
-      {isLoading ? (
-        // 로딩 중일 때
-        <h1 style={{ textAlign: "center" }}>로딩중...</h1>
-      ) : (
-        <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
-          <Grid container spacing={2}>
-            <Typography component="h1" variant="h5">
-              Profile
-            </Typography>
+    <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
+      <Grid container spacing={2}>
+        <Typography component="h1" variant="h5">
+          Profile
+        </Typography>
+      </Grid>
+      <form noValidate onSubmit={handleSubmit(onValid)}>
+        {" "}
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            {editMode ? (
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="이메일 주소"
+                name="email"
+                autoComplete="email"
+                {...register("email")}
+              />
+            ) : (
+              <TextField
+                id="email"
+                label="email"
+                defaultValue={profile.email}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            )}
           </Grid>
-          <form noValidate onSubmit={handleSubmit(onValid)}>
-            {" "}
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                {editMode ? (
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="email"
-                    label="이메일 주소"
-                    name="email"
-                    autoComplete="email"
-                    {...register("email")}
-                  />
-                ) : (
-                  <TextField
-                    id="email"
-                    label="email"
-                    defaultValue={profile.email}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                )}
-              </Grid>
-              <Grid item xs={12}>
-                {editMode ? (
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="username"
-                    label="이름"
-                    name="username"
-                    autoComplete="username"
-                    {...register("username")}
-                  />
-                ) : (
-                  <TextField
-                    id="username"
-                    label="username"
-                    defaultValue={profile.username}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                )}
-              </Grid>
-              <Grid item xs={12}>
-                {editMode ? (
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                  >
-                    수정완료
-                  </Button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEditMode(true);
-                    }}
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                  >
-                    수정하기
-                  </button>
-                )}
-              </Grid>
-            </Grid>
-          </form>
-        </Container>
-      )}
-    </>
+          <Grid item xs={12}>
+            {editMode ? (
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="username"
+                label="이름"
+                name="username"
+                autoComplete="username"
+                {...register("username")}
+              />
+            ) : (
+              <TextField
+                id="username"
+                label="username"
+                defaultValue={profile.username}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            )}
+          </Grid>
+          <Grid item xs={12}>
+            {editMode ? (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+              >
+                수정완료
+              </Button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  setEditMode(true);
+                }}
+                fullWidth
+                variant="contained"
+                color="primary"
+              >
+                수정하기
+              </button>
+            )}
+          </Grid>
+        </Grid>
+      </form>
+    </Container>
   );
 }
 
