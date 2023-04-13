@@ -11,6 +11,7 @@ import Navigator from "./components/Navigator";
 import TransactionDetail from "./page/TransactionDetail";
 import TransactionList from "./page/TransactionList";
 import BidList from "./page/BidList";
+import AuctionDetailPage from "./page/AuctionDetailPage";
 
 function AppRouter() {
   return (
@@ -28,6 +29,7 @@ function AppRouter() {
           <Route path="/transaction-detail" element={<TransactionDetail />} />
           <Route path="/transaction" element={<TransactionList />} />
           <Route path="/bid" element={<BidList />} />
+          <Route path="/product" element={<AuctionDetailPage />} />
         </Routes>
       </div>
       <div>
