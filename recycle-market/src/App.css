@@ -1,38 +1,50 @@
 .search-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px 0;
-  }
-  
-  .search-bar > * {
-    margin: 0 10px;
-  }
-  
-  #category-select,
-  #category-select-label,
-  #search-input {
-    width: 200px;
-  }
-  
-  #search-input {
-    flex-grow: 1;
-  }
-  
-  #sell-button {
-    margin-left: auto;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
 
-  .centered-grid-container {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .centered-grid-container .MuiGrid-item {
-    text-align: center;
-  }
-  .select-page {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
+.search-bar > * {
+  margin: 0 10px;
+}
+
+.MuiButton-label {
+  width: 100%;
+  display: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+  height: 40px;
+}
+
+#category-select,
+#category-select-label
+{
+  width: 130px;
+}
+
+#search-input {
+  flex-grow: 1;
+}
+
+.search-input{
+  width: 500px;
+}
+
+#sell-button {
+  margin-left: auto;
+}
+
+.centered-grid-container {
+  display: flex;
+  justify-content: center;
+}
+
+.centered-grid-container .MuiGrid-item {
+  text-align: center;
+}
+.select-page {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}

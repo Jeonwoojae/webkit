@@ -155,17 +155,18 @@ function App() {
         </FormControl>
 
         <TextField
+          className="search-input"
           label="상품 검색"
           variant="outlined"
           value={search}
           onChange={handleSearchChange}
         />
 
-        <Button variant="contained" color="primary" onClick={handleSearch}>
+        <Button className="search-btn" variant="contained" color="primary" onClick={handleSearch}>
           검색
         </Button>
 
-        <Button variant="contained" color="secondary" onClick={handleSell}>
+        <Button className="cell-btn" variant="contained" color="secondary" onClick={handleSell}>
           판매하기
         </Button>
       </div>
