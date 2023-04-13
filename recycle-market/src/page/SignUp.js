@@ -62,13 +62,13 @@ export default function SignUp() {
   return (
     <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
       <form noValidate onSubmit={handleSubmit(onValid)}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <Grid container spacing={0}>
+          <Grid item xs={12} style={{marginBottom: "16px"}}>
             <Typography component="h1" variant="h5">
               계정 생성
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{marginBottom: "16px"}}>
             <TextField
               autoComplete="username"
               name="username"
@@ -81,8 +81,8 @@ export default function SignUp() {
               {...register("username")}
             />
           </Grid>
-          <Grid container spacing={12}>
-            <Grid item xs={10}>
+          <Grid container spacing={1}>
+            <Grid item xs={10} style={{marginBottom: "16px"}}>
               <TextField
                 autoComplete="phoneNumber"
                 name="phoneNumber"
@@ -95,7 +95,7 @@ export default function SignUp() {
                 {...register("phoneNumber")}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} style={{marginBottom: "16px"}}>
               <div
                 className="user-btn"
                 type="button"
@@ -108,9 +108,10 @@ export default function SignUp() {
               </div>
             </Grid>
           </Grid>
-          <Grid container spacing={12}>
-            <Grid item xs={10}>
+          <Grid container spacing={1}>
+            <Grid item xs={10} style={{marginBottom: "16px"}}>
               <TextField
+                variant="outlined"
                 required
                 fullWidth
                 id="phoneNumber"
@@ -119,7 +120,7 @@ export default function SignUp() {
                 {...register("code")}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} style={{marginBottom: "16px"}}>
               <div
                 className="user-btn"
                 type="button"
@@ -134,7 +135,7 @@ export default function SignUp() {
               </div>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{marginBottom: "16px"}}>
             <FormControl
               {...register("password")}
               fullWidth
@@ -160,9 +161,10 @@ export default function SignUp() {
               />
             </FormControl>
           </Grid>
-          <Grid container spacing={12}>
-            <Grid item xs={10}>
+          <Grid container spacing={1}>
+            <Grid item xs={10} style={{marginBottom: "16px"}}>
               <TextField
+                variant="outlined"
                 required
                 fullWidth
                 id="address"
@@ -172,76 +174,73 @@ export default function SignUp() {
                 {...register("address1")}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} style={{marginBottom: "16px"}}>
               <div
                 className="user-btn"
                 type="button"
-                onClick={()=>console.log("검색 API로 검색")}
+                onClick={() => console.log("검색 API로 검색")}
                 fullWidth
               >
                 검색
               </div>
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              autoComplete="address2"
-              name="address2"
-              variant="outlined"
-              required
-              fullWidth
-              id="address2"
-              label="상세 주소"
-              autoFocus
-              {...register("address2")}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl>
-              <FormLabel id="demo-row-radio-buttons-group-label">
-                Gender
-              </FormLabel>
-              <RadioGroup
-                row
-                name="row-radio-buttons-group"
-                value={value}
-                onChange={handleChange}
+            <Grid item xs={12} style={{marginBottom: "16px"}}>
+              <TextField
+                autoComplete="address2"
+                name="address2"
+                variant="outlined"
+                required
+                fullWidth
+                id="address2"
+                label="상세 주소"
+                autoFocus
+                {...register("address2")}
+              />
+            </Grid>
+            <Grid item xs={12} style={{marginBottom: "16px", display: "flex", justifyContent: "center"}}>
+              <FormControl>
+                <FormLabel id="demo-row-radio-buttons-group-label">
+                  사용자 유형
+                </FormLabel>
+                <RadioGroup
+                  row
+                  name="row-radio-buttons-group"
+                  value={value}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel
+                    value="0"
+                    control={<Radio />}
+                    label="판매자"
+                  />
+                  <FormControlLabel
+                    value="1"
+                    control={<Radio />}
+                    label="구매자"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} style={{marginBottom: "16px"}}>
+              <Button
+                disabled={isChecked ? false : true}
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
               >
-                <FormControlLabel
-                  value="0"
-                  control={<Radio />}
-                  label="판매자"
-                />
-                <FormControlLabel
-                  value="1"
-                  control={<Radio />}
-                  label="구매자"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              disabled={isChecked ? false : true}
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-            >
-              계정생성
-            </Button>
-          </Grid>
-        </Grid>
-        <Grid container justifyContent="flex-end">
-          <Grid item xs={12}>
-            <Button
-              style={{ marginTop: "5px" }}
-              fullWidth
-              variant="contained"
-              color="secondary"
-            >
-              로그인으로 돌아가기
-            </Button>
+                계정생성
+              </Button>
+            </Grid>
+            <Grid item xs={12} style={{marginBottom: "16px"}}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="secondary"
+              >
+                로그인으로 돌아가기
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </form>
