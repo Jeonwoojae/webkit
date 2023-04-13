@@ -4,10 +4,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import Copyright from "./components/Copyright";
 import Login from "./page/Login";
-import Navigator from "./page/Navigator";
 import Profile from "./page/Profile";
 import SignUp from "./page/SignUp";
 import Sell from "./page/Sell";
+import Navigator from "./components/Navigator";
 
 function AppRouter() {
   return (

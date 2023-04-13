@@ -10,93 +10,179 @@ import {
   Typography,
   Button,
   IconButton,
+  Select,
+  InputLabel,
+  FormControl,
+  MenuItem,
+  TextField,
 } from "@material-ui/core";
 import call, { signout } from "./service/ApiService";
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import Paging from "./components/Paging";
+import { Pagination } from "@mui/material";
+import "./App.css";
 
 function App() {
-  // 매개변수 props 생성자
-  const [items, setItems] = useState([]);
+  const products = [
+    {
+      id: 1,
+      name: "상품1",
+      category: "clothes",
+      date: "2022-05-01",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 2,
+      name: "상품2",
+      category: "food",
+      date: "2022-05-02",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 3,
+      name: "상품3",
+      category: "electronics",
+      date: "2022-05-03",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 4,
+      name: "상품4",
+      category: "clothes",
+      date: "2022-05-04",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 5,
+      name: "상품5",
+      category: "food",
+      date: "2022-05-05",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 6,
+      name: "상품6",
+      category: "clothes",
+      date: "2022-05-06",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 7,
+      name: "상품7",
+      category: "food",
+      date: "2022-05-07",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 8,
+      name: "상품8",
+      category: "electronics",
+      date: "2022-05-08",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 9,
+      name: "상품9",
+      category: "clothes",
+      date: "2022-05-09",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 10,
+      name: "상품10",
+      category: "food",
+      date: "2022-05-10",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 11,
+      name: "상품11",
+      category: "electronics",
+      date: "2022-05-11",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 12,
+      name: "상품12",
+      category: "clothes",
+      date: "2022-05-12",
+      image: "https://via.placeholder.com/150",
+    },
+  ];
+
+  const [category, setCategory] = useState("");
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [countItem, setCountItem] = useState(1);
-  const [serverCall, setServerCall] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const itemsPerPage = 6;
+  const pages = Math.ceil(products.length / itemsPerPage);
 
-  // done = true인 todo들 삭제하기
-  const completeItem = () => {
-    console.log("delete request");
-    call("/todo?done=ok", "DELETE", null).then((response) => {
-      console.log("delete success");
-      setServerCall(!serverCall);
-    });
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
   };
 
-  // (1) add 함수 추가
-  const addItem = (item) => {
-    console.log("add request", item);
-    call("/todo", "POST", item).then((response) => {
-      console.log("post success");
-      setServerCall(!serverCall);
-    });
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
   };
 
-  // (3) delete 함수 추가
-  const deleteItem = (item) => {
-    console.log("delete request", item);
-    call("/todo", "DELETE", item).then((response) => {
-      console.log("delete success");
-      setServerCall(!serverCall);
-    });
+  const handleSearch = () => {
+    console.log(`Search category: ${category}, keyword: ${search}`);
   };
 
-  const update = (item) => {
-    console.log("update request", item);
-    call("/todo", "PUT", item).then((response) => {
-      console.log("update success");
-      setServerCall(!serverCall);
-    });
+  const handleSell = () => {
+    console.log("Go to sell page");
   };
 
-  const componentDidmount = () => {
-    call(`/todo?page=${page}&size=4`, "GET", null).then((response) => {
-      setItems(response.data); // update State
-      setCountItem(Number(response.error));
-      setIsLoading(false);
-      console.log(response.data);
-      console.log("get todo from server ",`/todo?page=${page}&size=4`);
-    });
-  };
-
-  useEffect(() => {
-    componentDidmount();
-  }, [serverCall, page]);
-
-  // todoItems에 length가 0보다 크다면 true
-  // 삼항연산자도 사용 가능하다
-  var todoItems = items.length > 0 && (
-    // 자바스크립트가 제공하는 map 함수를 이용해서 배열을 반복해 <Todo/> 컴포넌트를 여러 개 생성한다.
-    <Paper style={{ margin: 16 }}>
-      <List>
-      </List>
-      <Paging page={page} setPage={setPage} count={countItem} />
-    </Paper>
-  );
-
-  // 생성된 컴포넌트 JSX를 리턴한다.
-  // (2) add 함수 연결
   return (
-    <>
-      {isLoading ? (
-        // 로딩 중일 때
-        <h1 style={{ textAlign: "center" }}>로딩중...</h1>
-      ) : (
-        // 로딩 중이 아닐 때
-        <div className="App">
-          메인화면
-        </div>
-      )}
-    </>
+    <div>
+      <div className="search-bar">
+        <FormControl variant="outlined">
+          <InputLabel id="category-select-label">카테고리 선택</InputLabel>
+          <Select
+            labelId="category-select-label"
+            id="category-select"
+            value={category}
+            onChange={handleCategoryChange}
+            label="카테고리 선택"
+          >
+            <MenuItem value="">전체</MenuItem>
+            <MenuItem value="clothes">의류</MenuItem>
+            <MenuItem value="food">음식</MenuItem>
+            <MenuItem value="electronics">전자제품</MenuItem>
+          </Select>
+        </FormControl>
+
+        <TextField
+          label="상품 검색"
+          variant="outlined"
+          value={search}
+          onChange={handleSearchChange}
+        />
+
+        <Button variant="contained" color="primary" onClick={handleSearch}>
+          검색
+        </Button>
+
+        <Button variant="contained" color="secondary" onClick={handleSell}>
+          판매하기
+        </Button>
+      </div>
+      <Grid container spacing={3} className="centered-grid-container">
+        {products
+          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+          .map((product) => (
+            <Grid item xs={12} sm={6} md={4} key={product.id}>
+              <img src={product.image} alt={product.name} />
+              <p>{product.name}</p>
+              <p>{product.category}</p>
+              <p>{product.date}</p>
+            </Grid>
+          ))}
+      </Grid>
+      <Pagination className="select-page" count={pages} page={page} onChange={handleChange} />
+    </div>
   );
 }
 
