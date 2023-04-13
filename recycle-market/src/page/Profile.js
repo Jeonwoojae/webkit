@@ -70,50 +70,70 @@ function Profile() {
         {" "}
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            {editMode ? (
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="이메일 주소"
-                name="email"
-                autoComplete="email"
-                {...register("email")}
-              />
-            ) : (
-              <TextField
-                id="email"
-                label="email"
-                defaultValue={profile.email}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            )}
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="username"
+              label="이름"
+              name="username"
+              autoComplete="username"
+              disabled={editMode ? false : true}
+              defaultValue={"profile.username"}
+              {...register("username")}
+            />
           </Grid>
           <Grid item xs={12}>
-            {editMode ? (
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="phone"
+              label="전화번호"
+              name="phone"
+              autoComplete="phone"
+              disabled
+              defaultValue={"profile.phone"}
+              {...register("phone")}
+            />
+          </Grid>
+          <Grid container spacing={12}>
+            <Grid item xs={10}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="username"
-                label="이름"
-                name="username"
-                autoComplete="username"
-                {...register("username")}
+                id="address"
+                label="주소"
+                autoFocus
+                disabled
+                {...register("address1")}
               />
-            ) : (
-              <TextField
-                id="username"
-                label="username"
-                defaultValue={profile.username}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            )}
+            </Grid>
+            <Grid item xs={2}>
+              <div
+                className="user-btn"
+                type="button"
+                onClick={() => console.log("검색 API로 검색")}
+                fullWidth
+              >
+                검색
+              </div>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="address2"
+              label="상세주소"
+              name="address2"
+              autoComplete="address2"
+              disabled={editMode ? false : true}
+              defaultValue={"profile.address2"}
+              {...register("address2")}
+            />
           </Grid>
           <Grid item xs={12}>
             {editMode ? (
@@ -126,17 +146,30 @@ function Profile() {
                 수정완료
               </Button>
             ) : (
-              <button
-                type="button"
-                onClick={() => {
-                  setEditMode(true);
-                }}
-                fullWidth
-                variant="contained"
-                color="primary"
-              >
-                수정하기
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditMode(true);
+                  }}
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                >
+                  수정하기
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    alert("정말 탈퇴하시겠습니까?");
+                  }}
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                >
+                  탈퇴하기
+                </button>
+              </>
             )}
           </Grid>
         </Grid>
