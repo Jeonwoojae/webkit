@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import { signout } from '../service/ApiService'
 
 function Navigator() {
+  const accessToken = localStorage.getItem("ACCESS_TOKEN");
+
   return (
       // navigationBar
     <AppBar position="static">
@@ -15,11 +17,14 @@ function Navigator() {
           </Grid>
           <Grid item>
           <Button color="inherit" href="/profile">
-              profile
+              my
             </Button>
-            <Button color="inherit" onClick={signout}>
+            {accessToken == null? (<Button color="inherit" onClick={signout}>
               logout
-            </Button>
+            </Button>):(<Button color="inherit" href="/login">
+              login
+            </Button>)}
+            
           </Grid>
         </Grid>
       </Toolbar>
