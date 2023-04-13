@@ -9,6 +9,8 @@ import SignUp from "./page/SignUp";
 import Sell from "./page/Sell";
 import Navigator from "./components/Navigator";
 import TransactionDetail from "./page/TransactionDetail";
+import TransactionList from "./page/TransactionList";
+import BidList from "./page/BidList";
 
 function AppRouter() {
   return (
@@ -24,6 +26,8 @@ function AppRouter() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/sell" element={<Sell />} />
           <Route path="/transaction-detail" element={<TransactionDetail />} />
+          <Route path="/transaction" element={<TransactionList />} />
+          <Route path="/bid" element={<BidList />} />
         </Routes>
       </div>
       <div>

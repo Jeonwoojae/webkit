@@ -1,0 +1,62 @@
+.bid-table-container {
+    width: 80%;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .bid-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+  }
+  
+  .bid-table th {
+    background-color: #eee;
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  .bid-table td {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .bid-table .code {
+    font-weight: bold;
+  }
+  
+  .bid-table .name {
+    text-align: left;
+  }
+  
+  .bid-table .my-bid {
+    color: blue;
+  }
+  
+  .bid-table .manage {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .bid-table .manage button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .bid-table .manage button.edit {
+    background-color: #00c853;
+  }
+  
+  .bid-table .manage button.delete {
+    background-color: #f44336;
+  }
+  
