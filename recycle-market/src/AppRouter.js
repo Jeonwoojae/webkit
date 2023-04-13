@@ -7,6 +7,7 @@ import Login from "./page/Login";
 import Navigator from "./page/Navigator";
 import Profile from "./page/Profile";
 import SignUp from "./page/SignUp";
+import Sell from "./page/Sell";
 
 function AppRouter() {
   return (
@@ -20,6 +21,7 @@ function AppRouter() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<App />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/sell" element={<Sell />} />
         </Routes>
       </div>
       <div>

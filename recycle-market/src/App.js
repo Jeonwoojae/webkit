@@ -1,5 +1,4 @@
 import { render } from "react-dom";
-import Todo from "./components/Todo";
 import React, { useEffect, useState } from "react";
 import {
   Paper,
@@ -12,7 +11,6 @@ import {
   Button,
   IconButton,
 } from "@material-ui/core";
-import AddTodo from "./components/AddTodo";
 import call, { signout } from "./service/ApiService";
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import Paging from "./components/Paging";
@@ -80,9 +78,6 @@ function App() {
     // 자바스크립트가 제공하는 map 함수를 이용해서 배열을 반복해 <Todo/> 컴포넌트를 여러 개 생성한다.
     <Paper style={{ margin: 16 }}>
       <List>
-        {items.map((item, idx) => (
-          <Todo item={item} key={item.id} delete={deleteItem} update={update} />
-        ))}
       </List>
       <Paging page={page} setPage={setPage} count={countItem} />
     </Paper>

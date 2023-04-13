@@ -2,11 +2,15 @@ import {
   Button,
   Container,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   Grid,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -20,6 +24,12 @@ import "./SignUp.css";
 
 export default function SignUp() {
   const [isChecked, setIsChecked] = useState(false);
+  const [value, setValue] = React.useState("female");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+    console.log(event.target.value);
+  };
 
   // 폼을 만들기 위한 여러가지 요소 불러오기
   const { register, handleSubmit, getValues } = useForm();
@@ -166,7 +176,7 @@ export default function SignUp() {
               <div
                 className="user-btn"
                 type="button"
-                onClick={console.log("검색 API로 검색")}
+                onClick={()=>console.log("검색 API로 검색")}
                 fullWidth
               >
                 검색
@@ -187,6 +197,30 @@ export default function SignUp() {
             />
           </Grid>
           <Grid item xs={12}>
+            <FormControl>
+              <FormLabel id="demo-row-radio-buttons-group-label">
+                Gender
+              </FormLabel>
+              <RadioGroup
+                row
+                name="row-radio-buttons-group"
+                value={value}
+                onChange={handleChange}
+              >
+                <FormControlLabel
+                  value="0"
+                  control={<Radio />}
+                  label="판매자"
+                />
+                <FormControlLabel
+                  value="1"
+                  control={<Radio />}
+                  label="구매자"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
             <Button
               disabled={isChecked ? false : true}
               type="submit"
@@ -200,7 +234,12 @@ export default function SignUp() {
         </Grid>
         <Grid container justifyContent="flex-end">
           <Grid item xs={12}>
-            <Button style={{marginTop: "5px"}} fullWidth variant="contained" color="secondary">
+            <Button
+              style={{ marginTop: "5px" }}
+              fullWidth
+              variant="contained"
+              color="secondary"
+            >
               로그인으로 돌아가기
             </Button>
           </Grid>
