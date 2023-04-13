@@ -61,15 +61,15 @@ function Profile() {
 
   return (
     <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
-      <Grid container spacing={2}>
+      <Grid container spacing={1} style={{marginBottom: "16px"}}>
         <Typography component="h1" variant="h5">
           Profile
         </Typography>
       </Grid>
       <form noValidate onSubmit={handleSubmit(onValid)}>
         {" "}
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <Grid container spacing={1}>
+          <Grid item xs={12} style={{marginBottom: "16px"}}>
             <TextField
               variant="outlined"
               required
@@ -83,7 +83,7 @@ function Profile() {
               {...register("username")}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{marginBottom: "16px"}}>
             <TextField
               variant="outlined"
               required
@@ -97,8 +97,8 @@ function Profile() {
               {...register("phone")}
             />
           </Grid>
-          <Grid container spacing={12}>
-            <Grid item xs={10}>
+          <Grid container spacing={1}>
+            <Grid item xs={10} style={{marginBottom: "16px"}}>
               <TextField
                 variant="outlined"
                 required
@@ -110,7 +110,7 @@ function Profile() {
                 {...register("address1")}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} >
               <div
                 className="user-btn"
                 type="button"
@@ -121,7 +121,7 @@ function Profile() {
               </div>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{marginBottom: "16px"}}>
             <TextField
               variant="outlined"
               required
@@ -146,30 +146,29 @@ function Profile() {
                 수정완료
               </Button>
             ) : (
-              <>
-                <button
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
                   type="button"
                   onClick={() => {
                     setEditMode(true);
                   }}
-                  fullWidth
                   variant="contained"
                   color="primary"
+                  style={{marginRight:"15px"}}
                 >
                   수정하기
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
                   onClick={() => {
                     alert("정말 탈퇴하시겠습니까?");
                   }}
-                  fullWidth
                   variant="contained"
                   color="secondary"
                 >
                   탈퇴하기
-                </button>
-              </>
+                </Button>
+              </div>
             )}
           </Grid>
         </Grid>
