@@ -1,0 +1,67 @@
+.deal-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+  }
+  
+  .deal-info-image {
+    margin-right: 20px;
+  }
+  
+  .deal-info-image img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .deal-info-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .deal-info-code,
+  .deal-info-category {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+  }
+  
+  .deal-info-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .deal-info-price {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  
+  .deal-info-seller {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .deal-info-buttons {
+    display: flex;
+  }
+  
+  .deal-info-button-pay,
+  .deal-info-button-cancel {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .deal-info-button-pay {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    margin-right: 10px;
+  }
+  
+  .deal-info-button-cancel {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+  }
+  

@@ -147,7 +147,7 @@ function App() {
             onChange={handleCategoryChange}
             label="카테고리 선택"
           >
-            <MenuItem value="">전체</MenuItem>
+            <MenuItem value="" disabled>전체</MenuItem>
             <MenuItem value="clothes">의류</MenuItem>
             <MenuItem value="food">음식</MenuItem>
             <MenuItem value="electronics">전자제품</MenuItem>
