@@ -70,50 +70,69 @@ function Profile() {
         {" "}
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            {editMode ? (
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="이메일 주소"
-                name="email"
-                autoComplete="email"
-                {...register("email")}
-              />
-            ) : (
-              <TextField
-                id="email"
-                label="email"
-                defaultValue={profile.email}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            )}
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="username"
+              label="성명"
+              name="username"
+              defaultValue="username"
+              autoComplete="email"
+              disabled={editMode? false:true}
+              {...register("username")}
+            />
           </Grid>
           <Grid item xs={12}>
-            {editMode ? (
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="phoneNumber"
+              label="전화번호"
+              name="phoneNumber"
+              autoComplete="phoneNumber"
+              disabled
+              defaultValue={profile.phoneNumber}
+              {...register("phoneNumber")}
+            />
+          </Grid>
+          <Grid container spacing={12}>
+            <Grid item xs={10}>
               <TextField
-                variant="outlined"
+              variant="outlined"
                 required
                 fullWidth
-                id="username"
-                label="이름"
-                name="username"
-                autoComplete="username"
-                {...register("username")}
+                id="address1"
+                label="주소"
+                autoFocus
+                disabled
+                {...register("address1")}
               />
-            ) : (
-              <TextField
-                id="username"
-                label="username"
-                defaultValue={profile.username}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            )}
+            </Grid>
+            <Grid item xs={2}>
+              <div
+                className="user-btn"
+                type="button"
+                onClick={console.log("검색 API로 검색")}
+                fullWidth
+              >
+                검색
+              </div>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="address2"
+              label="상세주소"
+              name="address2"
+              autoComplete="address2"
+              defaultValue={profile.address2}
+              {...register("address2")}
+            />
           </Grid>
           <Grid item xs={12}>
             {editMode ? (
@@ -126,6 +145,7 @@ function Profile() {
                 수정완료
               </Button>
             ) : (
+              <>
               <button
                 type="button"
                 onClick={() => {
@@ -137,6 +157,18 @@ function Profile() {
               >
                 수정하기
               </button>
+              <button
+                type="button"
+                onClick={() => {
+                  alert("정말로 탈퇴하시겠습니까?");
+                }}
+                fullWidth
+                variant="contained"
+                color="primary"
+              >
+                탈퇴하기
+              </button>
+              </>
             )}
           </Grid>
         </Grid>
