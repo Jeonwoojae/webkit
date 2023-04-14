@@ -48,4 +48,12 @@ public class MemberEntity {
         this.address_details = address_details;
         this.memberType = memberType;
     }
+
+    public MemberEntity update(@NonNull String name, @NonNull String address_info, @NonNull String address_details){
+        this.name = name;
+        this.address_info = address_info;
+        this.address_details = address_details;
+
+        return this;
+    }
 }

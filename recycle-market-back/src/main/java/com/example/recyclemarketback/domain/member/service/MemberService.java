@@ -82,4 +82,42 @@ public class MemberService implements UserDetailsService {
 
         return response;
     }
+
+    public void deleteUserByPhoneNumber(String phoneNumber) {
+        MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
+        memberRepository.delete(member);
+
+        // TODO 지웠는데 지운 정보를 반환해야하는가
+//        MemberDto response = Optional.ofNullable(member)
+//                .map(m -> MemberDto.builder()
+//                        .username(m.getName())
+//                        .phoneNumber(m.getPhoneNumber())
+//                        .password(m.getEncryptedPwd())
+//                        .addressInfo(m.getAddress_info())
+//                        .addressDetails(m.getAddress_details())
+//                        .memberType(m.getMemberType())
+//                        .build())
+//                .orElse(null);
+    }
+
+    public MemberDto updateUserInfoWithPhoneNumber(String phoneNumber, MemberDto memberDto) {
+        MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
+
+        // 프론트에서 입력 검증을 하기 때문에 빈 값의 입력은 생각하지 않음
+        MemberEntity updatedMember = member.update(memberDto.getUsername(),memberDto.getAddressInfo(),memberDto.getAddressDetails());
+        MemberDto response = Optional.ofNullable(updatedMember)
+                .map(m -> MemberDto.builder()
+                        .username(m.getName())
+                        .phoneNumber(m.getPhoneNumber())
+                        .password(m.getEncryptedPwd())
+                        .addressInfo(m.getAddress_info())
+                        .addressDetails(m.getAddress_details())
+                        .memberType(m.getMemberType())
+                        .build())
+                .orElse(null);
+
+        return response;
+    }
 }
