@@ -33,6 +33,7 @@ public class ProductService {
         MemberEntity seller = memberRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
 
+        // TODO 사용자가 판매자인지 확인 필요
         ProductEntity productEntity = ProductEntity.builder()
                 .name(productDto.getName())
                 .description(productDto.getDescription())
