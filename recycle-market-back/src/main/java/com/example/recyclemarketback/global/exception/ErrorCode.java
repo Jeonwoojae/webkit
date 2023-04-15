@@ -12,6 +12,7 @@ public enum ErrorCode {
      */
     CANNOT_FIND_USER(HttpStatus.NOT_FOUND,"해당하는 유저를 찾을 수 없습니다."),
     CANNOT_FIND_PRODUCT(HttpStatus.NOT_FOUND, "해당하는 물품을 찾을 수 없습니다."),
+    CANNOT_FIND_BID(HttpStatus.NOT_FOUND, "해당하는 입찰을 찾을 수 없습니다."),
     /**
      * 409 error
      */
