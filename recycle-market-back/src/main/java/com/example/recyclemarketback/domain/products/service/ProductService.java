@@ -38,8 +38,8 @@ public class ProductService {
                 .name(productDto.getName())
                 .description(productDto.getDescription())
                 .seller(seller)
-                .startPrice(productDto.getStartPrice())
                 .endDate(productDto.getEndDate())
+                .startPrice(productDto.getStartPrice())
                 .build();
 
         ProductEntity newEntity = productRepository.save(productEntity);

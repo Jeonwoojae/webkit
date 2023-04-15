@@ -47,7 +47,7 @@ public class ProductEntity {
     private ProductState productState;
 
     @Builder
-    public ProductEntity(@NonNull String name, @NonNull String description, @NonNull LocalDateTime startDate, @NonNull LocalDateTime endDate, @NonNull Long startPrice, @NonNull MemberEntity seller) {
+    public ProductEntity(@NonNull String name, @NonNull String description, @NonNull LocalDateTime endDate, @NonNull Long startPrice, @NonNull MemberEntity seller) {
         this.name = name;
         this.description = description;
         // 물품이 만들어지면 바로 시작시간
