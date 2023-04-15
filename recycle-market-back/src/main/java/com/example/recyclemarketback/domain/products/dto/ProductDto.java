@@ -43,6 +43,7 @@ public class ProductDto {
         this.startDate = entity.getStartDate();
         this.endDate = entity.getEndDate();
         this.startPrice = entity.getStartPrice();
+        this.currentPrice = entity.getCurrentPrice();
         this.productState = entity.getProductState();
     }
 }

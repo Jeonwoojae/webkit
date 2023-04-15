@@ -37,6 +37,8 @@ public class ProductEntity {
     @Column(nullable = false)
     private Long startPrice;
 
+    private Long currentPrice;
+
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
@@ -52,6 +54,7 @@ public class ProductEntity {
         this.startDate = LocalDateTime.now();
         this.endDate = endDate;
         this.startPrice = startPrice;
+        this.currentPrice = startPrice;
         this.seller = seller;
         // 물품이 만들어 지면 바로 경매 진행 상태
         this.productState = ProductState.AUCTION;
