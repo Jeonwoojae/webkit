@@ -48,7 +48,8 @@ public class ProductEntity {
     public ProductEntity(@NonNull String name, @NonNull String description, @NonNull LocalDateTime startDate, @NonNull LocalDateTime endDate, @NonNull Long startPrice, @NonNull MemberEntity seller) {
         this.name = name;
         this.description = description;
-        this.startDate = startDate;
+        // 물품이 만들어지면 바로 시작시간
+        this.startDate = LocalDateTime.now();
         this.endDate = endDate;
         this.startPrice = startPrice;
         this.seller = seller;
@@ -72,5 +73,18 @@ public class ProductEntity {
                 .endDate(this.getEndDate())
                 .startPrice(this.startPrice)
                 .build();
+    }
+
+    public void checkEndDateAndChangeProductState() {
+        if (this.productState != ProductState.AUCTION) {
+            // 이미 상태가 변경된 경우 return
+            return;
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isAfter(this.endDate)) {
+            // 경매 종료 시간이 지났으면 SOLD 상태로 변경
+            this.productState = ProductState.ENDED;
+        }
     }
 }

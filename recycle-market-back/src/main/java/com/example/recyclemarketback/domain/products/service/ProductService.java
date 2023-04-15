@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -37,7 +38,6 @@ public class ProductService {
                 .description(productDto.getDescription())
                 .seller(seller)
                 .startPrice(productDto.getStartPrice())
-                .startDate(productDto.getStartDate())
                 .endDate(productDto.getEndDate())
                 .build();
 
