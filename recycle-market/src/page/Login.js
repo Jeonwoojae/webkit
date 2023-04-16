@@ -68,9 +68,9 @@ function Login() {
 
   const onValid = (data) => {
     setIsLoading(true);
-    console.log(data);
     setTimeout(() => {
       const { phoneNumber, password } = getValues();
+      console.log(phoneNumber, password);
       signin({ phoneNumber: phoneNumber, password: password });
       setIsLoading(false);
     }, 2000);
@@ -107,6 +107,7 @@ function Login() {
               >
                 <InputLabel required>패스워드</InputLabel>
                 <OutlinedInput
+                  name="password"
                   type={showPassword ? "text" : "password"}
                   endAdornment={
                     <InputAdornment position="end">

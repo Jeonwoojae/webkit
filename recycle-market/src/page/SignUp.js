@@ -17,14 +17,36 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import React, { Component, useState } from "react";
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { checkCertificateCode, sendEmail, signup } from "../service/ApiService";
 import "./SignUp.css";
+import { useDaumPostcodePopup } from "react-daum-postcode";
 
 export default function SignUp() {
   const [isChecked, setIsChecked] = useState(false);
   const [value, setValue] = React.useState("female");
+  
+  // 주소 검색 api
+  const [address, setAddress] = useState(''); // 주소
+  const open = useDaumPostcodePopup();
+
+  const handleSearchComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+
+    console.log(data.zonecode,fullAddress); // e.g. '(12345)서울 성동구 왕십리로2길 20 (성수동1가)'
+    setAddress(`(${data.zonecode})${fullAddress}`);
+  };
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -52,9 +74,11 @@ export default function SignUp() {
       phoneNumber: phoneNumber,
       username: username,
       password: password,
-      address1: address1,
-      address2: address2,
+      addressInfo: address,
+      addressDetails: address2,
+      memberType: value
     }).then((respone) => {
+      alert("회원가입이 성공했습니다. 로그인 해주세요!");
       window.location.href = "/login";
     });
   };
@@ -144,6 +168,7 @@ export default function SignUp() {
             >
               <InputLabel required>패스워드</InputLabel>
               <OutlinedInput
+                name="password"
                 type={showPassword ? "text" : "password"}
                 endAdornment={
                   <InputAdornment position="end">
@@ -171,6 +196,7 @@ export default function SignUp() {
                 label="주소"
                 autoFocus
                 disabled
+                value={address}
                 {...register("address1")}
               />
             </Grid>
@@ -178,7 +204,7 @@ export default function SignUp() {
               <div
                 className="user-btn"
                 type="button"
-                onClick={() => console.log("검색 API로 검색")}
+                onClick={() => {open({ onComplete: handleSearchComplete });}}
                 fullWidth
               >
                 검색
@@ -209,12 +235,12 @@ export default function SignUp() {
                   onChange={handleChange}
                 >
                   <FormControlLabel
-                    value="0"
+                    value="SELLER"
                     control={<Radio />}
                     label="판매자"
                   />
                   <FormControlLabel
-                    value="1"
+                    value="BUYER"
                     control={<Radio />}
                     label="구매자"
                   />

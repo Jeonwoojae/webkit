@@ -33,6 +33,7 @@ function call(api, method, request) {
     .catch((error) => {
       console.log(error.status);
       if (error.status === 403) {
+        alert("권한이 없습니다.")
         window.location.href = "/login";
       }
       return Promise.reject(error);
@@ -41,11 +42,12 @@ function call(api, method, request) {
 
 // 로그인을 위한 API 서비스 메소드 signin
 export function signin(userDto) {
-    return call("/auth/signin","POST",userDto)
+    return call("/login","POST",userDto)
     .then((response) => {
-        if(response.token) {
+      console.log(response);
+        if(response.atk) {
             // local 스토리지에 토큰 저장
-            localStorage.setItem("ACCESS_TOKEN", response.token);
+            localStorage.setItem("ACCESS_TOKEN", response.atk);
             // token이 존재하는 경우 todo 화면으로 리다이렉트
             window.location.href="/";
         }
@@ -54,7 +56,7 @@ export function signin(userDto) {
 
 // 회원가입 요청
 export function signup(userDto) {
-    return call("/auth/signup","POST",userDto)
+    return call("/api/v1/members","POST",userDto)
     .then((response) => {
         if(response.id) {
             window.location.href="/";
