@@ -6,5 +6,5 @@ public enum ProductState {
 
     private String state;
     ProductState(String state){ this.state = state; }
-    public String getRole() { return state; }
+    public String getState() { return state; }
 }
