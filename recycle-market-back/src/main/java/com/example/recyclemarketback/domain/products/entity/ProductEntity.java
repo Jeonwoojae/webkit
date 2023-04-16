@@ -78,6 +78,10 @@ public class ProductEntity {
                 .build();
     }
 
+    public void setCurrentPrice(Long price){
+        this.currentPrice = price;
+    }
+
     public void checkEndDateAndChangeProductState() {
         if (this.productState != ProductState.AUCTION) {
             // 이미 상태가 변경된 경우 return

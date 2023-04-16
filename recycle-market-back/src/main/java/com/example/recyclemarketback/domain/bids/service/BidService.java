@@ -55,6 +55,9 @@ public class BidService {
                 .build();
 
         BidEntity newBid = bidRepository.save(bid);
+        product.setCurrentPrice(newBid.getBidPrice());
+        productRepository.save(product);
+        
         BidDto response = Optional.ofNullable(newBid).map(BidDto::new)
                 .orElse(null);
         return response;
