@@ -45,5 +45,6 @@ public class ProductDto {
         this.startPrice = entity.getStartPrice();
         this.currentPrice = entity.getCurrentPrice();
         this.productState = entity.getProductState();
+        this.sellerPhoneNumber = entity.getSeller().getPhoneNumber();
     }
 }
