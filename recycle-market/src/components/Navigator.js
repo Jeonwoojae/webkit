@@ -19,7 +19,7 @@ function Navigator() {
           <Button color="inherit" href="/profile">
               my
             </Button>
-            {accessToken == null? (<Button color="inherit" onClick={signout}>
+            {accessToken != null? (<Button color="inherit" onClick={signout}>
               logout
             </Button>):(<Button color="inherit" href="/login">
               login
