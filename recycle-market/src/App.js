@@ -1,120 +1,38 @@
-import { render } from "react-dom";
 import React, { useEffect, useState } from "react";
 import {
-  Paper,
-  List,
-  Container,
-  AppBar,
-  Toolbar,
   Grid,
-  Typography,
   Button,
-  IconButton,
   Select,
   InputLabel,
   FormControl,
   MenuItem,
   TextField,
 } from "@material-ui/core";
-import call, { signout } from "./service/ApiService";
-import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
-import Paging from "./components/Paging";
 import { Pagination } from "@mui/material";
 import "./App.css";
+import call from "./service/ApiService";
+import { Link } from "react-router-dom";
+import parsingPrice from "./service/ParsingPrice";
+import parsingDate from "./service/ParsingDate";
 
 function App() {
-  const products = [
-    {
-      id: 1,
-      name: "상품1",
-      category: "clothes",
-      date: "2022-05-01",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 2,
-      name: "상품2",
-      category: "food",
-      date: "2022-05-02",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 3,
-      name: "상품3",
-      category: "electronics",
-      date: "2022-05-03",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 4,
-      name: "상품4",
-      category: "clothes",
-      date: "2022-05-04",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 5,
-      name: "상품5",
-      category: "food",
-      date: "2022-05-05",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 6,
-      name: "상품6",
-      category: "clothes",
-      date: "2022-05-06",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 7,
-      name: "상품7",
-      category: "food",
-      date: "2022-05-07",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 8,
-      name: "상품8",
-      category: "electronics",
-      date: "2022-05-08",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 9,
-      name: "상품9",
-      category: "clothes",
-      date: "2022-05-09",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 10,
-      name: "상품10",
-      category: "food",
-      date: "2022-05-10",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 11,
-      name: "상품11",
-      category: "electronics",
-      date: "2022-05-11",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 12,
-      name: "상품12",
-      category: "clothes",
-      date: "2022-05-12",
-      image: "https://via.placeholder.com/150",
-    },
-  ];
-
+  const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const itemsPerPage = 6;
   const pages = Math.ceil(products.length / itemsPerPage);
+
+  useEffect(() => {
+    call(`/api/v1/products`, "GET", null)
+      .then(data => {
+        console.log(data);
+        setProducts(data); // 받아온 데이터를 상태값으로 설정
+      })
+      .catch(error => {
+        console.error('상품 데이터를 가져오는 중 오류가 발생했습니다.', error);
+      });
+  }, []); // 컴포넌트가 처음 렌더링될 때만 실행
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -175,10 +93,12 @@ function App() {
           .slice((page - 1) * itemsPerPage, page * itemsPerPage)
           .map((product) => (
             <Grid item xs={12} sm={6} md={4} key={product.id}>
-              <img src={product.image} alt={product.name} />
+              <Link to={`/product/${product.id}`} style={{ color: "black", textDecoration: 'none' }}>
+              <img src={"https://via.placeholder.com/150"} alt={product.name} />
               <p>{product.name}</p>
-              <p>{product.category}</p>
-              <p>{product.date}</p>
+              <p>현재 {parsingPrice(product.currentPrice)}</p>
+              <p>{parsingDate(product.endDate)}까지</p>
+              </Link>
             </Grid>
           ))}
       </Grid>
