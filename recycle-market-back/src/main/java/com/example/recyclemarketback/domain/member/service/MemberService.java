@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -35,6 +36,7 @@ public class MemberService implements UserDetailsService {
                 new ArrayList<>());
     }
 
+    @Transactional
     public MemberDto createUser(MemberDto memberDto) {
         if (memberRepository.existsByPhoneNumber(memberDto.getPhoneNumber())) {
             log.info("이미 가입된 유저");
@@ -83,6 +85,7 @@ public class MemberService implements UserDetailsService {
         return response;
     }
 
+    @Transactional
     public void deleteUserByPhoneNumber(String phoneNumber) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
@@ -101,6 +104,7 @@ public class MemberService implements UserDetailsService {
 //                .orElse(null);
     }
 
+    @Transactional
     public MemberDto updateUserInfoWithPhoneNumber(String phoneNumber, MemberDto memberDto) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));

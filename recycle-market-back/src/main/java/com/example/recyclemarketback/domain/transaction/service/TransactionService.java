@@ -15,6 +15,7 @@ import com.example.recyclemarketback.global.exception.CustomException;
 import com.example.recyclemarketback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class TransactionService {
      * @param productDto
      * @return
      */
+    @Transactional
     public TransactionDto initTransaction(ProductDto productDto){
         ProductEntity product = productRepository.findById(productDto.getId())
                 .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
@@ -66,6 +68,7 @@ public class TransactionService {
         return response;
     }
 
+    @Transactional
     public TransactionDto cancleTransaction(Long transactionId, String phoneNumber) {
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
@@ -81,6 +84,7 @@ public class TransactionService {
         return response;
     }
 
+    @Transactional
     public TransactionDto payTransaction(Long transactionId, String phoneNumber, PaymentMethod paymentMethod){
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
@@ -101,6 +105,7 @@ public class TransactionService {
         return response;
     }
 
+    @Transactional
     public TransactionDto shipProduct(Long transactionId, String phoneNumber, String trackingNumber){
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
@@ -120,6 +125,7 @@ public class TransactionService {
         return response;
     }
 
+    @Transactional
     public TransactionDto deliveryComplete(Long transactionId, String phoneNumber){
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));

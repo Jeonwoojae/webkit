@@ -63,6 +63,7 @@ public class BidService {
         return response;
     }
 
+    @Transactional
     // 입찰 내용 수정
     public BidDto updateBid(String phoneNumber, Long productId, Long price) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)

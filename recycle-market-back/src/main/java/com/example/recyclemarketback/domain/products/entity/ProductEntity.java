@@ -33,6 +33,8 @@ public class ProductEntity {
     @Column(nullable = false)
     private LocalDateTime endDate;
 
+    // TODO 카테고리 추가 필요
+
     @NonNull
     @Column(nullable = false)
     private Long startPrice;
