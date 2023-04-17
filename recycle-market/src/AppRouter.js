@@ -29,7 +29,7 @@ function AppRouter() {
           <Route path="/transaction-detail" element={<TransactionDetail />} />
           <Route path="/transaction" element={<TransactionList />} />
           <Route path="/bid" element={<BidList />} />
-          <Route path="/product" element={<AuctionDetailPage />} />
+          <Route path="/product/:id" element={<AuctionDetailPage />} />
         </Routes>
       </div>
       <div>

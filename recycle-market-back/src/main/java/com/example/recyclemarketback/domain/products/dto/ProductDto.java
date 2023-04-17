@@ -25,6 +25,7 @@ public class ProductDto {
     private Long startPrice;
     private Long currentPrice;
     private String sellerPhoneNumber;
+    private String sellerName;
     private ProductState productState;
 
     @Builder
@@ -46,5 +47,6 @@ public class ProductDto {
         this.currentPrice = entity.getCurrentPrice();
         this.productState = entity.getProductState();
         this.sellerPhoneNumber = entity.getSeller().getPhoneNumber();
+        this.sellerName = entity.getSeller().getName();
     }
 }

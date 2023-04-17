@@ -110,4 +110,18 @@ public class ProductController {
             return ResponseEntity.badRequest().body(responseDto);
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductDetail(@PathVariable Long id) {
+        try{
+            ProductDto product = productService.getProduct(id);
+
+            return ResponseEntity.ok().body(product);
+
+        } catch (Exception e){
+            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
+
+            return ResponseEntity.badRequest().body(responseDto);
+        }
+    }
 }

@@ -108,4 +108,13 @@ public class ProductService {
 
         return dtos;
     }
+
+    public ProductDto getProduct(Long id) {
+        ProductEntity product = productRepository.findById(id)
+                .orElseThrow(()-> new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
+
+        ProductDto dto = Optional.ofNullable(product).map(ProductDto::new).orElse(null);
+
+        return dto;
+    }
 }

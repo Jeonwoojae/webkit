@@ -1,6 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import call from "../service/ApiService";
+import parsingDate from "../service/ParsingDate";
+import parsingPrice from "../service/ParsingPrice";
 
 const AuctionDetailPage = () => {
+  const { id } = useParams();
+  const [productInfo, setProductInfo] = useState({});
+
+  useEffect(() => {
+    call(`/api/v1/products/${id}`, "GET", null)
+      .then((data) => {
+        console.log(data);
+        setProductInfo(data); // 받아온 데이터를 상태값으로 설정
+      })
+      .catch((error) => {
+        console.error("상품 데이터를 가져오는 중 오류가 발생했습니다.", error);
+      });
+  }, []); // 컴포넌트가 처음 렌더링될 때만 실행
+
   // 예시 데이터
   const productData = {
     code: "P00001",
@@ -46,15 +64,15 @@ const AuctionDetailPage = () => {
             <div
               style={{
                 width:
-                  productData.auctionStatus === "in progress" ? "60%" : "100%",
+                  productInfo.productState === "AUCTION" ? "60%" : "100%",
                 height: "100%",
                 backgroundColor:
-                  productData.auctionStatus === "in progress" ? "green" : "red",
+                  productInfo.productState === "AUCTION" ? "green" : "red",
                 borderRadius: "10px",
                 textAlign: "center",
               }}
             >
-              {productData.auctionStatus === "in progress"
+              {productInfo.productState === "AUCTION"
                 ? "경매 진행중"
                 : "경매 종료"}
             </div>
@@ -64,31 +82,31 @@ const AuctionDetailPage = () => {
       <div style={{ width: "50%", border: "1px solid #ccc", padding: "20px" }}>
         <div style={{ marginBottom: "20px" }}>
           <span style={{ fontWeight: "bold" }}>코드번호:</span>{" "}
-          {productData.code}
+          {productInfo.id}
         </div>
         <div style={{ marginBottom: "20px" }}>
           <span style={{ fontWeight: "bold" }}>카테고리:</span>{" "}
-          {productData.category}
+          {productData.category} 미구현
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <span style={{ fontWeight: "bold" }}>상품명:</span> {productData.name}
+          <span style={{ fontWeight: "bold" }}>상품명:</span> {productInfo.name}
         </div>
         <div style={{ marginBottom: "20px" }}>
           <span style={{ fontWeight: "bold" }}>현재 최고 입찰가:</span>{" "}
-          {productData.currentBid}
+          {parsingPrice(productInfo.currentPrice)}
         </div>
         <div style={{ marginBottom: "20px" }}>
           <span style={{ fontWeight: "bold" }}>종료시간:</span>{" "}
-          {productData.endTime}
+          {parsingDate(productInfo.endDate)}
         </div>
         <div style={{ marginBottom: "20px" }}>
           <span style={{ fontWeight: "bold" }}>판매자:</span>{" "}
-          {productData.seller}
+          {productInfo.sellerName}
         </div>
         <button style={{ marginBottom: "20px" }}>입찰하기</button>
         <div style={{ marginBottom: "20px" }}>
           <span style={{ fontWeight: "bold" }}>상품 설명:</span>{" "}
-          {productData.description}
+          {productInfo.description}
         </div>
       </div>
     </div>
