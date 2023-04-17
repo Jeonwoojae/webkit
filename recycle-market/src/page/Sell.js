@@ -6,16 +6,27 @@ import {
   TextField,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { DateTimePicker } from "@material-ui/pickers";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import call from "../service/ApiService";
 
 function Sell() {
   const [category, setCategory] = useState("");
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [startPrice, setStartPrice] = useState(0);
-  const [selectedDate, handleDateChange] = useState(new Date());
   const [file, setFile] = useState(null);
   const [fileUrl, setFileUrl] = useState(null); // 파일 URL을 상태로 관리
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleDateChange = (date) => {
+    const dateObj = new Date(date);
+    const convertedDate = new Date(
+      dateObj.getTime() - dateObj.getTimezoneOffset() * 60000
+    ).toISOString();
+    console.log(convertedDate);
+    setSelectedDate(date);
+  };
 
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
@@ -39,15 +50,28 @@ function Sell() {
     setFileUrl(URL.createObjectURL(selectedFile)); // 파일 URL을 생성하여 상태로 저장
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Implement submission logic here
+  const onValid = (event) => {
+    const convertedDate = new Date(
+      selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000
+    ).toISOString().slice(0, -5);
+
+    const obj = {
+      name: productName,
+      description: productDescription,
+      endDate: convertedDate,
+      startPrice: startPrice,
+    };
+    
+    console.log("물품 생성 요청", obj);
+    call("/api/v1/products", "POST", obj).then((response) => {
+      console.log(response);
+    });
   };
 
   return (
     <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
       {" "}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={() => onValid()}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <Select value={category} onChange={handleCategoryChange}>
@@ -94,7 +118,14 @@ function Sell() {
             <div>
               <label>
                 종료 시간:
-
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={handleDateChange}
+                  showTimeSelect
+                  timeIntervals={15}
+                  minDate={new Date()}
+                  dateFormat="MM/dd/yyyy h:mm aa"
+                />
               </label>
             </div>
           </Grid>
@@ -120,7 +151,7 @@ function Sell() {
         )}
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <button type="submit">등록하기</button>
+            <button onClick={() => onValid()} type="button">등록하기</button>
           </Grid>
         </Grid>
       </form>

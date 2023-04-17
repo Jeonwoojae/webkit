@@ -48,6 +48,7 @@ export function signin(userDto) {
         if(response.atk) {
             // local 스토리지에 토큰 저장
             localStorage.setItem("ACCESS_TOKEN", response.atk);
+            localStorage.setItem("ROLE",response.role);
             // token이 존재하는 경우 todo 화면으로 리다이렉트
             window.location.href="/";
         }
