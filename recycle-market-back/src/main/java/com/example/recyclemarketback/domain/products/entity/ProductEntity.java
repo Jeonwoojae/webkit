@@ -1,11 +1,16 @@
 package com.example.recyclemarketback.domain.products.entity;
 
+import com.example.recyclemarketback.domain.bids.entity.BidEntity;
 import com.example.recyclemarketback.domain.member.entity.MemberEntity;
 import com.example.recyclemarketback.domain.products.dto.ProductDto;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -47,6 +52,9 @@ public class ProductEntity {
     private MemberEntity seller;
 
     private ProductState productState;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<BidEntity> bidList = new ArrayList<>();
 
     @Builder
     public ProductEntity(@NonNull String name, @NonNull String description, @NonNull LocalDateTime endDate, @NonNull Long startPrice, @NonNull MemberEntity seller) {
@@ -95,5 +103,38 @@ public class ProductEntity {
             // 경매 종료 시간이 지났으면 SOLD 상태로 변경
             this.productState = ProductState.ENDED;
         }
+    }
+
+    public void addBid(BidEntity bid) {
+        bidList.add(bid);
+        bid.setProduct(this);
+    }
+
+    public void removeBid(BidEntity bid) {
+        bidList.remove(bid);
+    }
+
+    public void updateCurrentPrice() {
+        BidEntity highestBid = getHighestBid();
+        if (highestBid != null) {
+            this.currentPrice = highestBid.getBidPrice();
+        } else {
+            this.currentPrice = startPrice;
+        }
+    }
+
+    private BidEntity getHighestBid() {
+        List<BidEntity> bids = getBids();
+        if (bids.isEmpty()) {
+            return null;
+        }
+        // 최고 입찰가를 가진 Bid 엔티티를 찾습니다.
+        return bids.stream().max(Comparator.comparing(BidEntity::getBidPrice)).orElse(null);
+    }
+
+    private List<BidEntity> getBids() {
+        return bidList.stream()
+                .filter(bid -> bid.getBidPrice() != null)
+                .collect(Collectors.toList());
     }
 }

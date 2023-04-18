@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -56,6 +58,7 @@ public class BidService {
 
         BidEntity newBid = bidRepository.save(bid);
         product.setCurrentPrice(newBid.getBidPrice());
+        product.addBid(newBid);
         productRepository.save(product);
         
         BidDto response = Optional.ofNullable(newBid).map(BidDto::new)
@@ -101,10 +104,17 @@ public class BidService {
         }
 
 
-        BidEntity bid = bidRepository.findByProductAndBidder(product, member)
+        BidEntity bidEntity = bidRepository.findByProductAndBidder(product, member)
                 .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_BID));
 
-        bidRepository.delete(bid);
+
+
+        bidRepository.delete(bidEntity);
+        product.removeBid(bidEntity);
+
+        // 상품도 최고 입찰가로 수정
+        product.updateCurrentPrice();
+        productRepository.save(product);
     }
 
     public BidDto getMembersBid(String phoneNumber, Long productId) {
@@ -118,6 +128,16 @@ public class BidService {
 
         BidDto response = Optional.ofNullable(bid).map(BidDto::new)
                 .orElse(null);
+        return response;
+    }
+
+    public List<BidDto> getMembersBids(String phoneNumber) {
+        MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
+        List<BidEntity> list = bidRepository.findAllByBidder(member);
+
+        List<BidDto> response = list.stream().map(BidDto::new).collect(Collectors.toList());
+
         return response;
     }
 }
