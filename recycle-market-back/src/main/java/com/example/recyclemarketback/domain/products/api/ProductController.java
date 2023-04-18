@@ -10,7 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -61,8 +63,10 @@ public class ProductController {
         String phoneNumber = tokenProvider.getPhoneNumberFromAccessToken(atk);
         try{
             productService.deleteProduct(phoneNumber, productId);
+            Map<String,String> res = new HashMap<>();
+            res.put("status","ok");
 
-            return ResponseEntity.ok().body("");
+            return ResponseEntity.ok().body(res);
 
         } catch (Exception e){
             ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();

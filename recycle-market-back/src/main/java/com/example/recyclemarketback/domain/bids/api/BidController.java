@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/bids")
 @RequiredArgsConstructor
@@ -51,6 +55,21 @@ public class BidController {
         }
     }
 
+    @GetMapping("")
+    public ResponseEntity<?> getAllMyBid(@RequestHeader(value = "Authorization") String atk) {
+        String phoneNumber = tokenProvider.getPhoneNumberFromAccessToken(atk);
+        try {
+            List<BidDto> bid = bidService.getMembersBids(phoneNumber);
+
+            return ResponseEntity.ok().body(bid);
+
+        } catch (Exception e) {
+            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
+
+            return ResponseEntity.badRequest().body(responseDto);
+        }
+    }
+
     @GetMapping("/{productId}")
     public ResponseEntity<?> getMyBid(@RequestHeader(value = "Authorization") String atk,
                                        @PathVariable Long productId) {
@@ -73,8 +92,10 @@ public class BidController {
         String phoneNumber = tokenProvider.getPhoneNumberFromAccessToken(atk);
         try {
             bidService.deleteBid(phoneNumber, productId);
+            Map<String,String> res = new HashMap<>();
+            res.put("status","ok");
 
-            return ResponseEntity.ok().body("");
+            return ResponseEntity.ok().body(res);
 
         } catch (Exception e) {
             ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();

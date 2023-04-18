@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
@@ -50,8 +53,10 @@ public class MemberController {
         String phoneNumber = tokenProvider.getPhoneNumberFromAccessToken(atk);
         try{
             memberService.deleteUserByPhoneNumber(phoneNumber);
+            Map<String,String> res = new HashMap<>();
+            res.put("status","ok");
 
-            return ResponseEntity.ok().body("삭제 성공");
+            return ResponseEntity.ok().body(res);
         } catch (Exception e){
             ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
 

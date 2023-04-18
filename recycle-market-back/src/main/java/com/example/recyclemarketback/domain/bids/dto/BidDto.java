@@ -1,6 +1,7 @@
 package com.example.recyclemarketback.domain.bids.dto;
 
 import com.example.recyclemarketback.domain.bids.entity.BidEntity;
+import com.example.recyclemarketback.domain.products.entity.ProductState;
 import lombok.*;
 
 @Getter
@@ -10,6 +11,8 @@ public class BidDto {
     private Long id;
     private Long memberId;
     private Long productId;
+    private String productName;
+    private boolean isEnd;
     private Long price;
 
     @Builder
@@ -25,5 +28,7 @@ public class BidDto {
         this.price = bidEntity.getBidPrice();
         this.memberId = bidEntity.getBidder().getId();
         this.productId = bidEntity.getProduct().getId();
+        this.productName = bidEntity.getProductName();
+        this.isEnd = bidEntity.getProduct().getProductState() == ProductState.ENDED ? true: false;
     }
 }
