@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import "./BidTable.css";
 import call from "../../service/ApiService";
 import { useNavigate } from "react-router-dom";
+import { Pagination } from "@mui/material";
 
 const BidTable = ({ data, setData }) => {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 6;
+  const pages = Math.ceil(data.length / itemsPerPage);;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentBid, setCurrentBid] = useState(null);
@@ -28,6 +30,10 @@ const BidTable = ({ data, setData }) => {
       .catch((error) => {
         console.error("상품 데이터를 가져오는 중 오류가 발생했습니다.", error);
       });
+  };
+
+  const handleChange = (event, value) => {
+    setPage(value);
   };
 
   const handleModalClose = () => {
@@ -88,17 +94,6 @@ const BidTable = ({ data, setData }) => {
     navigate(path);
   };
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(data.length / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
   return (
     <>
       <table className="bid-table">
@@ -111,7 +106,7 @@ const BidTable = ({ data, setData }) => {
           </tr>
         </thead>
         <tbody>
-          {currentItems.map((item) => (
+          {data.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((item) => (
             <tr key={item.id} onClick={() => handleRowClick(item.productId)}>
               <td>{item.id}</td>
               <td>{item.productName}</td>
@@ -142,13 +137,12 @@ const BidTable = ({ data, setData }) => {
           ))}
         </tbody>
       </table>
-      <div className="pagination">
-        {pageNumbers.map((number) => (
-          <div key={number} className="page-number">
-            <button onClick={() => paginate(number)}>{number}</button>
-          </div>
-        ))}
-      </div>
+      <Pagination
+        className="select-page"
+        count={pages}
+        page={page}
+        onChange={handleChange}
+      />
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
