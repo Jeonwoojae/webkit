@@ -1,30 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BidTable from '../components/bid/BidTable'
+import call from '../service/ApiService';
 
 function BidList() {
-    const data = [
-        {
-          id: 1,
-          code: 'P001',
-          name: '아이폰 13',
-          bidPrice: 1000000,
-        },
-        {
-          id: 2,
-          code: 'P002',
-          name: '갤럭시 S21',
-          bidPrice: 800000,
-        },
-        {
-          id: 3,
-          code: 'P003',
-          name: '맥북 프로',
-          bidPrice: 1500000,
-        },
-      ];
-      
+  const [bidList,setBidList]=useState([]);
+
+  useEffect(() => {
+    call(`/api/v1/bids`, "GET", null)
+      .then((data) => {
+        console.log(data);
+        setBidList(data); // 받아온 데이터를 상태값으로 설정
+      })
+      .catch((error) => {
+        console.error("상품 데이터를 가져오는 중 오류가 발생했습니다.", error);
+      });
+  }, []); // 컴포넌트가 처음 렌더링될 때만 실행
+
   return (
-    <BidTable data={data} />
+    <BidTable data={bidList} setData={setBidList} />
   )
 }
 

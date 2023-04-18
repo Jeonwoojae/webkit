@@ -1,62 +1,192 @@
-.bid-table-container {
-    width: 80%;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  
-  .bid-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
-  }
-  
-  .bid-table th {
-    background-color: #eee;
-    font-weight: bold;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    text-align: center;
-  }
-  
-  .bid-table td {
-    border-bottom: 1px solid #ccc;
-    padding: 10px;
-  }
-  
-  .bid-table .code {
-    font-weight: bold;
-  }
-  
-  .bid-table .name {
-    text-align: left;
-  }
-  
-  .bid-table .my-bid {
-    color: blue;
-  }
-  
-  .bid-table .manage {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .bid-table .manage button {
-    padding: 5px 10px;
-    border-radius: 5px;
-    border: none;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .bid-table .manage button.edit {
-    background-color: #00c853;
-  }
-  
-  .bid-table .manage button.delete {
-    background-color: #f44336;
-  }
-  
+.bid-table {
+  border-collapse: collapse;
+  margin: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  width: 100%;
+}
+
+.bid-table th {
+  text-align: center;
+  background-color: #f2f2f2;
+  border: 1px solid #dddddd;
+  padding: 10px;
+}
+
+.bid-table td {
+  border: 1px solid #dddddd;
+  padding: 10px;
+  text-align: left; /* 상품명, 내 입찰가 칸은 왼쪽 정렬 */
+}
+
+.bid-table td:first-child {
+  width: 10%; /* 상품코드 칸 제일 작게 */
+  text-align: center;
+}
+
+.bid-table td:nth-child(3) {
+  width: 20%; /* 입찰가 크기 조정 */
+  text-align: right;
+}
+
+.bid-table td:last-child {
+  width: 20%; /* 버튼이 있는 칸은 딱 맞게 */
+  text-align: center;
+  margin-right: 20px;
+}
+
+
+.bid-table td button {
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.btn-edit {
+  color: #ffffff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+  font-size: 14px;
+  background-color: #4CAF50;
+}
+
+.btn-edit:hover{
+  background-color: #2f7831;
+}
+
+.btn-delete {
+  color: #ffffff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+  font-size: 14px;
+  background-color: #f44336;
+}
+.btn-delete:hover{
+  background-color: #9b2c24;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-number {
+  margin: 0 5px;
+}
+
+.page-number button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.page-number button:hover {
+  color: #0077ff;
+}
+
+.modal-overlay {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 20px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.form-group input[type="number"] {
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-group input[type="number"]:focus {
+  border-color: #2196f3;
+}
+
+.btn-submit {
+  background-color: #2196f3;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+.btn-submit:hover {
+  background-color: #0c7cd5;
+}
