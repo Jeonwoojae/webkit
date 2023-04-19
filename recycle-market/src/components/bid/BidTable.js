@@ -8,7 +8,7 @@ const BidTable = ({ data, setData }) => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const itemsPerPage = 6;
-  const pages = Math.ceil(data.length / itemsPerPage);;
+  const pages = Math.ceil(data.length / itemsPerPage);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentBid, setCurrentBid] = useState(null);
@@ -96,47 +96,56 @@ const BidTable = ({ data, setData }) => {
 
   return (
     <>
-      <table className="bid-table">
-        <thead>
-          <tr>
-            <th>상품코드</th>
-            <th>상품명</th>
-            <th>내 입찰가</th>
-            <th>관리</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((item) => (
-            <tr key={item.id} onClick={() => handleRowClick(item.productId)}>
-              <td>{item.id}</td>
-              <td>{item.productName}</td>
-              <td>{item.price}원</td>
-              <td>
-                {item.end ? (
-                  <>종료된 경매</>
-                ) : (
-                  <>
-                    <button
-                      className="btn-edit"
-                      onClick={() =>
-                        handleEditClick(item.price, item.productId)
-                      }
-                    >
-                      수정하기
-                    </button>
-                    <button
-                      className="btn-delete"
-                      onClick={() => handleDeleteClick(item.productId, item.id)}
-                    >
-                      삭제하기
-                    </button>
-                  </>
-                )}
-              </td>
+      <div className="table-container">
+        <table className="bid-table">
+          <thead>
+            <tr>
+              <th>상품코드</th>
+              <th>상품명</th>
+              <th>내 입찰가</th>
+              <th>관리</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data
+              .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+              .map((item) => (
+                <tr
+                  key={item.id}
+                  onClick={() => handleRowClick(item.productId)}
+                >
+                  <td>{item.id}</td>
+                  <td>{item.productName}</td>
+                  <td>{item.price}원</td>
+                  <td>
+                    {item.end ? (
+                      <>종료된 경매</>
+                    ) : (
+                      <>
+                        <button
+                          className="btn-edit"
+                          onClick={() =>
+                            handleEditClick(item.price, item.productId)
+                          }
+                        >
+                          수정하기
+                        </button>
+                        <button
+                          className="btn-delete"
+                          onClick={() =>
+                            handleDeleteClick(item.productId, item.id)
+                          }
+                        >
+                          삭제하기
+                        </button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
       <Pagination
         className="select-page"
         count={pages}
