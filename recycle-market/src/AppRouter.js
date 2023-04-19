@@ -26,7 +26,7 @@ function AppRouter() {
           <Route path="/" element={<App />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/sell" element={<Sell />} />
-          <Route path="/transaction-detail" element={<TransactionDetail />} />
+          <Route path="/transaction/detail/:id" element={<TransactionDetail />} />
           <Route path="/transaction" element={<TransactionList />} />
           <Route path="/bid" element={<BidList />} />
           <Route path="/product/:id" element={<AuctionDetailPage />} />

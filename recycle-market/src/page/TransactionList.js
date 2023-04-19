@@ -1,43 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TransactionTable from "../components/transaction/TransactionTable";
+import call from "../service/ApiService";
 
 function TransactionList() {
-  const data = [
-    {
-      code: "dede01",
-      productCode: "A001",
-      winner: "John",
-      price: 200000,
-      seller: "Amy",
-      status: "배송중",
-    },
-    {
-      code: "dede02",
-      productCode: "B002",
-      winner: "David",
-      price: 150000,
-      seller: "Chris",
-      status: "거래완료",
-    },
-    {
-      code: "dede03",
-      productCode: "C003",
-      winner: "Emma",
-      price: 180000,
-      seller: "Frank",
-      status: "결제대기",
-    },
-    {
-      code: "dede04",
-      productCode: "D004",
-      winner: "Gina",
-      price: 220000,
-      seller: "Henry",
-      status: "거래취소",
-    },
-  ];
+  const [transactionList, setTransactionList] = useState([]);
 
-  return <TransactionTable products={data} />;
+  useEffect(() => {
+    call(`/api/v1/transactions/users`, "GET", null)
+      .then((data) => {
+        console.log(data);
+        setTransactionList(data); // 받아온 데이터를 상태값으로 설정
+      })
+      .catch((error) => {
+        console.error("거래 데이터를 가져오는 중 오류가 발생했습니다.", error);
+      });
+  }, []); // 컴포넌트가 처음 렌더링될 때만 실행
+
+  return <TransactionTable transactions={transactionList} />;
 }
 
 export default TransactionList;

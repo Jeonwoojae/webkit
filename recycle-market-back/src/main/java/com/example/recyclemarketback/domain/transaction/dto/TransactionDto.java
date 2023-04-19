@@ -18,7 +18,7 @@ public class TransactionDto {
     private Long buyerId;
     private String buyerName;
     private Long price;
-    private TransactionState transactionState;
+    private String transactionState;
     private PaymentMethod paymentMethod;
 
     public TransactionDto(TransactionEntity transactionEntity) {
@@ -30,7 +30,7 @@ public class TransactionDto {
         this.buyerId = transactionEntity.getBuyer().getId();
         this.buyerName = transactionEntity.getBuyer().getName();
         this.price = transactionEntity.getProduct().getCurrentPrice();
-        this.transactionState = transactionEntity.getTransactionState();
+        this.transactionState = transactionEntity.getTransactionState().getState();
         this.paymentMethod = transactionEntity.getPaymentMethod();
     }
 }
