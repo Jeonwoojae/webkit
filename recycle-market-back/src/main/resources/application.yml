@@ -4,7 +4,11 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 1MB
   redis:
     lettuce:
       pool:
@@ -29,3 +33,16 @@ token:
   #  1day
   refresh_expiration_time: 864000000
   secret: user_token
+
+# get from application-dev.yml
+cloud:
+  aws:
+    credentials:
+      access-key:
+      secret-key:
+    s3:
+      bucket:
+    region:
+      static:
+    stack:
+      auto: false

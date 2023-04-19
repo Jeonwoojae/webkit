@@ -4,6 +4,7 @@ import com.example.recyclemarketback.domain.bids.entity.BidEntity;
 import com.example.recyclemarketback.domain.member.entity.MemberEntity;
 import com.example.recyclemarketback.domain.products.dto.ProductDto;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,10 +33,12 @@ public class ProductEntity {
 
     @NonNull
     @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startDate;
 
     @NonNull
     @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endDate;
 
     @NonNull
@@ -57,6 +60,9 @@ public class ProductEntity {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<BidEntity> bidList = new ArrayList<>();
+
+    @Column
+    private String imageUrl;
 
     @Builder
     public ProductEntity(@NonNull String name, @NonNull String description, @NonNull LocalDateTime endDate, @NonNull Long startPrice, @NonNull MemberEntity seller, @NonNull String category) {

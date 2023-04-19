@@ -6,6 +6,7 @@ import com.example.recyclemarketback.domain.member.repository.MemberRepository;
 import com.example.recyclemarketback.domain.products.dto.ProductDto;
 import com.example.recyclemarketback.domain.products.entity.ProductEntity;
 import com.example.recyclemarketback.domain.products.repository.ProductRepository;
+import com.example.recyclemarketback.global.S3Uploader;
 import com.example.recyclemarketback.global.exception.CustomException;
 import com.example.recyclemarketback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,9 +30,10 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
+    private final S3Uploader s3Uploader;
 
     @Transactional
-    public ProductDto createProduct(String phoneNumber, ProductDto productDto) {
+    public ProductDto createProduct(String phoneNumber, ProductDto productDto, MultipartFile image) throws IOException {
         MemberEntity seller = memberRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
 
@@ -42,6 +46,10 @@ public class ProductService {
                 .startPrice(productDto.getStartPrice())
                 .category(productDto.getCategory())
                 .build();
+
+        if(!image.isEmpty()) {
+            productEntity.setImageUrl(s3Uploader.upload(image,"images"));
+        }
 
         ProductEntity newEntity = productRepository.save(productEntity);
 

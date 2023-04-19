@@ -48,6 +48,29 @@ function call(api, method, params) {
     });
 }
 
+export function postFormData(api, formData) {
+  const headers = new Headers({
+    Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
+  });
+
+  const options = {
+    method: "POST",
+    headers,
+    body: formData,
+  };
+
+  return fetch(API_BASE_URL + api, options)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("There was a problem with the network request:", error);
+    });
+}
+
 
 // 로그인을 위한 API 서비스 메소드 signin
 export function signin(userDto) {

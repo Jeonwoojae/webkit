@@ -67,7 +67,7 @@ const AuctionDetailPage = () => {
         <div className="auction-image-container">
           <img
             className="auction-image"
-            src="https://dummyimage.com/400x400/000/fff"
+            src={productInfo.imageUrl}
             alt="https://dummyimage.com/400x400/000/fff"
           />
           <div className={`auction-status ${productInfo.productState}`}>

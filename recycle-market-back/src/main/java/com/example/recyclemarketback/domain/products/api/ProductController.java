@@ -7,9 +7,12 @@ import com.example.recyclemarketback.global.TokenProvider;
 import com.example.recyclemarketback.global.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +26,16 @@ public class ProductController {
     // tokenprovider를 계속 의존성 주입보다는 token 클래스를 생성하는게 더 괜찮아 보임
     private final TokenProvider tokenProvider;
 
-    @PostMapping("")
-    public ResponseEntity<?> addProduct(@RequestHeader(value = "Authorization") String atk,
-                                        @RequestBody ProductDto productDto) {
+    @PostMapping(value="")
+    public ResponseEntity<?> addProduct(
+                                        @RequestHeader(value = "Authorization") String atk,
+                                        @ModelAttribute ProductDto productDto,
+                                        @RequestPart("image")MultipartFile image
+                                        ) {
         String phoneNumber = tokenProvider.getPhoneNumberFromAccessToken(atk);
         try{
-            ProductDto product = productService.createProduct(phoneNumber, productDto);
+            // 이미지 업로드 후 생성시 이미지 주소 추가
+            ProductDto product = productService.createProduct(phoneNumber, productDto, image);
 
             return ResponseEntity.ok().body(product);
 

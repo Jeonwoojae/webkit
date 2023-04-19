@@ -139,11 +139,11 @@ function App() {
                     style={{ color: "black", textDecoration: "none" }}
                   >
                     <img
-                      src={"https://via.placeholder.com/150"}
-                      alt={product.name}
+                      src={product.imageUrl}
+                      alt={"https://via.placeholder.com/150"}
                     />
                     <p>{product.name}</p>
-                    <p>현재 {parsingPrice(product.currentPrice)}</p>
+                    <p>현재 {parsingPrice(product.currentPrice)}원</p>
                     <p>{parsingDate(product.endDate)}까지</p>
                   </Link>
                 </Grid>
