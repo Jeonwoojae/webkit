@@ -40,6 +40,7 @@ public class ProductService {
                 .seller(seller)
                 .endDate(productDto.getEndDate())
                 .startPrice(productDto.getStartPrice())
+                .category(productDto.getCategory())
                 .build();
 
         ProductEntity newEntity = productRepository.save(productEntity);
@@ -68,6 +69,7 @@ public class ProductService {
                             p.setName(productDto.getName());
                             p.setDescription(productDto.getDescription());
                             p.setEndDate(productDto.getEndDate());
+                            p.setCategory(productDto.getCategory());
                             return productRepository.save(p);
                         }).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
 

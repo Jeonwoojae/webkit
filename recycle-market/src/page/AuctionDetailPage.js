@@ -61,27 +61,14 @@ const AuctionDetailPage = () => {
       });
   }, []); // 컴포넌트가 처음 렌더링될 때만 실행
 
-  // 예시 데이터
-  const productData = {
-    code: "P00001",
-    category: "의류",
-    name: "니트",
-    currentBid: 50000,
-    endTime: "2023-04-30 23:59:59",
-    seller: "seller1",
-    imageSrc: "https://dummyimage.com/400x400/000/fff",
-    auctionStatus: "in progress",
-    description: "this is my product",
-  };
-
   return (
     <>
       <div className="auction-detail-container">
         <div className="auction-image-container">
           <img
             className="auction-image"
-            src={productData.imageSrc}
-            alt="상품 이미지"
+            src="https://dummyimage.com/400x400/000/fff"
+            alt="https://dummyimage.com/400x400/000/fff"
           />
           <div className={`auction-status ${productInfo.productState}`}>
             {productInfo.productState === "AUCTION"
@@ -96,7 +83,7 @@ const AuctionDetailPage = () => {
           </div>
           <div className="auction-info-row">
             <span className="auction-info-label">카테고리:</span>{" "}
-            {productData.category} 미구현
+            {productInfo.category}
           </div>
           <div className="auction-info-row">
             <span className="auction-info-label">상품명:</span>{" "}

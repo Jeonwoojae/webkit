@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "../app-config";
 const ACCESS_TOKEN = "ACCESS_TOKEN";
 
-function call(api, method, request) {
+function call(api, method, params) {
   let headers = new Headers({
     "Content-Type": "application/json",
   });
@@ -11,17 +11,25 @@ function call(api, method, request) {
     headers.append("Authorization", "Bearer " + accessToken);
   }
 
+  let url = API_BASE_URL + api;
+
+  // GET 방식일 경우 URL 쿼리 스트링에 파라미터를 추가
+  if (method.toUpperCase() === 'GET' && params) {
+    const queryString = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
+    url += `?${queryString}`;
+  }
+
   let options = {
     headers: headers,
-    url: API_BASE_URL + api,
     method: method,
   };
 
-  if (request) {
-    options.body = JSON.stringify(request);
+  // POST 방식일 경우 요청 바디에 파라미터를 추가
+  if (method.toUpperCase() === 'POST' && params) {
+    options.body = JSON.stringify(params);
   }
 
-  return fetch(options.url, options)
+  return fetch(url, options)
     .then((response) =>
       response.json().then((json) => {
         if (!response.ok) {
@@ -39,6 +47,7 @@ function call(api, method, request) {
       return Promise.reject(error);
     });
 }
+
 
 // 로그인을 위한 API 서비스 메소드 signin
 export function signin(userDto) {

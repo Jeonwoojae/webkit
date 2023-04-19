@@ -38,7 +38,9 @@ public class ProductEntity {
     @Column(nullable = false)
     private LocalDateTime endDate;
 
-    // TODO 카테고리 추가 필요
+    @NonNull
+    @Column(nullable = false)
+    private String category;
 
     @NonNull
     @Column(nullable = false)
@@ -57,7 +59,7 @@ public class ProductEntity {
     private List<BidEntity> bidList = new ArrayList<>();
 
     @Builder
-    public ProductEntity(@NonNull String name, @NonNull String description, @NonNull LocalDateTime endDate, @NonNull Long startPrice, @NonNull MemberEntity seller) {
+    public ProductEntity(@NonNull String name, @NonNull String description, @NonNull LocalDateTime endDate, @NonNull Long startPrice, @NonNull MemberEntity seller, @NonNull String category) {
         this.name = name;
         this.description = description;
         // 물품이 만들어지면 바로 시작시간
@@ -68,24 +70,16 @@ public class ProductEntity {
         this.seller = seller;
         // 물품이 만들어 지면 바로 경매 진행 상태
         this.productState = ProductState.AUCTION;
+        this.category = category;
     }
 
-    public ProductEntity update(@NonNull String name, @NonNull String description, @NonNull LocalDateTime endDate){
+    public ProductEntity update(@NonNull String name, @NonNull String description, @NonNull LocalDateTime endDate, @NonNull String category){
         this.name = name;
         this.description = description;
         this.endDate = endDate;
+        this.category = category;
 
         return this;
-    }
-
-    public ProductDto entityToDto(){
-        return ProductDto.builder()
-                .name(this.getName())
-                .description(this.getDescription())
-                .startDate(this.getStartDate())
-                .endDate(this.getEndDate())
-                .startPrice(this.startPrice)
-                .build();
     }
 
     public void setCurrentPrice(Long price){

@@ -36,7 +36,7 @@ public class ProductCheckService {
 
             boolean hasBidder = bidRepository.existsByProduct(product);
             // 입찰자가 있을 경우 Transaction 엔티티 생성
-            // TODO 바로 레포지토리의 코드를 넣으면 false여도 if 안에 들어간다
+            // 주의!! 바로 레포지토리의 코드를 넣으면 false여도 if 안에 들어간다
             if (hasBidder) {
                 transactionService
                         .initTransaction(Optional.ofNullable(product).map(ProductDto::new).orElse(null));

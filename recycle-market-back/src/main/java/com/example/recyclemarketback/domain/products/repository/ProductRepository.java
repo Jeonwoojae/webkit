@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findAllByEndDateBeforeAndProductState(LocalDateTime now, ProductState auction);
+    List<ProductEntity> findProductEntitiesByCategory(String category);
+    List<ProductEntity> findProductEntitiesByName(String name);
 }

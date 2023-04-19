@@ -18,6 +18,8 @@ public class ProductDto {
     @NotNull
     private String description;
     @NotNull
+    private String category;
+    @NotNull
     private LocalDateTime startDate;
     @NotNull
     private LocalDateTime endDate;
@@ -48,5 +50,6 @@ public class ProductDto {
         this.productState = entity.getProductState();
         this.sellerPhoneNumber = entity.getSeller().getPhoneNumber();
         this.sellerName = entity.getSeller().getName();
+        this.category = entity.getCategory();
     }
 }

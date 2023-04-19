@@ -46,6 +46,22 @@ function App() {
   };
 
   const handleSearch = () => {
+    const params = {};
+    if (category != "") {
+      params.category = category;
+    }
+    if (search != "") {
+      params.name = search;
+    }
+
+    call(`/api/v1/products/search`, "GET", params)
+      .then((data) => {
+        console.log(data);
+        setProducts(data); // 받아온 데이터를 상태값으로 설정
+      })
+      .catch((error) => {
+        console.error("상품 데이터를 가져오는 중 오류가 발생했습니다.", error);
+      });
     console.log(`Search category: ${category}, keyword: ${search}`);
   };
 
@@ -66,10 +82,10 @@ function App() {
             onChange={handleCategoryChange}
             label="카테고리 선택"
           >
-            <MenuItem value="" disabled>
+            <MenuItem value={null} disabled>
               전체
             </MenuItem>
-            <MenuItem value="clothes">의류</MenuItem>
+            <MenuItem value="의류">의류</MenuItem>
             <MenuItem value="food">음식</MenuItem>
             <MenuItem value="electronics">전자제품</MenuItem>
           </Select>
@@ -105,32 +121,42 @@ function App() {
           <></>
         )}
       </div>
-      <Grid container spacing={3} className="centered-grid-container">
-        {products
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((product) => (
-            <Grid item xs={12} sm={6} md={4} key={product.id}>
-              <Link
-                to={`/product/${product.id}`}
-                style={{ color: "black", textDecoration: "none" }}
-              >
-                <img
-                  src={"https://via.placeholder.com/150"}
-                  alt={product.name}
-                />
-                <p>{product.name}</p>
-                <p>현재 {parsingPrice(product.currentPrice)}</p>
-                <p>{parsingDate(product.endDate)}까지</p>
-              </Link>
-            </Grid>
-          ))}
-      </Grid>
-      <Pagination
-        className="select-page"
-        count={pages}
-        page={page}
-        onChange={handleChange}
-      />
+
+      {products.length == 0 ? (
+        <>
+        <h1 style={{textAlign: "center"}}>NOT FOUND..</h1>
+        <p style={{textAlign: "center"}}>찾으시는 상품이 없습니다.</p>
+        </>
+      ) : (
+        <>
+          <Grid container spacing={3} className="centered-grid-container">
+            {products
+              .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+              .map((product) => (
+                <Grid item xs={12} sm={6} md={4} key={product.id}>
+                  <Link
+                    to={`/product/${product.id}`}
+                    style={{ color: "black", textDecoration: "none" }}
+                  >
+                    <img
+                      src={"https://via.placeholder.com/150"}
+                      alt={product.name}
+                    />
+                    <p>{product.name}</p>
+                    <p>현재 {parsingPrice(product.currentPrice)}</p>
+                    <p>{parsingDate(product.endDate)}까지</p>
+                  </Link>
+                </Grid>
+              ))}
+          </Grid>
+          <Pagination
+            className="select-page"
+            count={pages}
+            page={page}
+            onChange={handleChange}
+          />
+        </>
+      )}
     </div>
   );
 }
