@@ -1,53 +1,71 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProgressBar from "../components/my-transaction/ProgressBar";
-import TransactionNav from "../components/my-transaction/TransactionNav";
 import DealInfo from "../components/my-transaction/DealInfo";
+import { useParams } from "react-router-dom";
+import call from "../service/ApiService";
 
 function TransactionDetail() {
-    const data = [
-        {
-          id: 1,
-          image: "https://via.placeholder.com/150",
-          code: "PROD001",
-          category: "의류",
-          name: "맨투맨",
-          price: 20000,
-          seller: "판매자A",
-        },
-        {
-          id: 2,
-          image: "https://via.placeholder.com/150",
-          code: "PROD002",
-          category: "가전",
-          name: "냉장고",
-          price: 500000,
-          seller: "판매자B",
-        },
-        {
-          id: 3,
-          image: "https://via.placeholder.com/150",
-          code: "PROD003",
-          category: "식품",
-          name: "과일바구니",
-          price: 30000,
-          seller: "판매자C",
-        },
-        {
-          id: 4,
-          image: "https://via.placeholder.com/150",
-          code: "PROD004",
-          category: "생활용품",
-          name: "이불세트",
-          price: 70000,
-          seller: "판매자D",
-        },
-      ];
-      
+  const { transactionId } = useParams();
+  const [transaction, setTransaction] = useState({});
+  const [updated, setUpdated] = useState(false);
+
+  useEffect(() => {
+    call(`/api/v1/transactions/${transactionId}`, "GET", null)
+      .then((data) => {
+        console.log(data);
+        setTransaction(data); // 받아온 데이터를 상태값으로 설정
+        setUpdated(false);
+      })
+      .catch((error) => {
+        console.error("거래 데이터를 가져오는 중 오류가 발생했습니다.", error);
+      });
+  }, [updated]); // 컴포넌트가 처음 렌더링될 때만 실행
+
+  const paymentRequest = (method) =>{
+    call(`/api/v1/transactions/${transactionId}/pay?method=${method}`, "PATCH", null)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("결제 중 오류가 발생했습니다.", error);
+      });
+  }
+
+  const addTrackingCodeRequest = (code) =>{
+    const obj = {trackingNumber: code};
+    call(`/api/v1/transactions/${transactionId}/ship`, "PATCH", obj)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("운송장 등록 중 오류가 발생했습니다.", error);
+      });
+  }
+
+  const completeTransactionRequest = () => {
+    call(`/api/v1/transactions/${transactionId}/complete`, "PATCH", null)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("수취 확인 중 오류가 발생했습니다.", error);
+      });
+  }
+
+  const cancleTransactionRequest = () => {
+    call(`/api/v1/transactions/${transactionId}/cancle`, "PATCH", null)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("거래 취소 중 오류가 발생했습니다.", error);
+      });
+  }
+
   return (
-    <div>
-      <TransactionNav />
-      <ProgressBar status={"결제 대기"} />
-      <DealInfo product={data[0]}/>
+    <div style={{marginTop: "40px"}}>
+      <ProgressBar status={transaction.transactionState} />
+      <DealInfo transaction={transaction} setUpdated={setUpdated}/>
     </div>
   );
 }

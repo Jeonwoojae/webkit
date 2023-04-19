@@ -141,4 +141,16 @@ public class TransactionService {
 
         return response;
     }
+
+    public TransactionDto getTransactionDetail(Long transactionId, String phoneNumber) {
+        TransactionEntity transaction = transactionRepository.findById(transactionId)
+                .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
+        if (!transaction.getBuyer().getPhoneNumber().equals(phoneNumber)){
+            throw new RuntimeException("해당 Transaction에 대해 권한이 없습니다.");
+        }
+
+        TransactionDto response = Optional.ofNullable(transaction).map(TransactionDto::new).orElse(null);
+
+        return response;
+    }
 }

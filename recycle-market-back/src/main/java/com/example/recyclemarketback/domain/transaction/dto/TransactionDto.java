@@ -20,6 +20,7 @@ public class TransactionDto {
     private Long price;
     private String transactionState;
     private PaymentMethod paymentMethod;
+    private String trackingNumber;
 
     public TransactionDto(TransactionEntity transactionEntity) {
         this.id = transactionEntity.getId();
@@ -32,5 +33,6 @@ public class TransactionDto {
         this.price = transactionEntity.getProduct().getCurrentPrice();
         this.transactionState = transactionEntity.getTransactionState().getState();
         this.paymentMethod = transactionEntity.getPaymentMethod();
+        this.trackingNumber = transactionEntity.getTrackingNumber();
     }
 }

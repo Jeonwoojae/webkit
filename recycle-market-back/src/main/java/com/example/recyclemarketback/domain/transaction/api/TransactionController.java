@@ -82,4 +82,36 @@ public class TransactionController {
             return ResponseEntity.badRequest().body(responseDto);
         }
     }
+
+    @PatchMapping("/{transactionId}/cancle")
+    public ResponseEntity<?> cancleTransaction(@RequestHeader(value = "Authorization") String atk,
+                                              @PathVariable Long transactionId) {
+        String phoneNumber = tokenProvider.getPhoneNumberFromAccessToken(atk);
+        try{
+            TransactionDto transaction = transactionService.cancleTransaction(transactionId, phoneNumber);
+
+            return ResponseEntity.ok().body(transaction);
+
+        } catch (Exception e){
+            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
+
+            return ResponseEntity.badRequest().body(responseDto);
+        }
+    }
+
+    @GetMapping("/{transactionId}")
+    public ResponseEntity<?> getTransactionDetail(@RequestHeader(value = "Authorization") String atk,
+                                               @PathVariable Long transactionId) {
+        String phoneNumber = tokenProvider.getPhoneNumberFromAccessToken(atk);
+        try{
+            TransactionDto transaction = transactionService.getTransactionDetail(transactionId, phoneNumber);
+
+            return ResponseEntity.ok().body(transaction);
+
+        } catch (Exception e){
+            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
+
+            return ResponseEntity.badRequest().body(responseDto);
+        }
+    }
 }
