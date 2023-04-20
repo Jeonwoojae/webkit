@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 
 @Component
 public class TransactionEntityListener {
@@ -49,6 +50,13 @@ public class TransactionEntityListener {
         headerRow.createCell(6).setCellValue("Buyer Number");
         headerRow.createCell(7).setCellValue("Tracking Number");
         headerRow.createCell(8).setCellValue("Payment Method");
+        headerRow.createCell(9).setCellValue("Date");
+
+        try (FileOutputStream outputStream = new FileOutputStream(FILE_PATH)) {
+            workbook.write(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @PreUpdate
@@ -64,6 +72,8 @@ public class TransactionEntityListener {
         row.createCell(6).setCellValue(entity.getBuyer().getId());
         row.createCell(7).setCellValue(entity.getBuyer().getPhoneNumber());
         row.createCell(8).setCellValue(entity.getPaymentMethod() != null ? entity.getPaymentMethod().name() : null);
+        row.createCell(7).setCellValue(new Date().toString());
+
 
         // 변경된 로그를 엑셀 파일에 저장
         try (FileOutputStream outputStream = new FileOutputStream(FILE_PATH)) {
