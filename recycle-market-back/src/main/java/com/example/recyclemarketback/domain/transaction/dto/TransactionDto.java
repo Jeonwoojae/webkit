@@ -13,6 +13,7 @@ public class TransactionDto {
     private Long id;
     private Long productId;
     private String productName;
+    private String productImgUrl;
     private Long sellerId;
     private String sellerName;
     private Long buyerId;
@@ -34,5 +35,6 @@ public class TransactionDto {
         this.transactionState = transactionEntity.getTransactionState().getState();
         this.paymentMethod = transactionEntity.getPaymentMethod();
         this.trackingNumber = transactionEntity.getTrackingNumber();
+        this.productImgUrl = transactionEntity.getProduct().getImageUrl();
     }
 }

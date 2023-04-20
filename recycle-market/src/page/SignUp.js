@@ -263,6 +263,7 @@ export default function SignUp() {
                 fullWidth
                 variant="contained"
                 color="secondary"
+                onClick={()=>{window.location.replace("/login")}}
               >
                 로그인으로 돌아가기
               </Button>

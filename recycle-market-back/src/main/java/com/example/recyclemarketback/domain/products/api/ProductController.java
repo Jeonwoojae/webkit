@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,19 +32,13 @@ public class ProductController {
                                         @RequestHeader(value = "Authorization") String atk,
                                         @ModelAttribute ProductDto productDto,
                                         @RequestPart("image")MultipartFile image
-                                        ) {
+                                        ) throws IOException {
         String phoneNumber = tokenProvider.getPhoneNumberFromAccessToken(atk);
-        try{
+
             // 이미지 업로드 후 생성시 이미지 주소 추가
-            ProductDto product = productService.createProduct(phoneNumber, productDto, image);
+        ProductDto product = productService.createProduct(phoneNumber, productDto, image);
 
-            return ResponseEntity.ok().body(product);
-
-        } catch (Exception e){
-            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
-
-            return ResponseEntity.badRequest().body(responseDto);
-        }
+        return ResponseEntity.ok().body(product);
     }
 
     @PatchMapping("/{id}")

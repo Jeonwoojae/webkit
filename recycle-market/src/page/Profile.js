@@ -165,7 +165,7 @@ function Profile() {
                 id="address1"
                 placeholder="주소"
                 autoFocus
-                disabled
+                disabled={!editMode}
                 defaultValue={profile.addressInfo}
                 value={getValues("address1") || profile.addressInfo}
                 {...register("address1")}

@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   Container,
   FormControl,
   Grid,
@@ -14,6 +15,7 @@ import call, { postFormData } from "../service/ApiService";
 import "./Sell.css";
 
 function Sell() {
+  const [isLoading, setIsLoading] = useState(false);
   const [category, setCategory] = useState("");
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
@@ -54,6 +56,7 @@ function Sell() {
   };
 
   const onValid = (event) => {
+    setIsLoading(true);
     const convertedDate = new Date(
       selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000
     )
@@ -72,9 +75,15 @@ function Sell() {
       console.log(key, ":", formData.get(key));
     }
 
-    postFormData("/api/v1/products", formData).then((response) => {
-      console.log(response);
-    });
+    postFormData("/api/v1/products", formData)
+      .then((response) => {
+        console.log(response);
+        alert("등록에 성공했습니다!");
+        window.location.replace("/");
+      })
+      .catch((error) => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -98,8 +107,10 @@ function Sell() {
                   전체
                 </MenuItem>
                 <MenuItem value="의류">의류</MenuItem>
-                <MenuItem value="food">음식</MenuItem>
-                <MenuItem value="electronics">전자제품</MenuItem>
+                <MenuItem value="음식">음식</MenuItem>
+                <MenuItem value="운동용품">운동용품</MenuItem>
+                <MenuItem value="전자제품">전자제품</MenuItem>
+                <MenuItem value="기타">기타</MenuItem>
               </Select>
             </FormControl>
             <TextField
@@ -171,8 +182,16 @@ function Sell() {
             </div>
           )}
           <div className="register">
-            <button onClick={() => onValid()} type="button">
-              등록하기
+            <button
+              disabled={isLoading}
+              onClick={() => onValid()}
+              type="button"
+            >
+              {isLoading ? (
+                <CircularProgress size={24} color="primary" />
+              ) : (
+                "등록하기"
+              )}
             </button>
           </div>
         </form>

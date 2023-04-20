@@ -27,7 +27,7 @@ public class TokenProvider {
                     .parseClaimsJws(token).getBody()
                     .getSubject();
         } catch (ExpiredJwtException e){
-            throw new CustomAccessDeniedException("토큰 이상");
+            throw new CustomAccessDeniedException(403,"토큰 이상");
         }
     }
 
@@ -40,7 +40,7 @@ public class TokenProvider {
                     .getSubject();
         } catch (ExpiredJwtException e) {
             phoneNumber = e.getClaims().getSubject();
-        } if (phoneNumber == null) throw new CustomAccessDeniedException("토큰 이상"); // 토큰 검증 에러
+        } if (phoneNumber == null) throw new CustomAccessDeniedException(403, "토큰 이상"); // 토큰 검증 에러
 
         return phoneNumber;
     }

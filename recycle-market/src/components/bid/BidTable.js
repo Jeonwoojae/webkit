@@ -112,11 +112,11 @@ const BidTable = ({ data, setData }) => {
               .map((item) => (
                 <tr
                   key={item.id}
-                  onClick={() => handleRowClick(item.productId)}
+                  
                 >
-                  <td>{item.id}</td>
-                  <td>{item.productName}</td>
-                  <td>{item.price}원</td>
+                  <td onClick={() => handleRowClick(item.productId)}>{item.id}</td>
+                  <td onClick={() => handleRowClick(item.productId)}>{item.productName}</td>
+                  <td onClick={() => handleRowClick(item.productId)}>{item.price}원</td>
                   <td>
                     {item.end ? (
                       <>종료된 경매</>

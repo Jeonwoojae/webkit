@@ -39,7 +39,7 @@ public class ProductService {
         MemberEntity seller = memberRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(()->new CustomException(400,"멤버를 찾을 수 없습니다"));
 
-        if (seller.getMemberType() != MemberType.SELLER) throw new CustomAccessDeniedException("권한이 없습니다.");
+        if (seller.getMemberType() != MemberType.SELLER) throw new CustomAccessDeniedException(403,"권한이 없습니다.");
 
         ProductEntity productEntity = ProductEntity.builder()
                 .name(productDto.getName())
@@ -72,7 +72,7 @@ public class ProductService {
 
         if (product.getSeller() != seller){
             // 해당 판매자의 물품이 아닌 경우
-            throw new CustomAccessDeniedException("권한이 없습니다.");
+            throw new CustomAccessDeniedException(403,"권한이 없습니다.");
         }
 
         ProductEntity updatedProduct = Optional.ofNullable(product)
@@ -100,7 +100,7 @@ public class ProductService {
 
         if (product.getSeller() != seller){
             // 해당 판매자의 물품이 아닌 경우
-            throw new CustomAccessDeniedException("권한이 없습니다.");
+            throw new CustomAccessDeniedException(403,"권한이 없습니다.");
         }
 
         productRepository.delete(product);

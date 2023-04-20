@@ -5,7 +5,7 @@ import call from "../../service/ApiService";
 
 const DealInfo = ({ transaction }) => {
   const {
-    image,
+    productImgUrl,
     id,
     category,
     productName,
@@ -131,7 +131,7 @@ const DealInfo = ({ transaction }) => {
     <>
     <div className="deal-info-container">
       <div className="deal-info-image">
-        <img src={image} alt="https://via.placeholder.com/150" />
+        <img src={productImgUrl} alt="상품 이미지" />
       </div>
       <div className="deal-info-details">
         <div className="deal-info-code">상품코드 : {id}</div>

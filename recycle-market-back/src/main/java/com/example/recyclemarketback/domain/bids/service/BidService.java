@@ -39,7 +39,7 @@ public class BidService {
         ProductEntity product = productRepository.findById(productId)
                 .orElseThrow(() -> new CustomException(400, "물품을 찾을 수 없습니다."));
 
-        if (member.getMemberType() != MemberType.BUYER) throw new CustomAccessDeniedException("권한이 없습니다.");
+        if (member.getMemberType() != MemberType.BUYER) throw new CustomAccessDeniedException(403,"권한이 없습니다.");
 
         if (product.getProductState() != ProductState.AUCTION) {
             throw new IllegalStateException("경매가 종료된 상품입니다.");

@@ -4,6 +4,7 @@ import call from "../service/ApiService";
 import parsingDate from "../service/ParsingDate";
 import parsingPrice from "../service/ParsingPrice";
 import "./AuctionDetailPage.css"
+import noimage from '../assets/noImage.png'
 
 const AuctionDetailPage = () => {
   const { id } = useParams();
@@ -68,7 +69,8 @@ const AuctionDetailPage = () => {
           <img
             className="auction-image"
             src={productInfo.imageUrl}
-            alt="https://dummyimage.com/400x400/000/fff"
+            alt="상품 이미지"
+            onError={(e) => e.target.src = noimage}
           />
           <div className={`auction-status ${productInfo.productState}`}>
             {productInfo.productState === "AUCTION"
@@ -120,7 +122,7 @@ const AuctionDetailPage = () => {
               &times;
             </span>
             <h2>입찰하기</h2>
-            <p>최고 입찰가: {highestBid}원</p>
+            <p>최고 입찰가: {parsingPrice(highestBid)}원</p>
             <div className="form-group">
               <label htmlFor="newBid">새로운 입찰가:</label>
               <input
@@ -133,7 +135,7 @@ const AuctionDetailPage = () => {
             </div>
             <p>입찰한 기록이 있으면 내 입찰에서 수정해주세요.</p>
             <button className="btn-submit" onClick={handleBidSubmit}>
-              수정하기
+              입찰하기
             </button>
           </div>
         </div>

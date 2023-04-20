@@ -14,6 +14,7 @@ import call from "./service/ApiService";
 import { Link } from "react-router-dom";
 import parsingPrice from "./service/ParsingPrice";
 import parsingDate from "./service/ParsingDate";
+import noimage from './assets/noImage.png'
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -86,8 +87,10 @@ function App() {
               전체
             </MenuItem>
             <MenuItem value="의류">의류</MenuItem>
-            <MenuItem value="food">음식</MenuItem>
-            <MenuItem value="electronics">전자제품</MenuItem>
+            <MenuItem value="음식">음식</MenuItem>
+            <MenuItem value="운동용품">운동용품</MenuItem>
+            <MenuItem value="전자제품">전자제품</MenuItem>
+            <MenuItem value="기타">기타</MenuItem>
           </Select>
         </FormControl>
 
@@ -104,6 +107,7 @@ function App() {
           variant="contained"
           color="primary"
           onClick={handleSearch}
+          style={{marginLeft:"10px"}}
         >
           검색
         </Button>
@@ -114,6 +118,7 @@ function App() {
             variant="contained"
             color="secondary"
             onClick={handleSell}
+            style={{marginLeft:"10px"}}
           >
             판매하기
           </Button>
@@ -133,14 +138,17 @@ function App() {
             {products
               .slice((page - 1) * itemsPerPage, page * itemsPerPage)
               .map((product) => (
-                <Grid item xs={12} sm={6} md={4} key={product.id}>
+                <Grid item xs={6} sm={4} md={3} key={product.id} style={{margin:"20px"}} className="container-item">
                   <Link
                     to={`/product/${product.id}`}
                     style={{ color: "black", textDecoration: "none" }}
                   >
                     <img
+                      width="200"
+                      height="200"
                       src={product.imageUrl}
-                      alt={"https://via.placeholder.com/150"}
+                      alt={"상품 이미지"}
+                      onError={(e) => e.target.src = noimage}
                     />
                     <p>{product.name}</p>
                     <p>현재 {parsingPrice(product.currentPrice)}원</p>

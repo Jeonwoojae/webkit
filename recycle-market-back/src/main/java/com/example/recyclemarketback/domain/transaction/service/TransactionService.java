@@ -74,7 +74,7 @@ public class TransactionService {
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
         if (!transaction.getSeller().getPhoneNumber().equals(phoneNumber) && !transaction.getBuyer().getPhoneNumber().equals(phoneNumber)){
-            throw new CustomAccessDeniedException("권한이 없습니다.");
+            throw new CustomAccessDeniedException(403, "권한이 없습니다.");
         }
 
         transaction.getTransactionState().cancelTransaction(transaction);
@@ -90,7 +90,7 @@ public class TransactionService {
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
         if (!transaction.getBuyer().getPhoneNumber().equals(phoneNumber)){
-            throw new CustomAccessDeniedException("권한이 없습니다.");
+            throw new CustomAccessDeniedException(403, "권한이 없습니다.");
         }
 
         // 실제 결제 진행
@@ -111,7 +111,7 @@ public class TransactionService {
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
         if (!transaction.getSeller().getPhoneNumber().equals(phoneNumber)){
-            throw new CustomAccessDeniedException("권한이 없습니다.");
+            throw new CustomAccessDeniedException(403, "권한이 없습니다.");
         }
 
         // 운송장 등록(Valid는 외부 시스템에)
@@ -131,7 +131,7 @@ public class TransactionService {
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
         if (!transaction.getBuyer().getPhoneNumber().equals(phoneNumber)){
-            throw new CustomAccessDeniedException("권한이 없습니다.");
+            throw new CustomAccessDeniedException(403, "권한이 없습니다.");
         }
 
         // 거래 상태 변경
@@ -146,9 +146,10 @@ public class TransactionService {
     public TransactionDto getTransactionDetail(Long transactionId, String phoneNumber) {
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
-        if (!transaction.getBuyer().getPhoneNumber().equals(phoneNumber)){
-            throw new CustomAccessDeniedException("권한이 없습니다.");
+        if (!transaction.getBuyer().getPhoneNumber().equals(phoneNumber) && !transaction.getSeller().getPhoneNumber().equals(phoneNumber)){
+            throw new CustomAccessDeniedException(403, "권한이 없습니다.");
         }
+
 
         TransactionDto response = Optional.ofNullable(transaction).map(TransactionDto::new).orElse(null);
 

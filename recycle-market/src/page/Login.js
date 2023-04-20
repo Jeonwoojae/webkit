@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  CircularProgress,
   Container,
   FormControl,
   Grid,
@@ -130,8 +131,13 @@ function Login() {
                 fullWidth
                 variant="contained"
                 color="primary"
+                disabled={isLoading}
               >
-                로그인
+                {isLoading ? (
+                  <CircularProgress size={24} color="primary" />
+                ) : (
+                  "로그인"
+                )}
               </Button>
             </Grid>
             <Grid item xs={12}>
