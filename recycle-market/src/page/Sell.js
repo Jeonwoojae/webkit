@@ -148,7 +148,7 @@ function Sell() {
                 selected={selectedDate}
                 onChange={handleDateChange}
                 showTimeSelect
-                timeIntervals={15}
+                timeIntervals={1}
                 minDate={new Date()}
                 dateFormat="MM/dd/yyyy h:mm aa"
                 style={{ display: "inline-block" }}

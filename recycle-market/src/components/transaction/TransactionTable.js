@@ -40,7 +40,7 @@ const TransactionTable = ({ transactions }) => {
                   key={transaction.id}
                   onClick={() => handleRowClick(transaction.id)}
                 >
-                  <td>{transaction.id}</td>
+                  <td>{transaction.productId}</td>
                   <td>{transaction.productName}</td>
                   <td>{transaction.buyerName}</td>
                   <td>{parsingPrice(transaction.price)}원</td>

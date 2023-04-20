@@ -3,6 +3,7 @@ import "./BidTable.css";
 import call from "../../service/ApiService";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "@mui/material";
+import parsingPrice from "../../service/ParsingPrice";
 
 const BidTable = ({ data, setData }) => {
   const navigate = useNavigate();
@@ -116,7 +117,7 @@ const BidTable = ({ data, setData }) => {
                 >
                   <td onClick={() => handleRowClick(item.productId)}>{item.productId}</td>
                   <td onClick={() => handleRowClick(item.productId)}>{item.productName}</td>
-                  <td onClick={() => handleRowClick(item.productId)}>{item.price}원</td>
+                  <td onClick={() => handleRowClick(item.productId)}>{parsingPrice(item.price)}원</td>
                   <td>
                     {item.end ? (
                       <>종료된 경매</>
@@ -159,8 +160,8 @@ const BidTable = ({ data, setData }) => {
               &times;
             </span>
             <h2>입찰가 수정하기</h2>
-            <p>내 입찰가: {currentBid}원</p>
-            <p>최고 입찰가: {highestBid}원</p>
+            <p>내 입찰가: {parsingPrice(currentBid)}원</p>
+            <p>최고 입찰가: {parsingPrice(highestBid)}원</p>
             <div className="form-group">
               <label htmlFor="newBid">새로운 입찰가:</label>
               <input
