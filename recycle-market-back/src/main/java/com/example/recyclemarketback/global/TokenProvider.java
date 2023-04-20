@@ -1,5 +1,6 @@
 package com.example.recyclemarketback.global;
 
+import com.example.recyclemarketback.global.exception.CustomAccessDeniedException;
 import com.example.recyclemarketback.global.exception.CustomException;
 import com.example.recyclemarketback.global.exception.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -26,7 +27,7 @@ public class TokenProvider {
                     .parseClaimsJws(token).getBody()
                     .getSubject();
         } catch (ExpiredJwtException e){
-            throw new CustomException(ErrorCode.EXPIRED_REFRESH_TOKEN);
+            throw new CustomAccessDeniedException("토큰 이상");
         }
     }
 
@@ -39,7 +40,7 @@ public class TokenProvider {
                     .getSubject();
         } catch (ExpiredJwtException e) {
             phoneNumber = e.getClaims().getSubject();
-        } if (phoneNumber == null) throw new CustomException(ErrorCode.BAD_TOKEN); // 토큰 검증 에러
+        } if (phoneNumber == null) throw new CustomAccessDeniedException("토큰 이상"); // 토큰 검증 에러
 
         return phoneNumber;
     }

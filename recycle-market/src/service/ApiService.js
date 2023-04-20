@@ -39,10 +39,10 @@ function call(api, method, params) {
       })
     )
     .catch((error) => {
-      console.log(error.status);
+      console.log(error.error);
       if (error.status === 403) {
-        alert("권한이 없습니다.")
-        window.location.href = "/login";
+        alert(error.error);
+        window.location.href = "/";
       }
       return Promise.reject(error);
     });

@@ -2,11 +2,13 @@ package com.example.recyclemarketback.domain.products.service;
 
 import com.example.recyclemarketback.domain.member.dto.MemberDto;
 import com.example.recyclemarketback.domain.member.entity.MemberEntity;
+import com.example.recyclemarketback.domain.member.entity.MemberType;
 import com.example.recyclemarketback.domain.member.repository.MemberRepository;
 import com.example.recyclemarketback.domain.products.dto.ProductDto;
 import com.example.recyclemarketback.domain.products.entity.ProductEntity;
 import com.example.recyclemarketback.domain.products.repository.ProductRepository;
 import com.example.recyclemarketback.global.S3Uploader;
+import com.example.recyclemarketback.global.exception.CustomAccessDeniedException;
 import com.example.recyclemarketback.global.exception.CustomException;
 import com.example.recyclemarketback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +37,10 @@ public class ProductService {
     @Transactional
     public ProductDto createProduct(String phoneNumber, ProductDto productDto, MultipartFile image) throws IOException {
         MemberEntity seller = memberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(()->new CustomException(400,"멤버를 찾을 수 없습니다"));
 
-        // TODO 사용자가 판매자인지 확인 필요
+        if (seller.getMemberType() != MemberType.SELLER) throw new CustomAccessDeniedException("권한이 없습니다.");
+
         ProductEntity productEntity = ProductEntity.builder()
                 .name(productDto.getName())
                 .description(productDto.getDescription())
@@ -63,13 +66,13 @@ public class ProductService {
     @Transactional
     public ProductDto updateProduct(String phoneNumber, ProductDto productDto) {
         MemberEntity seller = memberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(()->new CustomException(400,"멤버를 찾을 수 없습니다"));
         ProductEntity product = productRepository.findById(productDto.getId())
-                .orElseThrow(()-> new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
+                .orElseThrow(()-> new CustomException(400,"물품을 찾을 수 없습니다"));
 
         if (product.getSeller() != seller){
             // 해당 판매자의 물품이 아닌 경우
-            throw new CustomException(ErrorCode.BAD_TOKEN);
+            throw new CustomAccessDeniedException("권한이 없습니다.");
         }
 
         ProductEntity updatedProduct = Optional.ofNullable(product)
@@ -79,10 +82,10 @@ public class ProductService {
                             p.setEndDate(productDto.getEndDate());
                             p.setCategory(productDto.getCategory());
                             return productRepository.save(p);
-                        }).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
+                        }).orElseThrow(() -> new CustomException(400,"물품을 찾을 수 없습니다"));
 
         ProductDto response = Optional.ofNullable(updatedProduct)
-                .map(ProductDto::new).orElseThrow(()->new CustomException(ErrorCode.CANNOT_CONVERT));
+                .map(ProductDto::new).orElseThrow(()->new CustomException(400,"dto 변환 실패"));
 
         return response;
     }
@@ -91,13 +94,13 @@ public class ProductService {
     @Transactional
     public void deleteProduct(String phoneNumber, String productId) {
         MemberEntity seller = memberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(()->new CustomException(400,"멤버를 찾을 수 없습니다"));
         ProductEntity product = productRepository.findById(Long.valueOf(productId))
-                .orElseThrow(()-> new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
+                .orElseThrow(()-> new CustomException(400,"물품을 찾을 수 없습니다"));
 
         if (product.getSeller() != seller){
             // 해당 판매자의 물품이 아닌 경우
-            throw new CustomException(ErrorCode.BAD_TOKEN);
+            throw new CustomAccessDeniedException("권한이 없습니다.");
         }
 
         productRepository.delete(product);
@@ -112,7 +115,7 @@ public class ProductService {
 
     public List<ProductDto> getAllUsersProducts(String phoneNumber) {
         MemberEntity seller = memberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(()->new CustomException(400,"물품을 찾을 수 없습니다"));
 
         List<ProductDto> dtos = seller.getProducts().stream().map(ProductDto::new).collect(Collectors.toList());
 
@@ -121,7 +124,7 @@ public class ProductService {
 
     public ProductDto getProduct(Long id) {
         ProductEntity product = productRepository.findById(id)
-                .orElseThrow(()-> new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
+                .orElseThrow(()-> new CustomException(400,"물품을 찾을 수 없습니다"));
 
         ProductDto dto = Optional.ofNullable(product).map(ProductDto::new).orElse(null);
 

@@ -4,10 +4,12 @@ import com.example.recyclemarketback.domain.bids.dto.BidDto;
 import com.example.recyclemarketback.domain.bids.entity.BidEntity;
 import com.example.recyclemarketback.domain.bids.repository.BidRepository;
 import com.example.recyclemarketback.domain.member.entity.MemberEntity;
+import com.example.recyclemarketback.domain.member.entity.MemberType;
 import com.example.recyclemarketback.domain.member.repository.MemberRepository;
 import com.example.recyclemarketback.domain.products.entity.ProductEntity;
 import com.example.recyclemarketback.domain.products.entity.ProductState;
 import com.example.recyclemarketback.domain.products.repository.ProductRepository;
+import com.example.recyclemarketback.global.exception.CustomAccessDeniedException;
 import com.example.recyclemarketback.global.exception.CustomException;
 import com.example.recyclemarketback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -33,9 +35,11 @@ public class BidService {
     @Transactional
     public BidDto addBid(String phoneNumber, Long productId, Long price) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(() -> new CustomException(400,"멤버를 찾을 수 없습니다"));
         ProductEntity product = productRepository.findById(productId)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
+                .orElseThrow(() -> new CustomException(400, "물품을 찾을 수 없습니다."));
+
+        if (member.getMemberType() != MemberType.BUYER) throw new CustomAccessDeniedException("권한이 없습니다.");
 
         if (product.getProductState() != ProductState.AUCTION) {
             throw new IllegalStateException("경매가 종료된 상품입니다.");
@@ -70,9 +74,10 @@ public class BidService {
     // 입찰 내용 수정
     public BidDto updateBid(String phoneNumber, Long productId, Long price) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(() -> new CustomException(400,"멤버를 찾을 수 없습니다"));
         ProductEntity product = productRepository.findById(productId)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
+                .orElseThrow(() -> new CustomException(400,"물품을 찾을 수 없습니다"));
+
 
         if (product.getProductState() != ProductState.AUCTION) {
             throw new IllegalStateException("경매가 종료된 상품입니다.");
@@ -83,7 +88,7 @@ public class BidService {
         }
 
         BidEntity bid = bidRepository.findByProductAndBidder(product, member)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_BID));
+                .orElseThrow(() -> new CustomException(400,"입찰 정보를 찾을 수 없습니다"));
 
         bid.updatePrice(price);
         BidDto response = Optional.ofNullable(bid).map(BidDto::new)
@@ -95,9 +100,9 @@ public class BidService {
     @Transactional
     public void deleteBid(String phoneNumber, Long productId) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(() -> new CustomException(400,"멤버를 찾을 수 없습니다"));
         ProductEntity product = productRepository.findById(productId)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
+                .orElseThrow(() -> new CustomException(400,"물품을 찾을 수 없습니다"));
 
         if (product.getProductState() != ProductState.AUCTION) {
             throw new IllegalStateException("경매가 종료된 상품입니다.");
@@ -105,7 +110,7 @@ public class BidService {
 
 
         BidEntity bidEntity = bidRepository.findByProductAndBidder(product, member)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_BID));
+                .orElseThrow(() -> new CustomException(400,"입찰정보를 찾을 수 없습니다"));
 
 
 
@@ -119,12 +124,12 @@ public class BidService {
 
     public BidDto getMembersBid(String phoneNumber, Long productId) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(() -> new CustomException(400,"멤버를 찾을 수 없습니다"));
         ProductEntity product = productRepository.findById(productId)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
+                .orElseThrow(() -> new CustomException(400,"물품을 찾을 수 없습니다"));
 
         BidEntity bid = bidRepository.findByProductAndBidder(product, member)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_BID));
+                .orElseThrow(() -> new CustomException(400,"입찰 정보를 찾을 수 없습니다"));
 
         BidDto response = Optional.ofNullable(bid).map(BidDto::new)
                 .orElse(null);
@@ -133,7 +138,7 @@ public class BidService {
 
     public List<BidDto> getMembersBids(String phoneNumber) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(() -> new CustomException(400,"멤버를 찾을 수 없습니다"));
         List<BidEntity> list = bidRepository.findAllByBidder(member);
 
         List<BidDto> response = list.stream().map(BidDto::new).collect(Collectors.toList());

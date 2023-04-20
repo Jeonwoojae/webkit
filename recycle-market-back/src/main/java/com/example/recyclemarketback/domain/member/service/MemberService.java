@@ -29,7 +29,7 @@ public class MemberService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         MemberEntity memberEntity = memberRepository.findByPhoneNumber(username)
-                .orElseThrow(()-> new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(()-> new CustomException(400,"멤버를 찾을 수 없습니다"));
 
         return new User(memberEntity.getPhoneNumber(), memberEntity.getEncryptedPwd(),
                 true, true, true, true,
@@ -40,7 +40,7 @@ public class MemberService implements UserDetailsService {
     public MemberDto createUser(MemberDto memberDto) {
         if (memberRepository.existsByPhoneNumber(memberDto.getPhoneNumber())) {
             log.info("이미 가입된 유저");
-            throw new CustomException(ErrorCode.CANNOT_CREATE_USER);
+            throw new CustomException(400,"이미 가입한 유저입니다.");
         }
 
         MemberEntity member = MemberEntity.builder()
@@ -70,7 +70,7 @@ public class MemberService implements UserDetailsService {
 
     public MemberDto getUserByPhoneNumber(String userPhoneNumber) {
         MemberEntity member = memberRepository.findByPhoneNumber(userPhoneNumber)
-                .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(()->new CustomException(400,"멤버를 찾을 수 없습니다"));
         MemberDto response = Optional.ofNullable(member)
                 .map(m -> MemberDto.builder()
                         .username(m.getName())
@@ -88,7 +88,7 @@ public class MemberService implements UserDetailsService {
     @Transactional
     public void deleteUserByPhoneNumber(String phoneNumber) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(()->new CustomException(400,"멤버를 찾을 수 없습니다"));
         memberRepository.delete(member);
 
         // TODO 지웠는데 지운 정보를 반환해야하는가
@@ -107,7 +107,7 @@ public class MemberService implements UserDetailsService {
     @Transactional
     public MemberDto updateUserInfoWithPhoneNumber(String phoneNumber, MemberDto memberDto) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(()->new CustomException(400,"멤버를 찾을 수 없습니다"));
 
         // 프론트에서 입력 검증을 하기 때문에 빈 값의 입력은 생각하지 않음
         MemberEntity updatedMember = member.update(memberDto.getUsername(),memberDto.getAddressInfo(),memberDto.getAddressDetails());

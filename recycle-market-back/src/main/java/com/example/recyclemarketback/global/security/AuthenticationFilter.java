@@ -65,7 +65,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             //사용자로부터 입력 받은 정보를 토큰으로 바꿔서 매니저로 넘기면
             // 아이디와 패스워드를 비교하겠다는 것
         } catch (IOException e){
-            throw new CustomException(ErrorCode.LOGIN_ERROR);
+            throw new CustomException(400,"로그인에 실패했습니다.");
         }
     }
 

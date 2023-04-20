@@ -1,6 +1,7 @@
 package com.example.recyclemarketback.global.security;
 
 import com.example.recyclemarketback.domain.member.service.MemberService;
+import com.example.recyclemarketback.global.exception.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final Environment env;
 
     private final RedisTemplate<String, Object> redisTemplate;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
@@ -39,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(getAuthenticationFilter());
 
+        http.exceptionHandling()
+                .accessDeniedHandler(customAccessDeniedHandler);
 
 //        h2-console을 사용하기 위한 옵션
         http.headers().frameOptions().disable();

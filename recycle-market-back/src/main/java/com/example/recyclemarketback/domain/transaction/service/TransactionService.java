@@ -11,6 +11,7 @@ import com.example.recyclemarketback.domain.transaction.dto.TransactionDto;
 import com.example.recyclemarketback.domain.transaction.entity.PaymentMethod;
 import com.example.recyclemarketback.domain.transaction.entity.TransactionEntity;
 import com.example.recyclemarketback.domain.transaction.repository.TransactionRepository;
+import com.example.recyclemarketback.global.exception.CustomAccessDeniedException;
 import com.example.recyclemarketback.global.exception.CustomException;
 import com.example.recyclemarketback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +39,9 @@ public class TransactionService {
     @Transactional
     public TransactionDto initTransaction(ProductDto productDto){
         ProductEntity product = productRepository.findById(productDto.getId())
-                .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_PRODUCT));
+                .orElseThrow(()->new CustomException(400,"물품을 찾을 수 없습니다"));
         MemberEntity seller = memberRepository.findByPhoneNumber(productDto.getSellerPhoneNumber())
-                .orElseThrow(()->new CustomException(ErrorCode.CANNOT_FIND_USER));
+                .orElseThrow(()->new CustomException(400,"멤버를 찾을 수 없습니다"));
         BidEntity highestBid = bidRepository.findTopByProductOrderByBidPriceDesc(product)
                 .orElseThrow(()-> new IllegalArgumentException("입찰자가 없습니다."));
         // 입찰자가 없는 경우 Transaction을 생성하지 않도록 했다.
@@ -73,7 +74,7 @@ public class TransactionService {
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
         if (!transaction.getSeller().getPhoneNumber().equals(phoneNumber) && !transaction.getBuyer().getPhoneNumber().equals(phoneNumber)){
-            throw new RuntimeException("해당 Transaction에 대해 권한이 없습니다.");
+            throw new CustomAccessDeniedException("권한이 없습니다.");
         }
 
         transaction.getTransactionState().cancelTransaction(transaction);
@@ -89,7 +90,7 @@ public class TransactionService {
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
         if (!transaction.getBuyer().getPhoneNumber().equals(phoneNumber)){
-            throw new RuntimeException("해당 Transaction에 대해 권한이 없습니다.");
+            throw new CustomAccessDeniedException("권한이 없습니다.");
         }
 
         // 실제 결제 진행
@@ -110,7 +111,7 @@ public class TransactionService {
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
         if (!transaction.getSeller().getPhoneNumber().equals(phoneNumber)){
-            throw new RuntimeException("해당 Transaction에 대해 권한이 없습니다.");
+            throw new CustomAccessDeniedException("권한이 없습니다.");
         }
 
         // 운송장 등록(Valid는 외부 시스템에)
@@ -130,7 +131,7 @@ public class TransactionService {
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
         if (!transaction.getBuyer().getPhoneNumber().equals(phoneNumber)){
-            throw new RuntimeException("해당 Transaction에 대해 권한이 없습니다.");
+            throw new CustomAccessDeniedException("권한이 없습니다.");
         }
 
         // 거래 상태 변경
@@ -146,7 +147,7 @@ public class TransactionService {
         TransactionEntity transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(()->new NoSuchElementException("Transaction을 찾을 수 없습니다."));
         if (!transaction.getBuyer().getPhoneNumber().equals(phoneNumber)){
-            throw new RuntimeException("해당 Transaction에 대해 권한이 없습니다.");
+            throw new CustomAccessDeniedException("권한이 없습니다.");
         }
 
         TransactionDto response = Optional.ofNullable(transaction).map(TransactionDto::new).orElse(null);
