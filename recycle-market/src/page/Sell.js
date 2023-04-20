@@ -1,6 +1,8 @@
 import {
   Container,
+  FormControl,
   Grid,
+  InputLabel,
   MenuItem,
   Select,
   TextField,
@@ -9,6 +11,7 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import call, { postFormData } from "../service/ApiService";
+import "./Sell.css";
 
 function Sell() {
   const [category, setCategory] = useState("");
@@ -66,7 +69,8 @@ function Sell() {
     formData.append("image", file);
 
     for (let key of formData.keys()) {
-      console.log(key, ":", formData.get(key));}
+      console.log(key, ":", formData.get(key));
+    }
 
     postFormData("/api/v1/products", formData).then((response) => {
       console.log(response);
@@ -74,95 +78,106 @@ function Sell() {
   };
 
   return (
-    <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
-      {" "}
-      <form onSubmit={onValid}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <Select value={category} onChange={handleCategoryChange}>
-              <MenuItem value="카테고리">카테고리</MenuItem>
-              <MenuItem value="의류">의류</MenuItem>
-              <MenuItem value="가전제품">가전제품</MenuItem>
-              <MenuItem value="가구">가구</MenuItem>
-            </Select>
-          </Grid>
-          <Grid item xs={12} sm={6}>
+    <div className="container">
+      <div className="form-container">
+        <form className="form" onSubmit={onValid}>
+          <div
+            className="form-header"
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <FormControl variant="outlined" style={{ flexBasis: "28%" }}>
+              <InputLabel id="category-select-label">카테고리 선택</InputLabel>
+              <Select
+                labelId="category-select-label"
+                id="category-select"
+                value={category}
+                onChange={handleCategoryChange}
+                label="카테고리 선택"
+              >
+                <MenuItem value={null} disabled>
+                  전체
+                </MenuItem>
+                <MenuItem value="의류">의류</MenuItem>
+                <MenuItem value="food">음식</MenuItem>
+                <MenuItem value="electronics">전자제품</MenuItem>
+              </Select>
+            </FormControl>
             <TextField
               variant="outlined"
               required
               label="상품명"
               value={productName}
               onChange={handleProductNameChange}
+              className="search-input"
+              style={{ flexBasis: "70%" }}
             />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              label="상품 설명"
-              value={productDescription}
-              onChange={handleProductDescriptionChange}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <label>
-              시작 가격:
+          </div>
+          <div className="form-body">
+            <label style={{ marginBottom: "20px" }} className="price">
+              시작 가격 :
               <input
                 type="number"
                 min="0"
                 value={startPrice}
                 onChange={handleStartPriceChange}
-              />
+              />{" "}
+              원
             </label>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <div>
-              <label>
-                종료 시간:
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={handleDateChange}
-                  showTimeSelect
-                  timeIntervals={15}
-                  minDate={new Date()}
-                  dateFormat="MM/dd/yyyy h:mm aa"
-                />
+            <div className="date-picker" style={{ marginBottom: "20px" }}>
+              <label
+                style={{
+                  display: "inline-block",
+                  width: "100px",
+                  marginRight: "10px",
+                }}
+              >
+                종료시간 :
               </label>
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                showTimeSelect
+                timeIntervals={15}
+                minDate={new Date()}
+                dateFormat="MM/dd/yyyy h:mm aa"
+                style={{ display: "inline-block" }}
+              />
             </div>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <label>
-              이미지 파일 첨부:
+          </div>
+          <TextField
+            variant="outlined"
+            required
+            multiline
+            rows={4}
+            label="상품 설명"
+            value={productDescription}
+            onChange={handleProductDescriptionChange}
+            className="product-description"
+            style={{ marginBottom: "20px", width: "100%" }}
+          />
+          <div style={{ marginBottom: "20px" }} className="file-upload">
+            <label className="image-upload">
+              이미지 파일 첨부 :
               <input type="file" accept="image/*" onChange={handleFileChange} />
             </label>
-          </Grid>
-        </Grid>
-        {fileUrl && (
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+          </div>
+          {fileUrl && (
+            <div className="form__file-name">
               <img
                 src={fileUrl}
                 alt="첨부된 파일"
                 style={{ maxWidth: "100%" }}
               />
-            </Grid>
-          </Grid>
-        )}
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+            </div>
+          )}
+          <div className="register">
             <button onClick={() => onValid()} type="button">
               등록하기
             </button>
-          </Grid>
-        </Grid>
-      </form>
-    </Container>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

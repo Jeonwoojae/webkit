@@ -79,7 +79,6 @@ function Login() {
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
-      <img src="/logo.png" alt="로고" className="logo" />
         <Typography component="h1" variant="h5">
           로그인
         </Typography>
@@ -92,7 +91,7 @@ function Login() {
                 required
                 fullWidth
                 id="phoneNumber"
-                label="전화번호"
+                label="전화번호(하이픈-포함)"
                 name="phoneNumber"
                 autoComplete="phoneNumber"
                 {...register("phoneNumber")}
