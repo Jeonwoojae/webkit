@@ -53,7 +53,7 @@ public class ProductEntity {
 
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id")
     private MemberEntity seller;
 
     private ProductState productState;

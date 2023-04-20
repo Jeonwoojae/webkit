@@ -1,8 +1,13 @@
 package com.example.recyclemarketback.domain.member.service;
 
+import com.example.recyclemarketback.domain.bids.repository.BidRepository;
 import com.example.recyclemarketback.domain.member.dto.MemberDto;
 import com.example.recyclemarketback.domain.member.entity.MemberEntity;
 import com.example.recyclemarketback.domain.member.repository.MemberRepository;
+import com.example.recyclemarketback.domain.products.entity.ProductEntity;
+import com.example.recyclemarketback.domain.products.repository.ProductRepository;
+import com.example.recyclemarketback.domain.transaction.entity.TransactionEntity;
+import com.example.recyclemarketback.domain.transaction.repository.TransactionRepository;
 import com.example.recyclemarketback.global.exception.CustomException;
 import com.example.recyclemarketback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +30,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
+    private final ProductRepository productRepository;
+    private final TransactionRepository transactionRepository;
+    private final BidRepository bidRepository;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
@@ -89,19 +98,25 @@ public class MemberService implements UserDetailsService {
     public void deleteUserByPhoneNumber(String phoneNumber) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(()->new CustomException(400,"멤버를 찾을 수 없습니다"));
+        List<TransactionEntity> transactions = transactionRepository.findBySellerOrBuyer(member, member);
+        for (TransactionEntity transaction : transactions) {
+            if (transaction.getSeller() != null && transaction.getSeller().equals(member)) {
+                transaction.setSeller(null);
+            }
+            if (transaction.getBuyer() != null && transaction.getBuyer().equals(member)) {
+                transaction.setBuyer(null);
+            }
+            transactionRepository.save(transaction);
+        }
+
+        // 참조하는 다른 엔티티에서 해당 필드를 null로 설정
+        for (ProductEntity product : member.getProducts()) {
+            product.setSeller(null);
+            productRepository.save(product);
+        }
+
         memberRepository.delete(member);
 
-        // TODO 지웠는데 지운 정보를 반환해야하는가
-//        MemberDto response = Optional.ofNullable(member)
-//                .map(m -> MemberDto.builder()
-//                        .username(m.getName())
-//                        .phoneNumber(m.getPhoneNumber())
-//                        .password(m.getEncryptedPwd())
-//                        .addressInfo(m.getAddress_info())
-//                        .addressDetails(m.getAddress_details())
-//                        .memberType(m.getMemberType())
-//                        .build())
-//                .orElse(null);
     }
 
     @Transactional

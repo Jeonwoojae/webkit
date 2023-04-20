@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@EntityListeners(TransactionEntityListener.class)
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,11 +29,11 @@ public class TransactionEntity {
     private TransactionState transactionState;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_id", nullable = false)
+    @JoinColumn(name = "seller_id")
     private MemberEntity seller;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "buyer_id", nullable = false)
+    @JoinColumn(name = "buyer_id")
     private MemberEntity buyer;
 
     private String trackingNumber;
@@ -63,5 +64,13 @@ public class TransactionEntity {
     }
     public void pay(){
         this.paymentMethod.handlePayment(this.paymentMethod);
+    }
+
+    public void setSeller(MemberEntity o) {
+        this.seller = o;
+    }
+
+    public void setBuyer(MemberEntity o) {
+        this.buyer = o;
     }
 }

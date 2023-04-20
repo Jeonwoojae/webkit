@@ -114,7 +114,7 @@ const BidTable = ({ data, setData }) => {
                   key={item.id}
                   
                 >
-                  <td onClick={() => handleRowClick(item.productId)}>{item.id}</td>
+                  <td onClick={() => handleRowClick(item.productId)}>{item.productId}</td>
                   <td onClick={() => handleRowClick(item.productId)}>{item.productName}</td>
                   <td onClick={() => handleRowClick(item.productId)}>{item.price}원</td>
                   <td>
