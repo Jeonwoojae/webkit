@@ -40,8 +40,8 @@ function call(api, method, params) {
     )
     .catch((error) => {
       console.log(error.error);
+      alert(error.error);
       if (error.status === 403) {
-        alert(error.error);
         window.location.href = "/";
       }
       return Promise.reject(error);
