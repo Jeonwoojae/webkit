@@ -8,15 +8,15 @@ import {
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import call from "../service/ApiService";
+import call, { postFormData } from "../service/ApiService";
 
 function Sell() {
   const [category, setCategory] = useState("");
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [startPrice, setStartPrice] = useState(0);
-  const [file, setFile] = useState(null);
-  const [fileUrl, setFileUrl] = useState(null); // 파일 URL을 상태로 관리
+  const [file, setFile] = useState();
+  const [fileUrl, setFileUrl] = useState(); // 파일 URL을 상태로 관리
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleDateChange = (date) => {
@@ -53,17 +53,22 @@ function Sell() {
   const onValid = (event) => {
     const convertedDate = new Date(
       selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000
-    ).toISOString().slice(0, -5);
+    )
+      .toISOString()
+      .slice(0, -5);
 
-    const obj = {
-      name: productName,
-      description: productDescription,
-      endDate: convertedDate,
-      startPrice: startPrice,
-    };
-    
-    console.log("물품 생성 요청", obj);
-    call("/api/v1/products", "POST", obj).then((response) => {
+    const formData = new FormData();
+    formData.append("name", productName);
+    formData.append("description", productDescription);
+    formData.append("category", category);
+    formData.append("endDate", convertedDate);
+    formData.append("startPrice", startPrice);
+    formData.append("image", file);
+
+    for (let key of formData.keys()) {
+      console.log(key, ":", formData.get(key));}
+
+    postFormData("/api/v1/products", formData).then((response) => {
       console.log(response);
     });
   };
@@ -71,7 +76,7 @@ function Sell() {
   return (
     <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
       {" "}
-      <form onSubmit={() => onValid()}>
+      <form onSubmit={onValid}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <Select value={category} onChange={handleCategoryChange}>
@@ -151,7 +156,9 @@ function Sell() {
         )}
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <button onClick={() => onValid()} type="button">등록하기</button>
+            <button onClick={() => onValid()} type="button">
+              등록하기
+            </button>
           </Grid>
         </Grid>
       </form>
