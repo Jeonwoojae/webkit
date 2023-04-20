@@ -29,14 +29,11 @@ public class BidEntity {
     @Column(nullable = false)
     private Long bidPrice;
 
-    private String productName;
-
     @Builder
     public BidEntity(@NonNull ProductEntity product, @NonNull MemberEntity bidder, @NonNull Long bidPrice) {
         this.product = product;
         this.bidder = bidder;
         this.bidPrice = bidPrice;
-        this.productName = product.getName();
     }
 
     public void updatePrice(Long bidPrice){

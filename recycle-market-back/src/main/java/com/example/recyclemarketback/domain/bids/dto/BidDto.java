@@ -28,7 +28,7 @@ public class BidDto {
         this.price = bidEntity.getBidPrice();
         this.memberId = bidEntity.getBidder().getId();
         this.productId = bidEntity.getProduct().getId();
-        this.productName = bidEntity.getProductName();
+        this.productName = bidEntity.getProduct().getName();
         this.isEnd = bidEntity.getProduct().getProductState() == ProductState.ENDED ? true: false;
     }
 }
