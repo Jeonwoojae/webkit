@@ -104,7 +104,7 @@ public class ProductService {
     }
 
     public List<ProductDto> getAllProducts() {
-        List<ProductEntity> entities = productRepository.findAll();
+        List<ProductEntity> entities = productRepository.findAllByOrderByIdDesc();
         List<ProductDto> dtos = entities.stream().map(ProductDto::new).collect(Collectors.toList());
 
         return dtos;
