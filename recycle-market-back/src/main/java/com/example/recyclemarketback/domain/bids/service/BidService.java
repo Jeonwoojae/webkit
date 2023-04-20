@@ -11,7 +11,6 @@ import com.example.recyclemarketback.domain.products.entity.ProductState;
 import com.example.recyclemarketback.domain.products.repository.ProductRepository;
 import com.example.recyclemarketback.global.exception.CustomAccessDeniedException;
 import com.example.recyclemarketback.global.exception.CustomException;
-import com.example.recyclemarketback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +44,7 @@ public class BidService {
             throw new IllegalStateException("경매가 종료된 상품입니다.");
         }
 
-        Optional<BidEntity> existingBid = bidRepository.findByProductAndBidder(product, member);
+        Optional<BidEntity> existingBid = bidRepository.findByProductAndBuyer(product, member);
         if (existingBid.isPresent()) {
             throw new IllegalStateException("이미 해당 상품에 대해 입찰한 내역이 있습니다.");
         }
@@ -57,13 +56,16 @@ public class BidService {
         BidEntity bid = BidEntity.builder()
                 .bidPrice(price)
                 .product(product)
-                .bidder(member)
+                .buyer(member)
                 .build();
 
         BidEntity newBid = bidRepository.save(bid);
         product.setCurrentPrice(newBid.getBidPrice());
         product.addBid(newBid);
         productRepository.save(product);
+
+        member.addBid(newBid);
+        memberRepository.save(member);
         
         BidDto response = Optional.ofNullable(newBid).map(BidDto::new)
                 .orElse(null);
@@ -87,7 +89,7 @@ public class BidService {
             throw new IllegalArgumentException("현재 입찰가보다 높은 가격을 입력해주세요.");
         }
 
-        BidEntity bid = bidRepository.findByProductAndBidder(product, member)
+        BidEntity bid = bidRepository.findByProductAndBuyer(product, member)
                 .orElseThrow(() -> new CustomException(400,"입찰 정보를 찾을 수 없습니다"));
 
         bid.updatePrice(price);
@@ -109,7 +111,7 @@ public class BidService {
         }
 
 
-        BidEntity bidEntity = bidRepository.findByProductAndBidder(product, member)
+        BidEntity bidEntity = bidRepository.findByProductAndBuyer(product, member)
                 .orElseThrow(() -> new CustomException(400,"입찰정보를 찾을 수 없습니다"));
 
 
@@ -128,7 +130,7 @@ public class BidService {
         ProductEntity product = productRepository.findById(productId)
                 .orElseThrow(() -> new CustomException(400,"물품을 찾을 수 없습니다"));
 
-        BidEntity bid = bidRepository.findByProductAndBidder(product, member)
+        BidEntity bid = bidRepository.findByProductAndBuyer(product, member)
                 .orElseThrow(() -> new CustomException(400,"입찰 정보를 찾을 수 없습니다"));
 
         BidDto response = Optional.ofNullable(bid).map(BidDto::new)
@@ -139,7 +141,7 @@ public class BidService {
     public List<BidDto> getMembersBids(String phoneNumber) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(() -> new CustomException(400,"멤버를 찾을 수 없습니다"));
-        List<BidEntity> list = bidRepository.findAllByBidder(member);
+        List<BidEntity> list = bidRepository.findAllByBuyer(member);
 
         List<BidDto> response = list.stream().map(BidDto::new).collect(Collectors.toList());
 

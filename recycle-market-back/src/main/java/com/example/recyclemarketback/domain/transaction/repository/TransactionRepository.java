@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Long> {
     List<TransactionEntity> findAllByBuyer_PhoneNumberOrSeller_PhoneNumber(String phoneNumber1, String phoneNumber2);
-    List<TransactionEntity> findBySellerOrBuyer(MemberEntity member1, MemberEntity member2);
+    List<TransactionEntity> findAllBySellerOrBuyer(MemberEntity member1, MemberEntity member2);
 }

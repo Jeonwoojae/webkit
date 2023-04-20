@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BidRepository extends JpaRepository<BidEntity, Long> {
-    Optional<BidEntity> findByProductAndBidder(ProductEntity product, MemberEntity member);
+    Optional<BidEntity> findByProductAndBuyer(ProductEntity product, MemberEntity member);
     Optional<BidEntity> findTopByProductOrderByBidPriceDesc(ProductEntity product);
     boolean existsByProduct(ProductEntity product);
-    List<BidEntity> findAllByBidder(MemberEntity member);
+    List<BidEntity> findAllByBuyer(MemberEntity member);
 }

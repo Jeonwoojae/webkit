@@ -3,12 +3,14 @@ package com.example.recyclemarketback.domain.products.entity;
 import com.example.recyclemarketback.domain.bids.entity.BidEntity;
 import com.example.recyclemarketback.domain.member.entity.MemberEntity;
 import com.example.recyclemarketback.domain.products.dto.ProductDto;
+import com.example.recyclemarketback.domain.transaction.entity.TransactionEntity;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +26,7 @@ public class ProductEntity {
     private Long id;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String name;
 
     @NonNull
@@ -42,7 +44,7 @@ public class ProductEntity {
     private LocalDateTime endDate;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false,length = 50)
     private String category;
 
     @NonNull
@@ -51,15 +53,17 @@ public class ProductEntity {
 
     private Long currentPrice;
 
-    @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "seller_id")
     private MemberEntity seller;
 
     private ProductState productState;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "product")
     private List<BidEntity> bidList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private TransactionEntity transaction;
 
     @Column
     private String imageUrl;
@@ -132,7 +136,7 @@ public class ProductEntity {
         return bids.stream().max(Comparator.comparing(BidEntity::getBidPrice)).orElse(null);
     }
 
-    private List<BidEntity> getBids() {
+    public List<BidEntity> getBids() {
         return bidList.stream()
                 .filter(bid -> bid.getBidPrice() != null)
                 .collect(Collectors.toList());

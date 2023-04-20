@@ -15,28 +15,34 @@ public class BidEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NonNull
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
-    @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private MemberEntity bidder;
+    @JoinColumn(name = "buyer_id")
+    private MemberEntity buyer;
 
     @NonNull
     @Column(nullable = false)
     private Long bidPrice;
 
     @Builder
-    public BidEntity(@NonNull ProductEntity product, @NonNull MemberEntity bidder, @NonNull Long bidPrice) {
+    public BidEntity(@NonNull ProductEntity product, @NonNull MemberEntity buyer, @NonNull Long bidPrice) {
         this.product = product;
-        this.bidder = bidder;
+        this.buyer = buyer;
         this.bidPrice = bidPrice;
     }
 
     public void updatePrice(Long bidPrice){
         this.bidPrice = bidPrice;
+    }
+    public MemberEntity getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(MemberEntity bidder) {
+        this.buyer = bidder;
     }
 }

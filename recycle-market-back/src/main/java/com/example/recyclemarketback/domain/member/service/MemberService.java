@@ -1,5 +1,6 @@
 package com.example.recyclemarketback.domain.member.service;
 
+import com.example.recyclemarketback.domain.bids.entity.BidEntity;
 import com.example.recyclemarketback.domain.bids.repository.BidRepository;
 import com.example.recyclemarketback.domain.member.dto.MemberDto;
 import com.example.recyclemarketback.domain.member.entity.MemberEntity;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -98,26 +100,24 @@ public class MemberService implements UserDetailsService {
     public void deleteUserByPhoneNumber(String phoneNumber) {
         MemberEntity member = memberRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(()->new CustomException(400,"멤버를 찾을 수 없습니다"));
-        List<TransactionEntity> transactions = transactionRepository.findBySellerOrBuyer(member, member);
+
+        List<TransactionEntity> transactions = transactionRepository.findAllBySellerOrBuyer(member, member);
         for (TransactionEntity transaction : transactions) {
-            if (transaction.getSeller() != null && transaction.getSeller().equals(member)) {
-                transaction.setSeller(null);
-            }
-            if (transaction.getBuyer() != null && transaction.getBuyer().equals(member)) {
-                transaction.setBuyer(null);
-            }
-            transactionRepository.save(transaction);
+            transactionRepository.delete(transaction);
         }
 
-        // 참조하는 다른 엔티티에서 해당 필드를 null로 설정
-        for (ProductEntity product : member.getProducts()) {
-            product.setSeller(null);
-            productRepository.save(product);
+        List<ProductEntity> products = productRepository.findBySeller(member);
+        for (ProductEntity product : products) {
+            List<BidEntity> bids = product.getBids();
+            for (BidEntity bid : bids) {
+                bidRepository.delete(bid);
+            }
+            productRepository.delete(product);
         }
 
         memberRepository.delete(member);
-
     }
+
 
     @Transactional
     public MemberDto updateUserInfoWithPhoneNumber(String phoneNumber, MemberDto memberDto) {

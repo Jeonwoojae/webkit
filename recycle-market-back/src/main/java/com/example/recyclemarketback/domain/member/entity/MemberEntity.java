@@ -1,10 +1,15 @@
 package com.example.recyclemarketback.domain.member.entity;
 
+import com.example.recyclemarketback.domain.bids.entity.BidEntity;
 import com.example.recyclemarketback.domain.products.entity.ProductEntity;
+import com.example.recyclemarketback.domain.transaction.entity.TransactionEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.transaction.Transaction;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -18,11 +23,11 @@ public class MemberEntity {
     private Long id;
 
     @NonNull
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 20)
     private String name;
 
     @NonNull
-    @Column(nullable = false, length = 50, unique = true)
+    @Column(nullable = false, length = 20, unique = true)
     private String phoneNumber;
 
     @NonNull
@@ -30,11 +35,11 @@ public class MemberEntity {
     private String encryptedPwd;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false,length = 100)
     private String address_info;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String address_details;
 
     @NonNull
@@ -42,8 +47,15 @@ public class MemberEntity {
     @Column(nullable = false)
     private MemberType memberType;
 
-    @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.REMOVE)
+    private List<BidEntity> bids = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY)
     private Set<ProductEntity> products = new HashSet<>();
+
+    @OneToMany(mappedBy = "buyer")
+    private Set<TransactionEntity> buyingTransactions = new HashSet<>();
 
     @Builder
     public MemberEntity(@NonNull String name, @NonNull String phoneNumber, @NonNull String encryptedPwd, @NonNull String address_info, @NonNull String address_details, @NonNull MemberType memberType) {
@@ -61,5 +73,17 @@ public class MemberEntity {
         this.address_details = address_details;
 
         return this;
+    }
+
+    public void setProducts(Set<ProductEntity> products) {
+        this.products = products;
+    }
+
+    public void addTransaction(TransactionEntity transaction){
+        this.buyingTransactions.add(transaction);
+    }
+
+    public void addBid(BidEntity bid){
+        this.bids.add(bid);
     }
 }

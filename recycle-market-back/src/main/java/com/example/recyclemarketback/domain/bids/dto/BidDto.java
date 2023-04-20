@@ -26,7 +26,7 @@ public class BidDto {
     public BidDto(BidEntity bidEntity) {
         this.id = bidEntity.getId();
         this.price = bidEntity.getBidPrice();
-        this.memberId = bidEntity.getBidder().getId();
+        this.memberId = bidEntity.getBuyer().getId();
         this.productId = bidEntity.getProduct().getId();
         this.productName = bidEntity.getProduct().getName();
         this.isEnd = bidEntity.getProduct().getProductState() == ProductState.ENDED ? true: false;

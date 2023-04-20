@@ -1,5 +1,6 @@
 package com.example.recyclemarketback.domain.products.repository;
 
+import com.example.recyclemarketback.domain.member.entity.MemberEntity;
 import com.example.recyclemarketback.domain.products.entity.ProductEntity;
 import com.example.recyclemarketback.domain.products.entity.ProductState;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findProductEntitiesByCategory(String category);
     List<ProductEntity> findProductEntitiesByName(String name);
     List<ProductEntity> findAllByOrderByIdDesc();
+
+    List<ProductEntity> findBySeller(MemberEntity member);
 }

@@ -51,17 +51,13 @@ public class MemberController {
     @DeleteMapping("")
     public ResponseEntity<?> deleteMember(@RequestHeader(value = "Authorization") String atk) {
         String phoneNumber = tokenProvider.getPhoneNumberFromAccessToken(atk);
-        try{
+
             memberService.deleteUserByPhoneNumber(phoneNumber);
-            Map<String,String> res = new HashMap<>();
-            res.put("status","ok");
+            Map<String, String> res = new HashMap<>();
+            res.put("status", "ok");
 
             return ResponseEntity.ok().body(res);
-        } catch (Exception e){
-            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
 
-            return ResponseEntity.badRequest().body(responseDto);
-        }
     }
 
     @PatchMapping("")

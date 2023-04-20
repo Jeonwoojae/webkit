@@ -20,8 +20,8 @@ public class TransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
     @Enumerated(EnumType.STRING)
@@ -36,6 +36,7 @@ public class TransactionEntity {
     @JoinColumn(name = "buyer_id")
     private MemberEntity buyer;
 
+    @Column(length = 50)
     private String trackingNumber;
 
     @Enumerated(EnumType.STRING)
@@ -72,5 +73,9 @@ public class TransactionEntity {
 
     public void setBuyer(MemberEntity o) {
         this.buyer = o;
+    }
+
+    public void setProduct(ProductEntity o) {
+        this.product = o;
     }
 }

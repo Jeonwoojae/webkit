@@ -13,7 +13,6 @@ import com.example.recyclemarketback.domain.transaction.entity.TransactionEntity
 import com.example.recyclemarketback.domain.transaction.repository.TransactionRepository;
 import com.example.recyclemarketback.global.exception.CustomAccessDeniedException;
 import com.example.recyclemarketback.global.exception.CustomException;
-import com.example.recyclemarketback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,13 +45,16 @@ public class TransactionService {
                 .orElseThrow(()-> new IllegalArgumentException("입찰자가 없습니다."));
         // 입찰자가 없는 경우 Transaction을 생성하지 않도록 했다.
 
-        MemberEntity buyer = highestBid.getBidder();
+        MemberEntity buyer = highestBid.getBuyer();
 
         TransactionEntity transaction = TransactionEntity.builder()
                 .product(product)
                 .buyer(buyer)
                 .seller(seller)
                 .build();
+        buyer.addTransaction(transaction);
+        memberRepository.save(buyer);
+
         TransactionEntity response = transactionRepository.save(transaction);
 
         return Optional.ofNullable(response).map(TransactionDto::new).orElse(null);

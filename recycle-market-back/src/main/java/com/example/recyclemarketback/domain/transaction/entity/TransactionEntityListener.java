@@ -72,7 +72,7 @@ public class TransactionEntityListener {
         row.createCell(6).setCellValue(entity.getBuyer().getId());
         row.createCell(7).setCellValue(entity.getBuyer().getPhoneNumber());
         row.createCell(8).setCellValue(entity.getPaymentMethod() != null ? entity.getPaymentMethod().name() : null);
-        row.createCell(7).setCellValue(new Date().toString());
+        row.createCell(9).setCellValue(new Date().toString());
 
 
         // 변경된 로그를 엑셀 파일에 저장
