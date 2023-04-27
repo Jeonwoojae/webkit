@@ -1,0 +1,69 @@
+.deal-info-container {
+  display: flex;
+  align-items: center;
+  margin: 20px auto;
+  max-width: 800px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.deal-info-image {
+  width: 40%;
+  border-right: 1px solid #ddd;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.deal-info-image img {
+  margin-left: 15px;
+  width: 100%;
+  height: auto;
+}
+
+.deal-info-details {
+  margin-top: 8%;
+  width: 60%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.deal-info-code,
+.deal-info-category,
+.deal-info-name,
+.deal-info-buyer,
+.deal-info-price,
+.deal-info-seller {
+  margin-bottom: 10px;
+}
+
+.deal-info-buttons {
+  display: flex;
+  justify-content: right;
+  margin: 20px;
+}
+
+.deal-info-button-pay,
+.deal-info-button-cancel {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #fff;
+}
+
+.deal-info-button-pay {
+  background-color: #03a9f4;
+  margin-right: 20px;
+}
+.deal-info-button-pay:hover {
+  background-color: #046fa0;
+  cursor: pointer;
+}
+
+.deal-info-button-cancel {
+  background-color: #f44336;
+}
+.deal-info-button-cancel:hover {
+  background-color: #9a2b23;
+  cursor: pointer;
+}
