@@ -9,10 +9,13 @@ import com.example.recyclemarketback.domain.products.entity.ProductEntity;
 import com.example.recyclemarketback.domain.products.repository.ProductRepository;
 import com.example.recyclemarketback.domain.transaction.entity.TransactionEntity;
 import com.example.recyclemarketback.domain.transaction.repository.TransactionRepository;
+import com.example.recyclemarketback.global.RedisService;
 import com.example.recyclemarketback.global.exception.CustomException;
 import com.example.recyclemarketback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.mail.MailException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,10 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -36,6 +36,9 @@ public class MemberService implements UserDetailsService {
     private final TransactionRepository transactionRepository;
     private final BidRepository bidRepository;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final RedisService redisService;
+    private final String certificateNumber = createKey();
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -138,5 +141,37 @@ public class MemberService implements UserDetailsService {
                 .orElse(null);
 
         return response;
+    }
+
+    // 인증코드 만들기
+    public static String createKey() {
+        StringBuffer key = new StringBuffer();
+        Random rnd = new Random();
+
+        for (int i = 0; i < 4; i++) { // 인증코드 4자리
+            key.append((rnd.nextInt(10)));
+        }
+        return key.toString();
+    }
+
+    public String sendSimpleMessage(String to)throws Exception {
+        try{
+            redisService.setDataExpire(certificateNumber, to, 60 * 3L); // 유효시간 3분
+            log.info("메세지 전송 ");
+        }catch(MailException es){
+            es.printStackTrace();
+            throw new IllegalArgumentException();
+        }
+        return certificateNumber; // 메일로 보냈던 인증 코드를 서버로 리턴
+    }
+
+    public String verifyCode(String code) throws ChangeSetPersister.NotFoundException {
+        String memberEmail = redisService.getData(code);
+        if(memberEmail == null) {
+            throw new ChangeSetPersister.NotFoundException();
+        }
+        redisService.deleteData(code);
+
+        return certificateNumber;
     }
 }

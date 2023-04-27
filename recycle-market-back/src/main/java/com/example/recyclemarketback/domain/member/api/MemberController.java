@@ -5,6 +5,8 @@ import com.example.recyclemarketback.domain.member.service.MemberService;
 import com.example.recyclemarketback.global.TokenProvider;
 import com.example.recyclemarketback.global.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -73,5 +76,31 @@ public class MemberController {
 
             return ResponseEntity.badRequest().body(responseDto);
         }
+    }
+
+    @PostMapping("sms/send")
+    public String mailConfirm(@RequestParam String phoneNumber) throws Exception {
+        String code = memberService.sendSimpleMessage(phoneNumber);
+        log.info("인증코드 : " + code);
+        return code;
+    }
+
+    @GetMapping("sms/check")
+    public ResponseEntity<?> compareCode(@RequestParam String code) throws ChangeSetPersister.NotFoundException {
+        try{
+            memberService.verifyCode(code);
+            ResponseDto responseDto = ResponseDto.builder().error(code).build();
+
+            return ResponseEntity.ok().body(responseDto);
+        } catch (ChangeSetPersister.NotFoundException e){
+            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
+
+            return ResponseEntity.badRequest().body(responseDto);
+        } catch (RuntimeException e){
+            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
+
+            return ResponseEntity.badRequest().body(responseDto);
+        }
+
     }
 }

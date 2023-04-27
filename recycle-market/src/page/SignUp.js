@@ -18,7 +18,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import React, { Component, useState } from "react";
 import { useForm } from "react-hook-form";
-import { checkCertificateCode, sendEmail, signup } from "../service/ApiService";
+import { checkCertificateCode, sendEmail, sendSms, signup } from "../service/ApiService";
 import "./SignUp.css";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
@@ -125,6 +125,7 @@ export default function SignUp() {
                 type="button"
                 onClick={() => {
                   const { phoneNumber } = getValues();
+                  sendSms(phoneNumber);
                   console.log(phoneNumber, "인증번호 전송");
                 }}
               >
@@ -151,7 +152,7 @@ export default function SignUp() {
                 onClick={() => {
                   const { code } = getValues();
                   console.log("인증번호 확인");
-                  setIsChecked(true);
+                  checkCertificateCode(code).then(()=>setIsChecked(true));
                 }}
                 fullWidth
               >

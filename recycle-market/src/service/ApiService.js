@@ -124,25 +124,26 @@ export function signout() {
   window.location.href = "/";
 }
 
-// 인증코드 메일로 보내기
-export function sendEmail(email) {
-  console.log(`/mail/send?email=${email}`);
-  return call(`/mail/send?email=${email}`, "POST", null)
+// 인증코드 sms로 보내기
+export function sendSms(number) {
+
+  console.log(`/api/v1/members/sms/send?phoneNumber=${number}`);
+  return call(`/api/v1/members/sms/send?phoneNumber=${number}`, "POST", null)
     .then((response) => {
-      alert("메일로 전송했습니다. 메일함을 확인해주세요.");
+      alert("sms로 전송했습니다. sms을 확인해주세요.");
     })
     .catch((error) => {
-      alert("메일 보내기에 실패했습니다.");
+      alert("sms 보내기에 실패했습니다.");
       console.log(error);
     });
 }
 
 // 인증코드 검증하기
 export function checkCertificateCode(code) {
-  console.log(`/mail/check?code=${code}`);
-  return call(`/mail/check?code=${code}`, "GET", null)
+  console.log(`/api/v1/members/sms/check?code=${code}`);
+  return call(`/api/v1/members/sms/check?code=${code}`, "GET", null)
     .then((response) => {
-      console.log(response, "인증코드 확인 성공");
+      alert("인증코드가 확인되었습니다.");
     })
     .catch((error) => {
       console.log(error.status);
