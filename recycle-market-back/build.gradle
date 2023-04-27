@@ -61,6 +61,9 @@ dependencies {
     // save excel
     implementation 'org.apache.poi:poi:5.2.0'
     implementation 'org.apache.poi:poi-ooxml:5.2.0'
+
+    //mariaDB
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.0'
 }
 
 tasks.named('test') {
